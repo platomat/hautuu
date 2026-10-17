@@ -21,7 +21,11 @@ const {
 } = Astro.props;
 
 const logoWidth = Math.min(600, Math.max(24, Math.round(logoSize)));
-const logoStyle = `--maintenance-logo-size: ${logoWidth}px`;
+/** Variable + concrete width so size always wins over stylesheet defaults. */
+const logoStyle = [
+	`--maintenance-logo-size: ${logoWidth}px`,
+	`width: min(100%, ${logoWidth}px)`,
+].join("; ");
 ---
 
 <main class="maintenance">
@@ -65,13 +69,23 @@ const logoStyle = `--maintenance-logo-size: ${logoWidth}px`;
 		display: flex;
 		justify-content: center;
 		margin: 0 auto 1.25rem;
-		width: min(100%, var(--maintenance-logo-size, 300px));
+		max-width: 100%;
+		/* width comes from inline style (CMS size); keep var for children */
 	}
 
-	.maintenance__logo :global(.maintenance__logo-mark) {
+	.maintenance__logo :global(.maintenance__logo-mark),
+	.maintenance__logo :global(.logo-mark) {
 		display: block;
 		width: 100%;
-		max-width: var(--maintenance-logo-size, 300px);
+		max-width: 100%;
+		height: auto;
+	}
+
+	.maintenance__logo :global(.logo-mark svg),
+	.maintenance__logo :global(.logo-mark img) {
+		display: block;
+		width: 100%;
+		max-width: 100%;
 		height: auto;
 	}
 
