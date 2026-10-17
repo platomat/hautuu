@@ -106,11 +106,13 @@ Anker-IDs: `github-slugger`.
 
 ## Header-/Footer-Code (`headCode` / `footerCode`)
 
-| Seite | Ort |
+| Ebene | Ort |
 | --- | --- |
-| Sveltia | Collection `pages`, Felder „Header-Code“ / „Footer-Code“ (`widget: code`, `output_code_only: true`, `default_language: html`, `allow_language_selection: false`) |
-| Astro | `pages` Schema → Props an `BaseLayout.astro` |
-| Injection | `headCode` vor `</head>`, `footerCode` vor `</body>` (nach Site-Footer), per `set:html` |
+| Global | Einstellungen → Allgemein → Site-Code (`general.siteCode.headCode` / `footerCode`) |
+| Seite | Collection `pages`, Felder „Header-Code“ / „Footer-Code“ |
+| Widget | `widget: code`, `output_code_only: true`, `default_language: html`, `allow_language_selection: false` |
+| Astro | Global aus `getSiteCodeConfig()`; Seite als Props an `BaseLayout.astro` |
+| Injection | Vor `</head>` bzw. vor `</body>` (nach Site-Footer), per `set:html`. Reihenfolge: global, dann Seite. Im Wartungsmodus aus. |
 
 Optional. HTML-Fragmente: `<style>` und `<script>` dürfen im selben Feld stehen. Sprachauswahl ist ausgeblendet (Highlighting fest HTML). Nur für vertrauenswürdige Redaktion (kein Sanitizing).
 

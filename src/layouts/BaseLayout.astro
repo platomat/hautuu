@@ -28,7 +28,7 @@ import {
 	buildSiteColorRootCss,
 	isSurfaceGlassTranslucent,
 } from "../lib/site-colors";
-import { getSiteWebsiteTitle } from "../lib/site-config";
+import { getSiteCodeConfig, getSiteWebsiteTitle } from "../lib/site-config";
 import { getFaviconLinks } from "../lib/site-favicon";
 import {
 	buildSiteTypographyRootCss,
@@ -47,15 +47,16 @@ interface Props {
 	modifiedDate?: Date;
 	backgroundImage?: ImageMetadata;
 	backgroundOverlay?: number;
-	/** Raw HTML before `</head>` (pages CMS `headCode`). */
+	/** Raw HTML before `</head>` (page CMS `headCode`; after global Site-Code). */
 	headCode?: string;
-	/** Raw HTML before `</body>` (pages CMS `footerCode`). */
+	/** Raw HTML before `</body>` (page CMS `footerCode`; after global Site-Code). */
 	footerCode?: string;
 	/** Optional Schema.org JSON-LD object or graph. */
 	jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
 
 const siteName = await getSiteWebsiteTitle();
+const siteCode = getSiteCodeConfig();
 const siteColorRootCss = buildSiteColorRootCss();
 const siteTypographyRootCss = buildSiteTypographyRootCss();
 const siteBorderRadiusRootCss = buildSiteBorderRadiusRootCss();
@@ -106,8 +107,18 @@ if (serveMaintenance && maintenance) {
 	);
 }
 
-const headCodeHtml = headCode?.trim() || undefined;
-const footerCodeHtml = footerCode?.trim() || undefined;
+const globalHeadCodeHtml = !serveMaintenance
+	? siteCode.headCode.trim() || undefined
+	: undefined;
+const globalFooterCodeHtml = !serveMaintenance
+	? siteCode.footerCode.trim() || undefined
+	: undefined;
+const headCodeHtml = !serveMaintenance
+	? headCode?.trim() || undefined
+	: undefined;
+const footerCodeHtml = !serveMaintenance
+	? footerCode?.trim() || undefined
+	: undefined;
 const jsonLdScript =
 	jsonLd !== undefined
 		? JSON.stringify(jsonLd).replace(/</g, "\\u003c")
@@ -229,7 +240,8 @@ const faviconLinks = getFaviconLinks();
 				/>
 			))
 		}
-		{!serveMaintenance && headCodeHtml && <Fragment set:html={headCodeHtml} />}
+		{globalHeadCodeHtml && <Fragment set:html={globalHeadCodeHtml} />}
+		{headCodeHtml && <Fragment set:html={headCodeHtml} />}
 		{
 			!serveMaintenance && jsonLdScript && (
 				<script
@@ -274,6 +286,9 @@ const faviconLinks = getFaviconLinks();
 						<slot />
 					</div>
 					<SiteFooter />
+					{globalFooterCodeHtml && (
+						<Fragment set:html={globalFooterCodeHtml} />
+					)}
 					{footerCodeHtml && <Fragment set:html={footerCodeHtml} />}
 				</>
 			)

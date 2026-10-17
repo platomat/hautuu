@@ -17,6 +17,7 @@ import {
 	siteDesignConfigSchema,
 	siteFooterBarConfigSchema,
 	siteFooterBrandConfigSchema,
+	siteCodeConfigSchema,
 	siteGeneralConfigSchema,
 	siteMaintenanceConfigSchema,
 	type BreadcrumbSeparator,
@@ -26,6 +27,7 @@ import {
 	type HeroBorderBottom,
 	type HeroCollectionKey,
 	type HeroTextAlign,
+	type SiteCodeConfig,
 	type SiteConfig,
 	type SiteFooterBarConfig,
 	type SiteFooterBrandConfig,
@@ -97,6 +99,12 @@ export function getSiteWebsiteTitle(): string {
 export function getSiteWebsiteDescription(): string {
 	const config = getSiteConfig();
 	return config.general?.websiteDescription?.trim() ?? "";
+}
+
+/** Global head/footer HTML from CMS Allgemein → Site-Code. */
+export function getSiteCodeConfig(): SiteCodeConfig {
+	const config = getSiteConfig();
+	return siteCodeConfigSchema.parse(config.general?.siteCode ?? {});
 }
 
 /** Footer copyright claim + separator from CMS General. */

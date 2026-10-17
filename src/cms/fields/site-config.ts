@@ -495,6 +495,19 @@ export const siteFaviconsConfigSchema = z.object({
 
 export type SiteFaviconsConfig = z.infer<typeof siteFaviconsConfigSchema>;
 
+/**
+ * Global head/footer HTML (CMS Allgemein → Site-Code).
+ * Same semantics as page `headCode` / `footerCode`; injected site-wide in BaseLayout.
+ */
+export const siteCodeConfigSchema = z.object({
+	/** Raw HTML before `</head>` on every page (after fonts; before page headCode). */
+	headCode: z.string().default(""),
+	/** Raw HTML before `</body>` on every page (after SiteFooter; before page footerCode). */
+	footerCode: z.string().default(""),
+});
+
+export type SiteCodeConfig = z.infer<typeof siteCodeConfigSchema>;
+
 /** CMS group General (site name for chrome + document titles). */
 export const siteGeneralConfigSchema = z.object({
 	/** Brand / site name in header, title suffix, og:site_name. */
@@ -525,6 +538,8 @@ export const siteGeneralConfigSchema = z.object({
 	logos: siteLogosConfigSchema.default({}),
 	/** Browser tab icons (default + optional dark color-scheme). */
 	favicons: siteFaviconsConfigSchema.default({}),
+	/** Site-wide HTML snippets (analytics, custom CSS, …). */
+	siteCode: siteCodeConfigSchema.default({}),
 });
 
 export type SiteGeneralConfig = z.infer<typeof siteGeneralConfigSchema>;

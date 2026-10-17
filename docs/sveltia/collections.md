@@ -57,6 +57,8 @@ Globale Site-Einstellungen als **JSON-Dateien** (wie cdr-legal), kein Markdown-B
 | `favicons.dark` | Optional Favicon für `prefers-color-scheme: dark`; leer = gleiches wie default |
 | `contactEmail` | Optional für `{{contact-email}}`. Überschreibt `CONTACT_EMAIL` beim Build; leer = ENV. Wert ist öffentlich in Git. |
 | `privacyPage` | Optional Seiten-Slug (Relation `pages`) für die Datenschutz-Seite (wie WordPress Privacy Policy). Leer = kein Link; genutzt u. a. vom Video-Consent. |
+| `siteCode.headCode` | Optional globales HTML vor `</head>` (alle Seiten; vor Seiten-`headCode`) |
+| `siteCode.footerCode` | Optional globales HTML vor `</body>` (nach Site-Footer; vor Seiten-`footerCode`) |
 
 ### Einstellungen → Wartungsmodus (#101)
 
@@ -261,8 +263,8 @@ Weitere Menüs = neue Datei mit eigenem Slug; in Content → Footer → Brand al
 | `layout.contentWidth` | nein | `default` / `wide` / `full`; leer = global (`design.contentWidth.pages`) |
 | `layout.afterHero` | nein | Abstand unter Hero (rem); leer = `design.spacing.pages` |
 | `layout.beforeFooter` | nein | Abstand vor Footer (rem); leer = `design.spacing.pages` |
-| `headCode` | nein | HTML-Fragmente vor `</head>` (`<style>` / `<script>` gemischt möglich; Highlighting fest HTML) |
-| `footerCode` | nein | HTML-Fragmente vor `</body>` (Highlighting fest HTML) |
+| `headCode` | nein | HTML vor `</head>` nur diese Seite (nach globalem Site-Code; style/script gemischt) |
+| `footerCode` | nein | HTML vor `</body>` nur diese Seite (nach globalem Site-Code) |
 | Body | ja | Markdown-Inhalt |
 
 Seiten bleiben flach unter `src/content/pages/<slug>/index.md`. Die URL-Hierarchie kommt aus `parent` (Kette möglich). Beispiel: Seite `team` mit `parent: ueber-uns` → `/ueber-uns/team/`.
