@@ -101,7 +101,7 @@ Globale Defaults unter **Einstellungen** im CMS (`settings`: Allgemein, Wartungs
 - **GitHub repository** (`owner/name`) für das Footer-Mitte-Icon, wenn Center logo an ist.
 - **Logos** aus der Mediathek: Header, optional Sticky, Footer ([#79](https://github.com/platomat/hautoo/issues/79)).
 - **Favicons** aus der Mediathek: Standard und optional dunkel ([#80](https://github.com/platomat/hautoo/issues/80)).
-- **Matomo:** Tracking-Code (Snippet); wird siteweit vor `</body>` eingefügt. Datenschutz-Abschnitt über `{{matomo-privacy}}`, Opt-out-URL aus dem Snippet.
+- **Matomo:** Tracking-Code (Snippet); wird siteweit vor `</body>` eingefügt (nur Produktions-Build, nicht unter `astro dev`). Datenschutz-Abschnitt über `{{matomo-privacy}}`, Opt-out-URL aus dem Snippet.
 - **Site-Code:** globale Header-/Footer-HTML-Fragmente (nicht für Matomo).
 
 ### Settings → Wartungsmodus (#101)

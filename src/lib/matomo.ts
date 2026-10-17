@@ -19,6 +19,17 @@ export function hasMatomoCode(): boolean {
 	return getMatomoCode().length > 0;
 }
 
+/**
+ * Tracking snippet for BaseLayout injection.
+ * Empty in `astro dev` so local page views do not inflate Matomo stats.
+ * Production builds (`import.meta.env.PROD`) inject when `matomo.code` is set.
+ * Datenschutz `{{matomo-privacy}}` still uses `getMatomoCode()` / resolve helpers.
+ */
+export function getMatomoInjectCode(): string {
+	if (!import.meta.env.PROD) return "";
+	return getMatomoCode();
+}
+
 /** Normalize to origin + trailing slash, e.g. `https://matomo.example.com/`. */
 export function normalizeMatomoBaseUrl(raw: string): string | undefined {
 	const trimmed = raw.trim();

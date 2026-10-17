@@ -28,7 +28,7 @@ import {
 	buildSiteColorRootCss,
 	isSurfaceGlassTranslucent,
 } from "../lib/site-colors";
-import { getMatomoCode } from "../lib/matomo";
+import { getMatomoInjectCode } from "../lib/matomo";
 import { getSiteCodeConfig, getSiteWebsiteTitle } from "../lib/site-config";
 import { getFaviconLinks } from "../lib/site-favicon";
 import {
@@ -58,7 +58,7 @@ interface Props {
 
 const siteName = await getSiteWebsiteTitle();
 const siteCode = getSiteCodeConfig();
-const matomoCode = getMatomoCode();
+const matomoCode = getMatomoInjectCode();
 const siteColorRootCss = buildSiteColorRootCss();
 const siteTypographyRootCss = buildSiteTypographyRootCss();
 const siteBorderRadiusRootCss = buildSiteBorderRadiusRootCss();

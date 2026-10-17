@@ -113,7 +113,7 @@ Anker-IDs: `github-slugger`.
 | Astro | `getMatomoCode()` / `resolveMatomoPrivacyProps()` in `src/lib/matomo.ts` |
 | Injection | Vor `</body>` nach globalem Site-Code-Footer, vor Eintrags-Footer. Im Wartungsmodus aus. |
 
-Optional. Vollständiges Matomo-Snippet. Opt-out-URL und Host für `{{matomo-privacy}}` werden aus dem Snippet abgeleitet. Embed rendert nur, wenn Code gesetzt und Base-URL erkennbar ist.
+Optional. Vollständiges Matomo-Snippet. Opt-out-URL und Host für `{{matomo-privacy}}` werden aus dem Snippet abgeleitet. Embed rendert nur, wenn Code gesetzt und Base-URL erkennbar ist. Injection nur in Produktions-Builds (`import.meta.env.PROD`); unter `astro dev` wird der Tracker nicht eingefügt, damit lokale Aufrufe die Statistik nicht verfälschen.
 
 ## Site-Code (`siteCode.headCode` / `footerCode`)
 
