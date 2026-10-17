@@ -8,7 +8,7 @@ Wie die Website **aussehen und wirken** soll. Umsetzung in CSS/Astro folgt diese
 - **CMS:** Einstellungen → Allgemein → **Logos** (`header` / `headerSticky` / `footer`) aus der Mediathek; Darstellung wie in der Datei (`LogoMark.astro`, #79), keine CSS-Umfärbung oder Hover-Skalierung
 - **Wortmarke:** aus CMS **Einstellungen → Allgemein → Website title** (`settings/general.json`), neben dem Mark im Header
 - **Footer-Copyright:** CMS General → Footer copyright (`startYear` / `claim` / `separator` / `showCenterLogo`); Mitte bei `showCenterLogo` an und gesetztem `githubRepo` GitHub-Icon, sonst Site-Logo → Startseite; `showCenterLogo` aus = leere Mitte
-- **Footer-Brand / Copyright:** CMS Content → Footer → Brand (ohne oberen Rand, Verlauf) und Copyright-Zeile (`contentWidth`, `borderWidth` full/shell); Header `contentWidth` ([#81](https://github.com/platomat/hautoo/issues/81))
+- **Footer-Brand / Copyright:** CMS Content → Footer → Brand (ohne oberen Rand, Verlauf) und Copyright-Zeile (`contentWidth`; `borderWidth` full/shell nur zwischen Brand und Bar, ohne Brand kein oberer Rand); Header `contentWidth` ([#81](https://github.com/platomat/hautoo/issues/81))
 - **Inhalt:** Content-Komponente `{{logo variant="header" width="120" unit="px" align="center"}}`
 - **Favicon:** CMS General → **Favicons** (`default` / `dark`, #80); leer = `/assets/favicon.svg`. Optional dunkles Icon per `prefers-color-scheme`
 

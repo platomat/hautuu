@@ -134,7 +134,7 @@ Brand-Streifen oberhalb der Copyright-Zeile (Copyright bleibt unter Allgemein �
 | `content.footer.brand.menu` | Menü per Relation zur Collection `menus` (Vorlage `footer`; leer = aus) | `footer` |
 | `content.footer.brand.blocks` | Liste `{ id, enabled }`; Reihenfolge per Drag-and-Drop; `id`: `logo` / `description` / `menu` | Logo, Beschreibung, Menü (je an) |
 | `content.footer.bar.contentWidth` | Shell-Breite der Copyright-Zeile | `wide` |
-| `content.footer.bar.borderWidth` | Oberer Rand: `full` (Browserbreite) oder `shell` (wie Inhaltsbreite) | `full` |
+| `content.footer.bar.borderWidth` | Oberer Rand nur mit Brand: `full` / `shell`; ohne Brand kein Rand | `full` |
 | `content.footer.bar.menu` | Legal-Menü der Copyright-Zeile (Vorlage `footer-legal`; leer = aus) | `footer-legal` |
 
 Logo aus `general.logos.footer` (Fallback Header). Beschreibung = `websiteDescription`. Umsetzung: `SiteFooter.astro` / `SiteHeader.astro` (Header-`contentWidth`).

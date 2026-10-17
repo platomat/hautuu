@@ -2138,7 +2138,7 @@ collections:
                     options:
                       - { label: Volle Browserbreite, value: full }
                       - { label: Wie Inhaltsbreite der Zeile, value: shell }
-                    hint: "Oberer Rand der Copyright-Zeile: über die ganze Viewport-Breite oder nur so breit wie die Zeile (Shell)."
+                    hint: "Nur wenn Brand angezeigt wird: oberer Rand zwischen Brand und Copyright-Zeile (volle Viewport-Breite oder Shell). Ohne Brand kein oberer Rand."
                   - name: menu
                     label: Legal-Menü
                     widget: relation

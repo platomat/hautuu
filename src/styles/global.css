@@ -288,19 +288,16 @@ body.has-chrome-glass .site-nav__sub {
 }
 
 /*
- * Copyright top border:
- * - full = browser width (on .site-footer when no brand, else on .site-footer__bar)
+ * Copyright top border only when Brand strip is shown (separator brand ↔ bar).
+ * Without brand: no top border on the copyright row.
+ * - full = browser width on .site-footer__bar
  * - shell = only as wide as the content shell (.site-footer__bar-inner)
  */
-.site-footer--bar-border-full:not(.site-footer--has-brand) {
-	border-top: 1px solid var(--color-border);
-}
-
 .site-footer--has-brand .site-footer__bar--border-full {
 	border-top: 1px solid var(--color-border);
 }
 
-.site-footer--bar-border-shell .site-footer__bar-inner {
+.site-footer--has-brand.site-footer--bar-border-shell .site-footer__bar-inner {
 	border-top: 1px solid var(--color-border);
 }
 
