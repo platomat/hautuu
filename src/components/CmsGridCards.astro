@@ -18,8 +18,11 @@ const {
 	colsMobile,
 	gap,
 	stretchLast,
+	titleLevel,
 	cards,
 } = Astro.props;
+
+const TitleTag = titleLevel;
 
 type ResolvedCard = GridCard & {
 	imageSrc?: string;
@@ -128,7 +131,9 @@ const style = [
 								{(card.title || card.subtitle || textHtml) && (
 									<div class="grid-card__copy">
 										{card.title && (
-											<h3 class="grid-card__title">{card.title}</h3>
+											<TitleTag class="grid-card__title">
+												{card.title}
+											</TitleTag>
 										)}
 										{card.subtitle && (
 											<p class="grid-card__subtitle">{card.subtitle}</p>

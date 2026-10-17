@@ -112,6 +112,23 @@ export const DEFAULT_GRID_CARD_BACKGROUND: GridCardBackground = {
 	fit: "cover",
 };
 
+/** Semantic title tag for all cards in one grid (page H1 stays in the hero). */
+export const GRID_CARD_TITLE_LEVELS = ["h2", "h3", "h4", "h5", "h6"] as const;
+export type GridCardTitleLevel = (typeof GRID_CARD_TITLE_LEVELS)[number];
+export const DEFAULT_GRID_CARD_TITLE_LEVEL: GridCardTitleLevel = "h3";
+
+const TITLE_LEVEL_SET = new Set<string>(GRID_CARD_TITLE_LEVELS);
+
+export function resolveGridCardTitleLevel(
+	raw: string | undefined,
+): GridCardTitleLevel {
+	const key = (raw ?? "").trim().toLowerCase();
+	if (TITLE_LEVEL_SET.has(key)) {
+		return key as GridCardTitleLevel;
+	}
+	return DEFAULT_GRID_CARD_TITLE_LEVEL;
+}
+
 export type GridCardsEmbedProps = {
 	/** Columns ≥1024px. */
 	colsDesktop: number;
@@ -123,6 +140,8 @@ export type GridCardsEmbedProps = {
 	gap: number;
 	/** Stretch a lone last-row card across the full row. */
 	stretchLast: boolean;
+	/** Heading level for card titles (grid-wide; default h3). */
+	titleLevel: GridCardTitleLevel;
 	cards: GridCard[];
 };
 
@@ -360,6 +379,7 @@ export function parseGridCardsProps(
 		colsMobile: clampInt(attrs.colsMobile, 1, 1, 2),
 		gap: clampFloat(attrs.gap, 1.25, 0, 8),
 		stretchLast: parseEmbedFlag(attrs.stretchLast),
+		titleLevel: resolveGridCardTitleLevel(attrs.titleLevel),
 		cards,
 	};
 }

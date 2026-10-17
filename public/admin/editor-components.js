@@ -1831,6 +1831,20 @@ CMS.registerEditorComponent({
 				hint: "Wenn die letzte Karte allein in ihrer Zeile steht, über die volle Zeilenbreite ziehen.",
 			},
 			{
+				name: "titleLevel",
+				label: "Titel-Ebene",
+				widget: "select",
+				default: "h3",
+				options: [
+					{ label: "H2", value: "h2" },
+					{ label: "H3 (Standard)", value: "h3" },
+					{ label: "H4", value: "h4" },
+					{ label: "H5", value: "h5" },
+					{ label: "H6", value: "h6" },
+				],
+				hint: "Semantische Überschriften-Ebene für alle Kartentitel in diesem Grid. Die Seiten-H1 kommt aus dem Hero. Optisch bleibt die Karten-Titelgröße gleich.",
+			},
+			{
 				name: "cards",
 				label: "Karten",
 				widget: "list",
@@ -2041,6 +2055,14 @@ CMS.registerEditorComponent({
 			const attrs = parseAttrs(match?.groups?.attrs || "");
 			const cards = decodeGridCardsAttr(attrs.cards);
 			const stretchRaw = String(attrs.stretchLast || "").toLowerCase();
+			const titleLevelRaw = String(attrs.titleLevel || "h3")
+				.trim()
+				.toLowerCase();
+			const titleLevel = ["h2", "h3", "h4", "h5", "h6"].includes(
+				titleLevelRaw,
+			)
+				? titleLevelRaw
+				: "h3";
 			return {
 				colsDesktop: Number(attrs.colsDesktop || attrs.cols || 3) || 3,
 				colsTablet: Number(attrs.colsTablet || 2) || 2,
@@ -2050,6 +2072,7 @@ CMS.registerEditorComponent({
 					stretchRaw === "true" ||
 					stretchRaw === "1" ||
 					stretchRaw === "yes",
+				titleLevel,
 				cards:
 					cards.length > 0
 						? cards.map((card) => {
@@ -2086,6 +2109,7 @@ CMS.registerEditorComponent({
 			colsMobile = 1,
 			gap = 1.25,
 			stretchLast = false,
+			titleLevel = "h3",
 			cards = [],
 		}) => {
 			const parts = [`cards="${encodeGridCardsAttr(cards)}"`];
@@ -2104,11 +2128,15 @@ CMS.registerEditorComponent({
 			if (stretchLast === true || stretchLast === "true") {
 				parts.push(`stretchLast="true"`);
 			}
+			if (String(titleLevel || "h3") !== "h3") {
+				parts.push(`titleLevel="${titleLevel}"`);
+			}
 			return `{{grid-cards ${parts.join(" ")}}}`;
 		},
 		toPreview: ({
 			colsDesktop = 3,
 			stretchLast = false,
+			titleLevel = "h3",
 			cards = [],
 		}) => {
 			const list = Array.isArray(cards) ? cards : [];
@@ -2120,9 +2148,12 @@ CMS.registerEditorComponent({
 				titles.length > 0
 					? titles.join(" · ")
 					: "Karten-Grid (leer)";
-			const note = stretchLast
-				? " · letzte Karte strecken"
-				: "";
+			const notes = [];
+			if (stretchLast) notes.push("letzte Karte strecken");
+			if (String(titleLevel || "h3") !== "h3") {
+				notes.push(`Titel ${titleLevel}`);
+			}
+			const note = notes.length > 0 ? ` · ${notes.join(" · ")}` : "";
 			return `<div style="margin:0.75rem 0;padding:0.65rem 0.8rem;border:1px dashed #2e3833;border-radius:6px;background:#1a211e;color:#9aa89f;font-size:0.85rem"><strong style="color:#e8eeea">Karten-Grid</strong> (${colsDesktop} Spalten${note})<br/>${label}</div>`;
 		},
 	});
