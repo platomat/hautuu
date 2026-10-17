@@ -72,11 +72,11 @@ Redaktionell unter **Einstellungen → Design → Farbpalette** (`src/content/se
 | Variable | CMS-Feld | Default | Rolle |
 | --- | --- | --- | --- |
 | `--color-bg` | `bg` | `#0f1412` | Seitenhintergrund |
-| `--color-surface` | `surface` | `#1a211e` | Solide Flächen (Panels; Chrome ohne Glas-Alpha) |
-| `--color-surface-glass` | `surfaceGlass` (mit Alpha) | `#1a211ee6` | Halbtransparent (Header/Footer, Overlays) |
+| `--color-surface` | `surface` | `#1a211e` | Solide UI-Flächen (Karten, Panels, Avatare, Mobile-Menü); nicht Header/Footer bei Glas |
+| `--color-surface-glass` | `surfaceGlass` (mit Alpha) | `#1a211ee6` | Header/Footer bei Alpha unter 1 (Chrome); Overlays |
 | `--color-chrome` | (abgeleitet) | `var(--color-surface)` | Header/Footer/Nav; bei Glas-Alpha → `surface-glass` |
-| `--color-surface-raised` | `surfaceRaised` | `#232b27` | leicht angehoben (z. B. Code, Zitat) |
-| `--color-border` | `border` | `#2e3833` | Linien, Trenner |
+| `--color-surface-raised` | `surfaceRaised` | `#232b27` | leicht angehoben (Inline-Code, Codeblöcke, manche Boxen) |
+| `--color-border` | `border` | `#2e3833` | Linien, Trenner, Avatar-Rand |
 | `--color-text` | `text` | `#e8eeea` | Haupttext |
 | `--color-text-muted` | `textMuted` | `#9aa89f` | Nebentext, Meta, Captions |
 | `--color-action` | `action` | `#3dcf8e` | Primär / Links / Buttons / Fokus |
@@ -154,7 +154,8 @@ Footer-Copyright-Zeile: ab Mobile untereinander und zentriert (Utilities `stack-
 | --- | --- | --- |
 | `logoPosition` | `left` | Logo links / rechts, oder `center` (Menü ab Tablet unter dem Logo) ([#74](https://github.com/platomat/hautoo/issues/74)). Suchlupe immer hinter den Menüpunkten. |
 | `contentWidth` | `wide` | Innenbreite wie Inhalt: `default` / `wide` / `full` (42 / 64 / 80 rem) |
-| `menu` | `main` | Menü-Slug für die Hauptnavigation (Collection Menüs), wie Footer Brand → Menü ([#91](https://github.com/platomat/hautoo/issues/91)) |
+| `menu` | `main` (Vorlage) | Menü-Slug für die Hauptnavigation (Collection Menüs). Leer / weggelassen = keine Nav ([#91](https://github.com/platomat/hautoo/issues/91)) |
+| `search` | `visible` | Suche: `off` (aus), `hidden` (Lupe aus, Dialog für Kürzel), `visible` (Lupe an) |
 | Ruhehöhe Desktop/Tablet/Mobile | 64 / 64 / 56 | Höhe am Seitenanfang; ohne Sticky Mindesthöhe |
 | Sticky pro Breakpoint | an | Sticky ein/aus (Desktop ≥1024, Tablet 680–1023, Mobile <680) |
 | Sticky-Höhe | 64 / 64 / 56 | Kompakte Höhe nach Scrollen; bei `logoPosition: center` wächst die Leiste mit Inhalt (+ Padding, zwei Zeilen) |

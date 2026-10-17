@@ -230,7 +230,7 @@ collections:
             label: Bildnachweis
             widget: text
             required: false
-            hint: "Text, reine URL oder HTML 1:1 von Unsplash/Pexels („Copy attribution“). Nur <a href> wird übernommen; erscheint automatisch am Ende des Impressums."
+            hint: "Text, reine URL oder HTML 1:1 von Unsplash/Pexels („Copy attribution“). Nur a-Links mit href werden übernommen; erscheint automatisch am Ende des Impressums."
       - &field_entry_layout
         name: layout
         label: Inhaltsbreite
@@ -314,7 +314,7 @@ collections:
           max_image_preview_enabled: true
           max_image_preview: large
         summary: "{{fields.seo_title}}"
-        hint: "Titel, Meta Description und Robots. Beim Build → <title>, description und <meta name=\"robots\">."
+        hint: "Titel, Meta Description und Robots. Beim Build → title-Tag, description und meta robots."
         fields:
           - label: SEO Title
             name: seo_title
@@ -405,7 +405,7 @@ collections:
         output_code_only: true
         default_language: html
         allow_language_selection: false
-        hint: "Optional. HTML-Fragmente vor </head>, z. B. <style>…</style> und/oder <script>…</script> gemischt. Highlighting fest auf HTML. Nur für vertrauenswürdige Redaktion."
+        hint: "Optional. HTML-Fragmente vor dem schließenden head-Tag, z. B. style- und/oder script-Blöcke gemischt. Highlighting fest auf HTML. Nur für vertrauenswürdige Redaktion."
       - name: footerCode
         label: Footer-Code
         widget: code
@@ -413,7 +413,7 @@ collections:
         output_code_only: true
         default_language: html
         allow_language_selection: false
-        hint: "Optional. HTML-Fragmente vor </body>, z. B. <script>…</script> (auch mit <style> möglich). Highlighting fest auf HTML. Nur für vertrauenswürdige Redaktion."
+        hint: "Optional. HTML-Fragmente vor dem schließenden body-Tag, z. B. script-Blöcke (auch mit style möglich). Highlighting fest auf HTML. Nur für vertrauenswürdige Redaktion."
 
   - name: articles
     label: Artikel
@@ -434,7 +434,7 @@ collections:
     thumbnail:
       - heroImage
       - background.image
-    hint: "Medien neben dem Eintrag (Variante B). URL: /artikel/<slug>/."
+    hint: "Medien neben dem Eintrag (Variante B). URL: /artikel/slug/."
     fields:
       - { name: title, label: Titel, widget: string }
       - {
@@ -511,7 +511,7 @@ collections:
         display_fields: [title]
         multiple: true
         required: false
-        hint: "Optional. Keiner, einer oder mehrere Autoren (Profil unter /autoren/<slug>/)."
+        hint: "Optional. Keiner, einer oder mehrere Autoren (Profil unter /autoren/slug/)."
       - name: body
         label: Inhalt
         widget: markdown
@@ -556,7 +556,7 @@ collections:
     extension: md
     format: yaml-frontmatter
     summary: "{{title}}"
-    hint: "Hierarchische Themen für Artikel (wie WordPress). Optional Parent. Dateiname = Slug. URL: /kategorien/<slug>/."
+    hint: "Hierarchische Themen für Artikel (wie WordPress). Optional Parent. Dateiname = Slug. URL: /kategorien/slug/."
     fields:
       - { name: title, label: Name, widget: string }
       - {
@@ -573,7 +573,7 @@ collections:
         search_fields: [title]
         display_fields: [title]
         required: false
-        hint: "Optional. Bildet eine Hierarchie; die öffentliche URL bleibt flach (/kategorien/<slug>/)."
+        hint: "Optional. Bildet eine Hierarchie; die öffentliche URL bleibt flach (/kategorien/slug/)."
       - *field_modified_date
 
   - name: tags
@@ -612,7 +612,7 @@ collections:
     extension: md
     format: yaml-frontmatter
     summary: "{{title}}"
-    hint: "Autoren für Artikel. Dateiname = Slug. Profil: /autoren/<slug>/. Bio und optional freier Inhalt mit Embeds."
+    hint: "Autoren für Artikel. Dateiname = Slug. Profil: /autoren/slug/. Bio und optional freier Inhalt mit Embeds."
     fields:
       - { name: title, label: Name, widget: string }
       - {
@@ -726,7 +726,7 @@ collections:
     extension: md
     format: yaml-frontmatter
     summary: "{{title}}"
-    hint: "Fachbegriffe. URL: /glossar/<slug>/."
+    hint: "Fachbegriffe. URL: /glossar/slug/."
     fields:
       - { name: title, label: Begriff, widget: string }
       - *field_status
@@ -878,7 +878,7 @@ collections:
               label: CSS-Klasse,
               widget: string,
               required: false,
-              hint: "Optional am <a>-Link (wie WordPress). Mehrere Klassen mit Leerzeichen, z. B. btn highlight.",
+              hint: "Optional am a-Link (wie WordPress). Mehrere Klassen mit Leerzeichen, z. B. btn highlight.",
             }
           - name: children
             label: Untermenü
@@ -915,7 +915,7 @@ collections:
                   label: CSS-Klasse,
                   widget: string,
                   required: false,
-                  hint: "Optional am <a>-Link. Mehrere Klassen mit Leerzeichen.",
+                  hint: "Optional am a-Link. Mehrere Klassen mit Leerzeichen.",
                 }
 
 # Redirects: each entry = one target, one or more source paths → public/_redirects at build.
@@ -1046,7 +1046,7 @@ collections:
                 required: false
                 hint: "Optional für prefers-color-scheme: dark. Leer = gleiches wie Favicon (Standard-SVG passt sich selbst an)."
           - name: footerCopyright
-            label: Footer copyright
+            label: Footer-Copyright
             widget: object
             collapsed: false
             hint: "Copyright-Zeile im Footer: Startjahr, Claim, Mitte optional Mark/Icon."
@@ -1065,9 +1065,9 @@ collections:
                 widget: text
                 required: false
                 default: ""
-                hint: "Text, reine URL oder HTML: <a href>, <b>/<strong>, <i>/<em>, <br>. Leer = nur © und Website-Titel."
+                hint: "Text, reine URL oder einfaches HTML (a mit href, b/strong, i/em, br). Leer = nur © und Website-Titel."
               - name: separator
-                label: Separator
+                label: Trenner
                 widget: select
                 options:
                   - { label: "•", value: "•" }
@@ -1078,16 +1078,16 @@ collections:
                 required: true
                 hint: "Zeichen zwischen Website-Titel und Claim."
               - name: showCenterLogo
-                label: Show center logo
+                label: Center-Logo anzeigen
                 widget: boolean
                 required: false
                 default: true
                 hint: "Logo/Icon in der Mitte der Copyright-Zeile. An = GitHub-Icon bei gesetztem Repo, sonst Site-Logo zur Startseite. Aus = nichts in der Mitte."
           - name: githubRepo
-            label: GitHub repository
+            label: GitHub-Repository
             widget: string
             required: false
-            hint: "Optional owner/name für das Footer-Icon (z. B. platomat/hautoo). Leer = Site-Logo verlinkt auf die Startseite (typisch für Forks). Wirkt nur, wenn Footer copyright → Show center logo an ist."
+            hint: "Optional owner/name für das Footer-Icon (z. B. platomat/hautoo). Leer = Site-Logo verlinkt auf die Startseite (typisch für Forks). Wirkt nur, wenn Footer-Copyright → Center-Logo anzeigen an ist."
             default: ""
       - name: maintenance
         label: Wartungsmodus
@@ -1154,26 +1154,26 @@ collections:
                 widget: color
                 allowInput: true
                 default: "#1a211e"
-                hint: "Solide Flächen: Header/Footer ohne Seiten-BG, Panels, abgesetzte Boxen."
+                hint: "Solide UI-Flächen im Inhalt: Karten, Panels, Avatar-Hintergrund, Suchfeld, Mobile-Menü. Nicht Header/Footer (dafür Fläche Glas) und nicht Code (dafür Fläche angehoben)."
               - name: surfaceGlass
                 label: Fläche Glas (surface-glass)
                 widget: color
                 enableAlpha: true
                 allowInput: true
                 default: "#1a211ee6"
-                hint: "Halbtransparente Fläche über Hintergrundbildern (Header/Footer bei Seiten-BG)."
+                hint: "Hintergrund von Header und Footer bei Alpha unter 1. Das ist die Chrome-Farbe oben und unten. Bei Alpha 1 greifen Header/Footer auf Fläche zurück; leer = aus Fläche abgeleitet."
               - name: surfaceRaised
                 label: Fläche angehoben (surface-raised)
                 widget: color
                 allowInput: true
                 default: "#232b27"
-                hint: "Leicht angehobene Flächen, z. B. Codeblöcke und Zitate."
+                hint: "Leicht angehoben gegenüber Fläche: Inline-Code, Codeblöcke, manche Hinweisboxen."
               - name: border
                 label: Rahmen (border)
                 widget: color
                 allowInput: true
                 default: "#2e3833"
-                hint: "Linien, Trenner, Kartenrahmen, Trennlinien-Default."
+                hint: "Linien, Trenner, Kartenrahmen, Avatar-Rand, Trennlinien-Default."
               - name: text
                 label: Text (text)
                 widget: color
@@ -1227,7 +1227,7 @@ collections:
             label: Schrift
             widget: object
             collapsed: false
-            hint: "Schriften: Fontsource-Katalog plus eigene unter src/fonts/custom/<id>/ (stylesheet.css). Build liefert lokal aus public/fonts/."
+            hint: "Schriften: Fontsource-Katalog plus eigene unter src/fonts/custom/id/ (stylesheet.css). Build liefert lokal aus public/fonts/."
             fields:
               - name: bodyFont
                 label: Basis-Schriftart
@@ -1363,7 +1363,17 @@ collections:
                 display_fields: ["{{title}} ({{slug}})"]
                 required: false
                 default: main
-                hint: "Menü aus der Collection Menüs für die Hauptnavigation (Standard: main). Wie Footer Brand → Menü."
+                hint: "Menü aus der Collection Menüs für die Hauptnavigation (Vorlage: main). Leer = keine Nav und kein Hamburger. Wie Footer Brand → Menü."
+              - name: search
+                label: Suche
+                widget: select
+                required: true
+                default: visible
+                options:
+                  - { label: Aus, value: off }
+                  - { label: Verstecken, value: hidden }
+                  - { label: Anzeigen, value: visible }
+                hint: "Aus = Suche komplett aus. Verstecken = keine Lupe im Header (Dialog bleibt für Tastaturkürzel). Anzeigen = Lupe sichtbar."
               - name: minHeightDesktop
                 label: Ruhehöhe Desktop (px)
                 widget: number
@@ -1972,7 +1982,7 @@ collections:
                 widget: string
                 required: false
                 default: ""
-                hint: "Basis-URL des Workers hautoo-member-media-access (ohne Slash am Ende), z. B. https://hautoo-member-media-access.<account>.workers.dev. Leer = Member-Video-Embeds zeigen Hinweis."
+                hint: "Basis-URL des Workers hautoo-member-media-access (ohne Slash am Ende), z. B. https://hautoo-member-media-access.ACCOUNT.workers.dev. Leer = Member-Video-Embeds zeigen Hinweis."
           - name: authors
             label: Autoren
             widget: object
@@ -2064,7 +2074,7 @@ collections:
                     display_fields: ["{{title}} ({{slug}})"]
                     required: false
                     default: footer
-                    hint: "Menü aus der Collection Menüs (Standard: footer). Legal-Links der Copyright-Zeile: Content → Footer → Copyright-Zeile → Legal-Menü."
+                    hint: "Menü aus der Collection Menüs (Vorlage: footer). Leer = kein Brand-Menü. Legal-Links: Content → Footer → Copyright-Zeile → Legal-Menü."
                   - name: blocks
                     label: Bausteine (Reihenfolge)
                     widget: list
@@ -2116,5 +2126,5 @@ collections:
                     display_fields: ["{{title}} ({{slug}})"]
                     required: false
                     default: footer-legal
-                    hint: "Menü rechts in der Copyright-Zeile (Standard: footer-legal). Wie Brand → Menü und Header → Menü."
+                    hint: "Menü rechts in der Copyright-Zeile (Vorlage: footer-legal). Leer = keine Legal-Links. Wie Brand → Menü und Header → Menü."
 

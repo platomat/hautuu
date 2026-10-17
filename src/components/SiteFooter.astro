@@ -1,10 +1,6 @@
 ---
 import LogoMark from "./LogoMark.astro";
-import {
-	getResolvedMenu,
-	MENU_FOOTER,
-	MENU_FOOTER_LEGAL,
-} from "../lib/menus";
+import { getResolvedMenu, resolveOptionalMenuId } from "../lib/menus";
 import { withBuildId } from "../lib/build-id";
 import {
 	classifyAttribution,
@@ -59,18 +55,21 @@ const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
 
 const brand = getFooterBrandConfig();
 const footerBar = getFooterBarConfig();
-const legalMenuId = footerBar.menu.trim() || MENU_FOOTER_LEGAL;
-const legalItems = await getResolvedMenu(legalMenuId, pages);
+const legalMenuId = resolveOptionalMenuId(footerBar.menu);
+const legalItems = legalMenuId
+	? await getResolvedMenu(legalMenuId, pages)
+	: [];
 const brandShellClass = shellWidthClass(brand.contentWidth);
 const barShellClass = shellWidthClass(footerBar.contentWidth);
 const brandDescriptionRaw = getSiteWebsiteDescription();
 const brandDescriptionHtml = brandDescriptionRaw
 	? sanitizeSoftHtml(brandDescriptionRaw)
 	: "";
-const brandMenuId = brand.menu.trim() || MENU_FOOTER;
-const brandMenuItems = brand.enabled
-	? await getResolvedMenu(brandMenuId, pages)
-	: [];
+const brandMenuId = resolveOptionalMenuId(brand.menu);
+const brandMenuItems =
+	brand.enabled && brandMenuId
+		? await getResolvedMenu(brandMenuId, pages)
+		: [];
 
 const brandBlocks =
 	!copyrightOnly && brand.enabled

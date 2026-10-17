@@ -24,6 +24,20 @@ export type ResolvedMenuItem = ResolvedMenuLink & {
 
 /** Well-known menu ids (filename / collection id). */
 export const MENU_MAIN = "main";
+
+/**
+ * Optional CMS menu relation: empty / `none` = no menu.
+ * Do not fall back to slot defaults (cleared fields are omitted from JSON).
+ */
+export function resolveOptionalMenuId(
+	raw: string | undefined | null,
+): string | null {
+	const id = (raw ?? "").trim();
+	if (!id || id === "none") {
+		return null;
+	}
+	return id;
+}
 export const MENU_FOOTER_LEGAL = "footer-legal";
 /** Brand strip above copyright (Design → Footer → Brand → menu slug). */
 export const MENU_FOOTER = "footer";

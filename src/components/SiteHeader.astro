@@ -1,7 +1,7 @@
 ---
 import LogoMark from "./LogoMark.astro";
 import SiteSearch from "./SiteSearch.astro";
-import { getResolvedMenu, MENU_MAIN } from "../lib/menus";
+import { getResolvedMenu, resolveOptionalMenuId } from "../lib/menus";
 import { getPublicPages } from "../lib/pages";
 import { stickyLogoDiffers } from "../lib/site-logo";
 import { shellWidthClass } from "../cms/fields/content-width";
@@ -9,8 +9,14 @@ import { getSiteHeaderConfig, getSiteWebsiteTitle } from "../lib/site-config";
 
 const pages = await getPublicPages();
 const headerConfig = await getSiteHeaderConfig();
-const headerMenuId = headerConfig.menu.trim() || MENU_MAIN;
-const menuItems = await getResolvedMenu(headerMenuId, pages);
+const headerMenuId = resolveOptionalMenuId(headerConfig.menu);
+const menuItems = headerMenuId
+	? await getResolvedMenu(headerMenuId, pages)
+	: [];
+const showMainNav = menuItems.length > 0;
+const searchMode = headerConfig.search;
+const showSearch = searchMode !== "off";
+const showSearchTrigger = searchMode === "visible";
 const websiteTitle = await getSiteWebsiteTitle();
 const useStickyLogo = stickyLogoDiffers();
 const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
@@ -75,99 +81,128 @@ const headerStyle = [
 			<span class="site-header__logo-text">{websiteTitle}</span>
 		</a>
 		<div class="site-header__nav-cluster">
-			<nav id="site-nav" class="site-nav" data-site-nav aria-label="Hauptnavigation">
-				<ul class="site-nav__list list-plain">
-					{
-						menuItems.map((item, index) => {
-							const current = !item.external && isCurrent(item.href);
-							const hasChildren = item.children.length > 0;
-							const subId = `site-nav-sub-${index}`;
-							return (
-								<li
-									class:list={{
-										"site-nav__item": true,
-										"has-children": hasChildren,
-									}}
-									data-nav-item={hasChildren ? "" : undefined}
-								>
-									<div class="site-nav__item-row">
-										<a
-											href={item.href}
-											class:list={item.cssClasses}
-											aria-current={current ? "page" : undefined}
-											target={item.external ? "_blank" : undefined}
-											rel={item.external ? "noopener noreferrer" : undefined}
-										>
-											{item.label}
-										</a>
-										{hasChildren && (
-											<button
-												type="button"
-												class="site-nav__sub-toggle"
-												data-nav-sub-toggle
-												aria-expanded="false"
-												aria-controls={subId}
-												aria-label={`Untermenü ${item.label}`}
+			{
+				showMainNav && (
+					<nav
+						id="site-nav"
+						class="site-nav"
+						data-site-nav
+						aria-label="Hauptnavigation"
+					>
+						<ul class="site-nav__list list-plain">
+							{menuItems.map((item, index) => {
+								const current = !item.external && isCurrent(item.href);
+								const hasChildren = item.children.length > 0;
+								const subId = `site-nav-sub-${index}`;
+								return (
+									<li
+										class:list={{
+											"site-nav__item": true,
+											"has-children": hasChildren,
+										}}
+										data-nav-item={hasChildren ? "" : undefined}
+									>
+										<div class="site-nav__item-row">
+											<a
+												href={item.href}
+												class:list={item.cssClasses}
+												aria-current={current ? "page" : undefined}
+												target={item.external ? "_blank" : undefined}
+												rel={
+													item.external ? "noopener noreferrer" : undefined
+												}
 											>
-												<span class="site-nav__chevron" aria-hidden="true" />
-											</button>
+												{item.label}
+											</a>
+											{hasChildren && (
+												<button
+													type="button"
+													class="site-nav__sub-toggle"
+													data-nav-sub-toggle
+													aria-expanded="false"
+													aria-controls={subId}
+													aria-label={`Untermenü ${item.label}`}
+												>
+													<span
+														class="site-nav__chevron"
+														aria-hidden="true"
+													/>
+												</button>
+											)}
+										</div>
+										{hasChildren && (
+											<ul
+												id={subId}
+												class="site-nav__sub list-plain"
+												data-nav-sub
+											>
+												{item.children.map((child) => {
+													const childCurrent =
+														!child.external && isCurrent(child.href);
+													return (
+														<li>
+															<a
+																href={child.href}
+																class:list={child.cssClasses}
+																aria-current={
+																	childCurrent ? "page" : undefined
+																}
+																target={
+																	child.external ? "_blank" : undefined
+																}
+																rel={
+																	child.external
+																		? "noopener noreferrer"
+																		: undefined
+																}
+															>
+																{child.label}
+															</a>
+														</li>
+													);
+												})}
+											</ul>
 										)}
-									</div>
-									{hasChildren && (
-										<ul
-											id={subId}
-											class="site-nav__sub list-plain"
-											data-nav-sub
-										>
-											{item.children.map((child) => {
-												const childCurrent =
-													!child.external && isCurrent(child.href);
-												return (
-													<li>
-														<a
-															href={child.href}
-															class:list={child.cssClasses}
-															aria-current={childCurrent ? "page" : undefined}
-															target={child.external ? "_blank" : undefined}
-															rel={
-																child.external
-																	? "noopener noreferrer"
-																	: undefined
-															}
-														>
-															{child.label}
-														</a>
-													</li>
-												);
-											})}
-										</ul>
-									)}
-								</li>
-							);
-						})
-					}
-				</ul>
-			</nav>
-			<div class="site-header__search">
-				<SiteSearch />
-			</div>
+									</li>
+								);
+							})}
+						</ul>
+					</nav>
+				)
+			}
+			{
+				showSearch && (
+					<div
+						class:list={[
+							"site-header__search",
+							!showSearchTrigger && "site-header__search--hidden",
+						]}
+					>
+						<SiteSearch showTrigger={showSearchTrigger} />
+					</div>
+				)
+			}
 		</div>
-		<div class="site-header__actions">
-			<button
-				type="button"
-				class="site-nav-toggle"
-				data-nav-toggle
-				aria-expanded="false"
-				aria-controls="site-nav"
-				aria-label="Menü öffnen"
-			>
-				<span class="site-nav-toggle__bars" aria-hidden="true">
-					<span class="site-nav-toggle__bar"></span>
-					<span class="site-nav-toggle__bar"></span>
-					<span class="site-nav-toggle__bar"></span>
-				</span>
-			</button>
-		</div>
+		{
+			showMainNav && (
+				<div class="site-header__actions">
+					<button
+						type="button"
+						class="site-nav-toggle"
+						data-nav-toggle
+						aria-expanded="false"
+						aria-controls="site-nav"
+						aria-label="Menü öffnen"
+					>
+						<span class="site-nav-toggle__bars" aria-hidden="true">
+							<span class="site-nav-toggle__bar"></span>
+							<span class="site-nav-toggle__bar"></span>
+							<span class="site-nav-toggle__bar"></span>
+						</span>
+					</button>
+				</div>
+			)
+		}
 	</div>
 </header>
 

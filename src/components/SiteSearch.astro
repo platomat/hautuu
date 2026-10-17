@@ -1,6 +1,13 @@
 ---
 import { searchTypeOrder, searchUiCopy } from "../lib/searchUi";
 
+interface Props {
+	/** When false, keep the trigger in the DOM (for shortcuts) but hide it visually. */
+	showTrigger?: boolean;
+}
+
+const { showTrigger = true } = Astro.props;
+
 const copy = searchUiCopy;
 const dialogId = "site-search-dialog";
 const titleId = "site-search-title";
@@ -9,12 +16,13 @@ const searchConfig = JSON.stringify({ copy, typeOrder: searchTypeOrder });
 
 <button
 	type="button"
-	class="site-search__trigger"
+	class:list={["site-search__trigger", !showTrigger && "visually-hidden"]}
 	aria-haspopup="dialog"
 	aria-controls={dialogId}
 	data-search-open
 	aria-label={copy.open}
-	title={`${copy.open} (Ctrl/⌘K)`}
+	title={showTrigger ? `${copy.open} (Ctrl/⌘K)` : copy.open}
+	tabindex={showTrigger ? undefined : -1}
 >
 	<svg
 		class="site-search__icon"

@@ -74,10 +74,10 @@ Umsetzung: `src/lib/maintenance.ts`, Gate in `BaseLayout.astro`, Copyright-Foote
 | Feld | CSS-Variable | Bedeutung |
 | --- | --- | --- |
 | `design.colors.bg` | `--color-bg` | Seitenhintergrund |
-| `design.colors.surface` | `--color-surface` | Solide Flächen |
-| `design.colors.surfaceGlass` | `--color-surface-glass` | Glas-Fläche (Alpha) |
-| `design.colors.surfaceRaised` | `--color-surface-raised` | Angehobene Flächen |
-| `design.colors.border` | `--color-border` | Rahmen / Trenner |
+| `design.colors.surface` | `--color-surface` | Solide UI-Flächen (Karten, Avatare, Mobile-Menü); nicht Header/Footer bei Glas, nicht Code |
+| `design.colors.surfaceGlass` | `--color-surface-glass` | Header/Footer bei Alpha unter 1 (Chrome) |
+| `design.colors.surfaceRaised` | `--color-surface-raised` | Angehoben: Inline-Code, Codeblöcke |
+| `design.colors.border` | `--color-border` | Rahmen / Trenner / Avatar-Rand |
 | `design.colors.text` | `--color-text` | Haupttext |
 | `design.colors.textMuted` | `--color-text-muted` | Nebentext |
 | `design.colors.action` | `--color-action` | Primär / Links / Fokus |
@@ -107,7 +107,8 @@ Katalog: Fontsource in `src/cms/fields/site-fonts.json`; Merge mit Custom aus `s
 | --- | --- |
 | `design.header.logoPosition` | `left` / `right` / `center` (Menü darunter ab Tablet) ([#74](https://github.com/platomat/hautoo/issues/74)); Suchlupe immer hinter den Menüpunkten |
 | `design.header.contentWidth` | Shell-Breite `default` / `wide` / `full` (42 / 64 / 80 rem; Default `wide`) |
-| `design.header.menu` | Menü-Slug aus Collection `menus` für die Hauptnavigation (Default `main`), analog Footer Brand → Menü ([#91](https://github.com/platomat/hautoo/issues/91)) |
+| `design.header.menu` | Menü-Slug aus Collection `menus` für die Hauptnavigation (Vorlage `main`; leer = aus), analog Footer Brand → Menü ([#91](https://github.com/platomat/hautoo/issues/91)) |
+| `design.header.search` | Suche im Header: `off` / `hidden` / `visible` (Default `visible`) |
 | `design.header.minHeightDesktop` / `Tablet` / `Mobile` | Ruhehöhe am Seitenanfang; ohne Sticky Mindesthöhe (40–600 px; Default 64 / 64 / 56) |
 | `design.header.stickyDesktop` | Sticky ab Desktop (≥ 1024px) |
 | `design.header.stickyTablet` | Sticky auf Tablet (680–1023px) |
@@ -128,11 +129,11 @@ Brand-Streifen oberhalb der Copyright-Zeile (Copyright bleibt unter Allgemein �
 | `content.footer.brand.menuLayout` | Menü-Links `row` (nebeneinander) oder `stack` (untereinander) | `row` |
 | `content.footer.brand.contentWidth` | Shell-Breite `default` / `wide` / `full` | `wide` |
 | `content.footer.brand.logoSize` | Brand-Logo in px (24–160) | `44` |
-| `content.footer.brand.menu` | Menü per Relation zur Collection `menus` (Standard `footer`, nicht `footer-legal`) | `footer` |
+| `content.footer.brand.menu` | Menü per Relation zur Collection `menus` (Vorlage `footer`; leer = aus) | `footer` |
 | `content.footer.brand.blocks` | Liste `{ id, enabled }`; Reihenfolge per Drag-and-Drop; `id`: `logo` / `description` / `menu` | Logo, Beschreibung, Menü (je an) |
 | `content.footer.bar.contentWidth` | Shell-Breite der Copyright-Zeile | `wide` |
 | `content.footer.bar.borderWidth` | Oberer Rand: `full` (Browserbreite) oder `shell` (wie Inhaltsbreite) | `full` |
-| `content.footer.bar.menu` | Legal-Menü der Copyright-Zeile (Relation `menus`) | `footer-legal` |
+| `content.footer.bar.menu` | Legal-Menü der Copyright-Zeile (Vorlage `footer-legal`; leer = aus) | `footer-legal` |
 
 Logo aus `general.logos.footer` (Fallback Header). Beschreibung = `websiteDescription`. Umsetzung: `SiteFooter.astro` / `SiteHeader.astro` (Header-`contentWidth`).
 

@@ -23,6 +23,14 @@ export const headerLogoPositionSchema = z.enum(["left", "right", "center"]);
 
 export type HeaderLogoPosition = z.infer<typeof headerLogoPositionSchema>;
 
+/**
+ * Header search UI (CMS Design → Header → Suche).
+ * `off` = no search at all; `hidden` = no lupe, dialog stays for shortcuts; `visible` = show trigger.
+ */
+export const headerSearchModeSchema = z.enum(["off", "hidden", "visible"]);
+
+export type HeaderSearchMode = z.infer<typeof headerSearchModeSchema>;
+
 /** Sticky header + bar heights (CMS group Design). Order: layout → min heights → sticky → sticky heights. */
 export const siteHeaderConfigSchema = z.object({
 	/** Logo left / right, or centered with nav on a second row (#74). Search always follows the menu. */
@@ -32,8 +40,14 @@ export const siteHeaderConfigSchema = z.object({
 	 * Default `wide` matches previous hard-coded header shell.
 	 */
 	contentWidth: contentWidthSchema.default("wide"),
-	/** Menu collection slug for the main nav (default `main`); like Footer Brand → Menü (#91). */
-	menu: z.string().trim().default("main"),
+	/**
+	 * Menu collection slug for the main nav (like Footer Brand → Menü, #91).
+	 * Empty = no main nav. CMS `omit_empty_optional_fields` drops a cleared relation,
+	 * so missing must stay empty (not fall back to `main`); template JSON sets `main`.
+	 */
+	menu: z.string().trim().default(""),
+	/** Site search in the header: off / hide trigger / show trigger. */
+	search: headerSearchModeSchema.default("visible"),
 	/** Resting bar height at page top; also min-height when sticky is off. */
 	minHeightDesktop: headerHeight.default(64),
 	minHeightTablet: headerHeight.default(64),
@@ -157,8 +171,11 @@ export const siteFooterBrandConfigSchema = z.object({
 	contentWidth: contentWidthSchema.default("wide"),
 	/** Brand logo mark size in px (CSS `--footer-brand-logo-size`). */
 	logoSize: footerBrandLogoSize.default(44),
-	/** Menu collection slug (default `footer`); not `footer-legal`. */
-	menu: z.string().trim().default("footer"),
+	/**
+	 * Menu collection slug (not `footer-legal`). Empty = no brand menu.
+	 * Cleared CMS relations are omitted; template JSON sets `footer`.
+	 */
+	menu: z.string().trim().default(""),
 	/** Ordered blocks (Sveltia list = drag-and-drop). */
 	blocks: z.preprocess(
 		normalizeFooterBrandBlocks,
@@ -183,8 +200,11 @@ export const siteFooterBarConfigSchema = z.object({
 	 * Top border span: `full` = browser width (classic), `shell` = content width.
 	 */
 	borderWidth: footerBarBorderWidthSchema.default("full"),
-	/** Legal menu slug (default `footer-legal`); like Brand → Menü (#96). */
-	menu: z.string().trim().default("footer-legal"),
+	/**
+	 * Legal menu slug for the copyright row (#96). Empty = no legal links.
+	 * Cleared CMS relations are omitted; template JSON sets `footer-legal`.
+	 */
+	menu: z.string().trim().default(""),
 });
 
 export type SiteFooterBarConfig = z.infer<typeof siteFooterBarConfigSchema>;
