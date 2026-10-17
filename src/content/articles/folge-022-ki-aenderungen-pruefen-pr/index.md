@@ -63,7 +63,7 @@ Wenn du den PR **akzeptierst** ([**Merge**](/glossar/merge/), siehe [Folge 016](
 
 Damit du (oder [Fork](/glossar/fork/)-Nutzer) sehen, **was die Site schon kann**: [Features auf hautoo](https://hautoo.storyofai.net/features/) und die Kurzliste im [README](https://github.com/platomat/hautoo/blob/main/README.md). Neu dazu gekommen u. a.:
 
-- **Einstellungen** im [CMS](/glossar/cms/) (`src/content/settings/`: **General**, **Design**, **Content**): Farben, Schrift, Header/Footer, Hero, Inhaltsbreite, Abstand, TOC, Autoren-Anzeige.
+- **Einstellungen** im [CMS](/glossar/cms/) (`src/content/settings/`: **Allgemein**, **Design**, **Inhalt**): Farben, Schrift, Header/Footer, Hero, Inhaltsbreite, Abstand, TOC, Autoren-Anzeige.
 - **Features-Seite** und **Demo** (`/features/`, `/features/demo/`), dazu Collections **Kategorien**, **Autoren**, **Weiterleitungen**. Tour: [Folge 023](/artikel/folge-023-neue-features-demo-cms/).
 - **Suche** im Header (Glossar und Inhalte finden, z. B. „Was ist [CSS](/glossar/css/)?“).
 - Angepasstes **Logo** mit Pfad-Animation und Transparenz-Effekt (Tablet/Mobil mitgedacht).

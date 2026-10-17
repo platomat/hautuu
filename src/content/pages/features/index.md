@@ -60,7 +60,7 @@ Hier siehst du, **was im Projekt schon gebaut ist** (Stand: öffentliches [Repo]
 - **menus:** Navigation (`main`, `footer`, `footer-legal`, …) mit Label und Ziel ([#13](https://github.com/platomat/hautoo/issues/13), [#81](https://github.com/platomat/hautoo/issues/81)).
 - **blocks:** Wiederverwendbare Bausteine ohne eigene URL; Einbinden per Content-Komponente `{{block}}`.
 - **redirects:** Weiterleitungen ([#76](https://github.com/platomat/hautoo/issues/76)). Mehrere Quellen → ein Ziel (301/302); Build erzeugt `_redirects`.
-- **settings:** Globale JSON-Einstellungen (**General**, **Wartungsmodus**, **Design**, **Content**); keine Relationen ([#45](https://github.com/platomat/hautoo/issues/45), [#101](https://github.com/platomat/hautoo/issues/101)).
+- **settings:** Globale JSON-Einstellungen (**Allgemein**, **Wartungsmodus**, **Design**, **Inhalt**); keine Relationen ([#45](https://github.com/platomat/hautoo/issues/45), [#101](https://github.com/platomat/hautoo/issues/101)).
 
 ## Content-Komponenten (Embeds)
 
@@ -76,6 +76,7 @@ Im Markdown über die Sveltia-Toolbar einfügbar; Speichern als `{{…}}`-Zeile;
 - **Glossar-Listing** (`{{glossar-listing …}}`): Glossar-Einträge als Liste oder Grid; Anzahl und Sortierung wählbar; optional `linkable="false"` (Default an).
 - **Button** (`{{button …}}`): Einzelner Aktionslink mit Stil (ausgefüllt/Kontur), Farbe, Ziel und Ausrichtung inkl. voller Breite.
 - **Button-Gruppe** (`{{button-group …}}`): Mehrere Buttons in einer Gruppe; Layout nebeneinander (mit/ohne Umbruch), mobil untereinander oder immer gestapelt; Ausrichtung der Gruppe; optional volle Breite auf Mobile ([#83](https://github.com/platomat/hautoo/issues/83)).
+- **Karten-Grid** (`{{grid-cards …}}`): frei befüllbare Karten im Raster; Spalten Desktop/Tablet/Mobile; optional Stretch der allein stehenden letzten Karte; pro Karte Rand, Hintergrund (Farbe/Bild), Ausrichtung, Bild (wie Artikel-Listing), Titel, Untertitel, Text, solid Button ([#100](https://github.com/platomat/hautoo/issues/100)).
 - **Trennlinie** (`{{separator …}}`): Horizontale Linie mit Höhe, Breite und Design-Token-Farbe; optional Logo oder Favicon aus den Einstellungen auf der Linie (Position links/mitte/rechts, Größe in px, Default 24) ([#97](https://github.com/platomat/hautoo/issues/97)).
 - **Abstandshalter** (`{{spacer …}}`): Vertikaler Leerraum in Pixeln ohne sichtbare Linie.
 - **Kontakt-E-Mail** (`{{contact-email}}`): Adresse aus General → Contact email oder Build-Variable `CONTACT_EMAIL`, obfuscated im Markup.
@@ -88,9 +89,9 @@ Zusätzlich in der Toolbar: **Bild** und **Codeblock** (Sveltia-Standard, kein e
 
 ## Settings (Konfiguration)
 
-Globale Defaults unter **Einstellungen** im CMS (`settings`: General, Wartungsmodus, Design, Content) ([#45](https://github.com/platomat/hautoo/issues/45)).
+Globale Defaults unter **Einstellungen** im CMS (`settings`: Allgemein, Wartungsmodus, Design, Inhalt) ([#45](https://github.com/platomat/hautoo/issues/45)).
 
-### Settings → General
+### Settings → Allgemein
 
 - **Website title** und optionale **Description** / Slogan ([#75](https://github.com/platomat/hautoo/issues/75)); Description auch im Footer-Brand.
 - **Footer copyright:** Claim und Trenner links; **Show center logo** für das kleine Icon in der Mitte (GitHub-Icon bei gesetztem Repo, sonst Site-Logo).
@@ -117,7 +118,7 @@ Globale Defaults unter **Einstellungen** im CMS (`settings`: General, Wartungsmo
 - **Abstand** unter Hero und vor Footer, pro Collection ([#73](https://github.com/platomat/hautoo/issues/73)).
 - **Ecken abrunden:** Radius in Pixeln getrennt für Inhalts-Bilder und Videos (inkl. Member-Video).
 
-### Settings → Content
+### Settings → Inhalt
 
 - **Inhaltsverzeichnis (TOC):** an/aus, Ebenen, Titel für Seiten und Artikel ([#51](https://github.com/platomat/hautoo/issues/51)).
 - **Autoren:** Platzierung auf der Artikel-Einzelseite (Hero / Ende / beides / aus) und Avatar-Form ([#77](https://github.com/platomat/hautoo/issues/77)).

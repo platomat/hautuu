@@ -14,4 +14,4 @@ seo:
 
 Ein **Favicon** ist das **kleine Bild** neben dem Seitentitel im Browser-Tab, in Lesezeichen und oft in der Adressleiste. Übliche Formate sind PNG oder ICO; Größen oft 32×32 oder 48×48 Pixel ([MDN: Favicon](https://developer.mozilla.org/de/docs/Glossary/Favicon)).
 
-Auf hautuu legst du unter **Einstellungen** → **General** → **Favicons** ein **Favicon** und optional **Favicon (dunkel)** ab, damit das Icon bei hellem und dunklem Browser-Theme lesbar bleibt. Das ist getrennt von den **Logo**-Slots im Header. [Folge 023](/artikel/folge-023-neue-features-demo-cms/).
+Auf hautuu legst du unter **Einstellungen** → **Allgemein** → **Favicons** ein **Favicon** und optional **Favicon (dunkel)** ab, damit das Icon bei hellem und dunklem Browser-Theme lesbar bleibt. Das ist getrennt von den **Logo**-Slots im Header. [Folge 023](/artikel/folge-023-neue-features-demo-cms/).

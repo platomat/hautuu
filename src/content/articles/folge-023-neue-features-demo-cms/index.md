@@ -51,10 +51,10 @@ Die Demo ist eine normale **Seite** (`pages`). Du siehst **[Markdown](/glossar/m
 
 **YouTube / Vimeo** im Embed `{{video …}}`: Zuerst nur eine **Facade** (Platzhalter), **kein** Player und **keine** Verbindung zu Google/Vimeo. Besucher klicken **„Video von YouTube laden“** bzw. **„Video von Vimeo laden“** (Text in `VideoEmbed.astro`). Die Einwilligung ([Consent](/glossar/consent/)) gilt **site-weit** im Browser ([`localStorage`](/glossar/localstorage/), Schlüssel `hautuu-video-consent`): beim nächsten Video musst du nicht jedes Mal neu zustimmen.
 
-- **Privacy page** unter **Einstellungen** → **General**: Relation zur Datenschutz-Seite. Der Hinweis im Player verlinkt dorthin (Anker `eingebettete-videos`), auch wenn deine Seite anders heißt als „Datenschutz“.
+- **Privacy page** unter **Einstellungen** → **Allgemein**: Relation zur Datenschutz-Seite. Der Hinweis im Player verlinkt dorthin (Anker `eingebettete-videos`), auch wenn deine Seite anders heißt als „Datenschutz“.
 - **Widerruf:** Embed **Video-Freischaltung widerrufen** (`{{video-consent-reset}}`) auf der Datenschutz-Seite oder wo du willst. Danach sind Player wieder gesperrt, bis erneut geladen wird.
 
-**Selbst gehostete MP4** (`provider="file"`): kein YouTube/Vimeo-Consent-Schalter; Auslieferung z. B. über [Cloudflare R2](/glossar/cloudflare-r2/). In **Einstellungen** → **Content** → **Medien** → **Video-Basis-URL** (`videoBaseUrl`) die öffentliche Basis-URL setzen, damit große Dateien **nicht** in die [Mediathek](/glossar/mediathek/) / ins [Git](/glossar/git/)-Repo wandern.
+**Selbst gehostete MP4** (`provider="file"`): kein YouTube/Vimeo-Consent-Schalter; Auslieferung z. B. über [Cloudflare R2](/glossar/cloudflare-r2/). In **Einstellungen** → **Inhalt** → **Medien** → **Video-Basis-URL** (`videoBaseUrl`) die öffentliche Basis-URL setzen, damit große Dateien **nicht** in die [Mediathek](/glossar/mediathek/) / ins [Git](/glossar/git/)-Repo wandern.
 
 Große Screencast-Dateien landen in einem **R2-Bucket** (Objektspeicher), nicht in GitHub. Du verbindest optional eine Subdomain (z. B. `https://media…/videos/`), trägst die Basis-URL einmal im CMS ein und bindest im Artikel z. B. `{{video provider="file" src="folge-001.mp4"}}` ein. Poster-Bilder bleiben klein in der Mediathek. YouTube/Vimeo laufen parallel mit Consent.
 
@@ -91,7 +91,7 @@ Große Screencast-Dateien landen in einem **R2-Bucket** (Objektspeicher), nicht 
 
 **Gravatar kurz:** Unter [gravatar.com](https://gravatar.com/) meldest du dich an und hinterlegst **ein Bild pro E-Mail**. Andere Sites holen dasselbe Bild, wenn dieselbe E-Mail sichtbar ist. **Nicht besonders datenschutzfreundlich**, weil die E-Mail bzw. der Hash den Dienst erreichen kann. Lieber **Avatar** lokal, wenn du das vermeiden willst.
 
-**Global auf Artikeln** (**Einstellungen** → **Content** → **Autoren**):
+**Global auf Artikeln** (**Einstellungen** → **Inhalt** → **Autoren**):
 
 - **Autoren auf Artikeln:** Nicht anzeigen / **Im Hero** / **Am Ende des Artikels** / **Hero und am Ende**
 - **Avatar-Form (Artikel):** **Rund** oder **Eckig** (Profilseiten bleiben rund)
@@ -106,7 +106,7 @@ Große Screencast-Dateien landen in einem **R2-Bucket** (Objektspeicher), nicht 
 - Pro Seite/Artikel: **Hero überschreiben** → **Brotkrumen anzeigen** (leer = Default). **Trennlinie unten** global oder individuell je Eintrag überschreiben.
 - Artikel: **Kategorien** immer im Hero; **Tags anzeigen** wählbar; **Autoren**-Relation.
 
-## Einstellungen → General
+## Einstellungen → Allgemein
 
 Datei `src/content/settings/general.json`. CMS-Labels (Auszug):
 
@@ -152,7 +152,7 @@ Datei `src/content/settings/design.json`.
 - Breite: Standard / Breit / Vollbreit (Artikel einzeln unter **Inhaltsbreite** am Eintrag)
 - **Unter Hero ([rem](/glossar/rem/))** und **Vor Footer (rem)** (z. B. 6 rem vor Footer für Luft); pro Seite/Artikel unter Layout-Felder **Abstand unter Hero (rem)** / **Abstand vor Footer (rem)** überschreibbar
 
-## Einstellungen → Content
+## Einstellungen → Inhalt
 
 Datei `src/content/settings/content.json`.
 

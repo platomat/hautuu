@@ -27,6 +27,10 @@ import {
 	type ButtonTarget,
 } from "./button";
 import {
+	parseGridCardsProps,
+	type GridCardsEmbedProps,
+} from "./grid-cards";
+import {
 	DEFAULT_SEPARATOR_COLOR,
 	DEFAULT_SEPARATOR_MARK,
 	DEFAULT_SEPARATOR_MARK_ALIGN,
@@ -245,6 +249,7 @@ export type ContentSegment =
 	| { type: "spacer"; props: SpacerEmbedProps }
 	| { type: "button"; props: ButtonEmbedProps }
 	| { type: "button-group"; props: ButtonGroupEmbedProps }
+	| { type: "grid-cards"; props: GridCardsEmbedProps }
 	| { type: "contact-email"; props: ContactEmailEmbedProps }
 	| ContactEmailFlowSegment
 	| { type: "logo"; props: LogoEmbedProps }
@@ -374,7 +379,7 @@ const DEFAULT_SPACER: SpacerEmbedProps = {
 
 /** Line must be only the embed (optional attrs). */
 const EMBED_LINE =
-	/^\{\{(?<name>article-listing|glossar-listing|tag-listing|category-listing|author-listing|author-social|tag-cloud|separator|spacer|button-group|button|contact-email|logo|repodoc|block|video-consent-reset|member-video|video)(?<attrs>[^}]*)\}\}\s*$/gm;
+	/^\{\{(?<name>article-listing|glossar-listing|tag-listing|category-listing|author-listing|author-social|tag-cloud|separator|spacer|button-group|button|grid-cards|contact-email|logo|repodoc|block|video-consent-reset|member-video|video)(?<attrs>[^}]*)\}\}\s*$/gm;
 
 const LOGO_VARIANTS = new Set<LogoEmbedVariant>(["header", "sticky", "footer"]);
 const LOGO_ALIGNS = new Set<LogoEmbedAlign>(["left", "center", "right"]);
@@ -892,6 +897,11 @@ export async function buildContentSegments(
 			const props = parseButtonProps(attrs);
 			if (props) {
 				segments.push({ type: "button", props });
+			}
+		} else if (name === "grid-cards") {
+			const props = parseGridCardsProps(attrs);
+			if (props) {
+				segments.push({ type: "grid-cards", props });
 			}
 		} else if (name === "article-listing") {
 			segments.push({

@@ -1616,4 +1616,358 @@ CMS.registerEditorComponent({
 			return `<div style="display:flex;flex-direction:${fullOn ? "column" : direction};flex-wrap:${wrap};gap:0.5rem;justify-content:${justify};align-items:${fullOn ? "stretch" : justify === "flex-start" ? "flex-start" : justify === "flex-end" ? "flex-end" : "center"};margin:0.75rem 0">${styledBody}</div>${note}`;
 		},
 	});
+
+	const GRID_CARD_IMAGE_STYLE_OPTIONS = [
+		{ label: "Oben · mit Rand", value: "top-cover" },
+		{ label: "Oben · randlos", value: "top-bleed" },
+		{ label: "Unten · mit Rand", value: "bottom-cover" },
+		{ label: "Unten · randlos", value: "bottom-bleed" },
+		{ label: "Links · mit Rand", value: "left-cover" },
+		{ label: "Links · randlos", value: "left-bleed" },
+		{ label: "Rechts · mit Rand", value: "right-cover" },
+		{ label: "Rechts · randlos", value: "right-bleed" },
+	];
+
+	const GRID_CARD_DEFAULT = {
+		title: "Karte",
+		subtitle: "",
+		text: "Kurztext zur Karte.",
+		image: "",
+		imageStyle: "top-cover",
+		buttonLabel: "Mehr erfahren",
+		buttonHref: "/features/",
+		buttonTarget: "_self",
+		borderColor: "border",
+		borderWidth: 1,
+		borderRadius: 6,
+		bgColor: "surface",
+		bgImage: "",
+		bgFit: "cover",
+		alignX: "left",
+		alignY: "top",
+	};
+
+	function encodeGridCardsAttr(cards) {
+		const list = (Array.isArray(cards) ? cards : [])
+			.map((card) => ({
+				title: String(card?.title || "").trim(),
+				subtitle: String(card?.subtitle || "").trim(),
+				text: String(card?.text || "").trim(),
+				image: String(card?.image || "").trim(),
+				imageStyle: card?.imageStyle || "top-cover",
+				buttonLabel: String(card?.buttonLabel || "").trim(),
+				buttonHref: String(card?.buttonHref || "").trim(),
+				buttonTarget: card?.buttonTarget || "_self",
+				borderColor: card?.borderColor || "border",
+				borderWidth:
+					card?.borderWidth === "" || card?.borderWidth == null
+						? 1
+						: Number(card.borderWidth),
+				borderRadius:
+					card?.borderRadius === "" || card?.borderRadius == null
+						? 6
+						: Number(card.borderRadius),
+				bgColor: card?.bgColor === "none" ? "" : card?.bgColor || "surface",
+				bgImage: String(card?.bgImage || "").trim(),
+				bgFit: card?.bgFit || "cover",
+				alignX: card?.alignX || "left",
+				alignY: card?.alignY || "top",
+			}))
+			.filter(
+				(card) =>
+					card.title ||
+					card.subtitle ||
+					card.text ||
+					card.image ||
+					card.buttonLabel ||
+					card.bgImage,
+			)
+			.slice(0, 12);
+		return encodeURIComponent(JSON.stringify(list));
+	}
+
+	function decodeGridCardsAttr(raw) {
+		if (!raw || !String(raw).trim()) return [];
+		try {
+			const parsed = JSON.parse(decodeURIComponent(String(raw).trim()));
+			return Array.isArray(parsed) ? parsed : [];
+		} catch (_err) {
+			return [];
+		}
+	}
+
+	CMS.registerEditorComponent({
+		id: "grid-cards",
+		label: "Karten-Grid",
+		icon: "grid_view",
+		fields: [
+			{
+				name: "colsDesktop",
+				label: "Spalten Desktop",
+				widget: "number",
+				value_type: "int",
+				default: 3,
+				min: 1,
+				max: 4,
+				hint: "Ab 1024px Breite.",
+			},
+			{
+				name: "colsTablet",
+				label: "Spalten Tablet",
+				widget: "number",
+				value_type: "int",
+				default: 2,
+				min: 1,
+				max: 4,
+				hint: "680–1023px.",
+			},
+			{
+				name: "colsMobile",
+				label: "Spalten Mobile",
+				widget: "number",
+				value_type: "int",
+				default: 1,
+				min: 1,
+				max: 2,
+				hint: "Unter 680px.",
+			},
+			{
+				name: "gap",
+				label: "Abstand (rem)",
+				widget: "number",
+				value_type: "float",
+				default: 1.25,
+				min: 0,
+				max: 8,
+				step: 0.25,
+			},
+			{
+				name: "stretchLast",
+				label: "Letzte Karte strecken",
+				widget: "boolean",
+				default: false,
+				hint: "Wenn die letzte Karte allein in ihrer Zeile steht, über die volle Zeilenbreite ziehen.",
+			},
+			{
+				name: "cards",
+				label: "Karten",
+				widget: "list",
+				min: 1,
+				max: 12,
+				summary: "{{fields.title}}",
+				default: [
+					{ ...GRID_CARD_DEFAULT, title: "Erste Karte" },
+					{ ...GRID_CARD_DEFAULT, title: "Zweite Karte" },
+					{ ...GRID_CARD_DEFAULT, title: "Dritte Karte" },
+					{
+						...GRID_CARD_DEFAULT,
+						title: "Vierte Karte",
+						text: "Allein in der Zeile, wenn Stretch an ist.",
+					},
+				],
+				fields: [
+					{
+						name: "title",
+						label: "Titel",
+						widget: "string",
+						required: false,
+					},
+					{
+						name: "subtitle",
+						label: "Untertitel",
+						widget: "string",
+						required: false,
+					},
+					{
+						name: "text",
+						label: "Text",
+						widget: "text",
+						required: false,
+						hint: "Kurzer Fließtext. Zeilenumbrüche bleiben erhalten.",
+					},
+					{
+						name: "image",
+						label: "Bild",
+						widget: "image",
+						required: false,
+					},
+					{
+						name: "imageStyle",
+						label: "Bilddarstellung",
+						widget: "select",
+						default: "top-cover",
+						options: GRID_CARD_IMAGE_STYLE_OPTIONS,
+						hint: "Wie beim Artikel-Listing: Position und Rand/randlos.",
+					},
+					{
+						name: "buttonLabel",
+						label: "Button-Beschriftung",
+						widget: "string",
+						required: false,
+						default: "",
+					},
+					{
+						name: "buttonHref",
+						label: "Button-Link",
+						widget: "string",
+						required: false,
+						hint: "Intern z. B. /kontakt/ oder absolute URL. Leer = kein Button.",
+					},
+					{
+						name: "buttonTarget",
+						label: "Button-Ziel",
+						widget: "select",
+						default: "_self",
+						options: BUTTON_TARGET_OPTIONS,
+					},
+					{
+						name: "borderColor",
+						label: "Randfarbe",
+						widget: "select",
+						default: "border",
+						options: BUTTON_COLOR_OPTIONS,
+					},
+					{
+						name: "borderWidth",
+						label: "Randdicke (px)",
+						widget: "number",
+						value_type: "int",
+						default: 1,
+						min: 0,
+						max: 16,
+					},
+					{
+						name: "borderRadius",
+						label: "Eckenradius (px)",
+						widget: "number",
+						value_type: "int",
+						default: 6,
+						min: 0,
+						max: 64,
+					},
+					{
+						name: "bgColor",
+						label: "Hintergrundfarbe",
+						widget: "select",
+						default: "surface",
+						options: [
+							{ label: "Keine (transparent)", value: "none" },
+							...BUTTON_COLOR_OPTIONS,
+						],
+					},
+					{
+						name: "bgImage",
+						label: "Hintergrundbild",
+						widget: "image",
+						required: false,
+						hint: "Optional. Liegt unter der Kartenfarbe (abgedunkelt).",
+					},
+					{
+						name: "bgFit",
+						label: "Hintergrundbild-Anpassung",
+						widget: "select",
+						default: "cover",
+						options: [
+							{ label: "Cover (füllen)", value: "cover" },
+							{ label: "Contain (einfügen)", value: "contain" },
+						],
+					},
+					{
+						name: "alignX",
+						label: "Ausrichtung horizontal",
+						widget: "select",
+						default: "left",
+						options: [
+							{ label: "Links", value: "left" },
+							{ label: "Zentriert", value: "center" },
+							{ label: "Rechts", value: "right" },
+						],
+					},
+					{
+						name: "alignY",
+						label: "Ausrichtung vertikal",
+						widget: "select",
+						default: "top",
+						options: [
+							{ label: "Oben", value: "top" },
+							{ label: "Mitte", value: "center" },
+							{ label: "Unten", value: "bottom" },
+						],
+					},
+				],
+			},
+		],
+		pattern: /^\{\{grid-cards(?<attrs>[^}]*)\}\}\s*$/m,
+		fromBlock: (match) => {
+			const attrs = parseAttrs(match?.groups?.attrs || "");
+			const cards = decodeGridCardsAttr(attrs.cards);
+			const stretchRaw = String(attrs.stretchLast || "").toLowerCase();
+			return {
+				colsDesktop: Number(attrs.colsDesktop || attrs.cols || 3) || 3,
+				colsTablet: Number(attrs.colsTablet || 2) || 2,
+				colsMobile: Number(attrs.colsMobile || 1) || 1,
+				gap: Number(attrs.gap || 1.25) || 1.25,
+				stretchLast:
+					stretchRaw === "true" ||
+					stretchRaw === "1" ||
+					stretchRaw === "yes",
+				cards:
+					cards.length > 0
+						? cards.map((card) => ({
+								...GRID_CARD_DEFAULT,
+								...card,
+								bgColor: card.bgColor || "none",
+							}))
+						: [
+								{ ...GRID_CARD_DEFAULT, title: "Erste Karte" },
+								{ ...GRID_CARD_DEFAULT, title: "Zweite Karte" },
+							],
+			};
+		},
+		toBlock: ({
+			colsDesktop = 3,
+			colsTablet = 2,
+			colsMobile = 1,
+			gap = 1.25,
+			stretchLast = false,
+			cards = [],
+		}) => {
+			const parts = [`cards="${encodeGridCardsAttr(cards)}"`];
+			if (Number(colsDesktop) !== 3) {
+				parts.push(`colsDesktop="${colsDesktop}"`);
+			}
+			if (Number(colsTablet) !== 2) {
+				parts.push(`colsTablet="${colsTablet}"`);
+			}
+			if (Number(colsMobile) !== 1) {
+				parts.push(`colsMobile="${colsMobile}"`);
+			}
+			if (Number(gap) !== 1.25) {
+				parts.push(`gap="${gap}"`);
+			}
+			if (stretchLast === true || stretchLast === "true") {
+				parts.push(`stretchLast="true"`);
+			}
+			return `{{grid-cards ${parts.join(" ")}}}`;
+		},
+		toPreview: ({
+			colsDesktop = 3,
+			stretchLast = false,
+			cards = [],
+		}) => {
+			const list = Array.isArray(cards) ? cards : [];
+			const titles = list
+				.map((card) => String(card?.title || "").trim())
+				.filter(Boolean)
+				.slice(0, 6);
+			const label =
+				titles.length > 0
+					? titles.join(" · ")
+					: "Karten-Grid (leer)";
+			const note = stretchLast
+				? " · letzte Karte strecken"
+				: "";
+			return `<div style="margin:0.75rem 0;padding:0.65rem 0.8rem;border:1px dashed #2e3833;border-radius:6px;background:#1a211e;color:#9aa89f;font-size:0.85rem"><strong style="color:#e8eeea">Karten-Grid</strong> (${colsDesktop} Spalten${note})<br/>${label}</div>`;
+		},
+	});
 })();

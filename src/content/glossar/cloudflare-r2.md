@@ -14,4 +14,4 @@ seo:
 
 **Cloudflare R2** ist **Objektspeicher** (ähnlich einem großen Datei-Ordner in der Cloud) von [Cloudflare](/glossar/cloudflare-pages/). Du legst Dateien in einem **Bucket** ab und gibst sie über eine **öffentliche URL** aus, oft mit eigener Subdomain ([Cloudflare R2 Docs](https://developers.cloudflare.com/r2/)).
 
-Große Screencast-**MP4s** gehören bei hautuu **nicht** ins [GitHub](/glossar/github/)-[Repo](/glossar/repository/). Stattdessen: Upload in einen R2-Bucket, **Video-Basis-URL** unter **Einstellungen** → **Content** → **Medien**, Embed `{{video provider="file" src="…"}}`. Poster-Bilder bleiben klein in der Mediathek. Anleitung im Repo: `docs/cloudflare/r2-videos.md`. [Folge 023](/artikel/folge-023-neue-features-demo-cms/).
+Große Screencast-**MP4s** gehören bei hautuu **nicht** ins [GitHub](/glossar/github/)-[Repo](/glossar/repository/). Stattdessen: Upload in einen R2-Bucket, **Video-Basis-URL** unter **Einstellungen** → **Inhalt** → **Medien**, Embed `{{video provider="file" src="…"}}`. Poster-Bilder bleiben klein in der Mediathek. Anleitung im Repo: `docs/cloudflare/r2-videos.md`. [Folge 023](/artikel/folge-023-neue-features-demo-cms/).

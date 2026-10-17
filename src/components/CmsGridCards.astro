@@ -1,0 +1,433 @@
+---
+import CmsButton from "./CmsButton.astro";
+import { resolveCmsImage } from "../lib/cms-image";
+import {
+	gridCardColorCss,
+	gridCardTextToHtml,
+	isOrphanLastCard,
+	type GridCard,
+	type GridCardsEmbedProps,
+} from "../lib/grid-cards";
+import { getImage } from "astro:assets";
+
+interface Props extends GridCardsEmbedProps {}
+
+const {
+	colsDesktop,
+	colsTablet,
+	colsMobile,
+	gap,
+	stretchLast,
+	cards,
+} = Astro.props;
+
+type ResolvedCard = GridCard & {
+	imageSrc?: string;
+	bgImageSrc?: string;
+};
+
+const resolved: ResolvedCard[] = [];
+for (const card of cards) {
+	const next: ResolvedCard = { ...card };
+	if (card.image) {
+		const meta = resolveCmsImage(card.image);
+		if (meta) {
+			const optimized = await getImage({
+				src: meta,
+				width: 800,
+				format: "webp",
+				quality: 75,
+			});
+			next.imageSrc = optimized.src;
+		}
+	}
+	if (card.bgImage) {
+		const meta = resolveCmsImage(card.bgImage);
+		if (meta) {
+			const optimized = await getImage({
+				src: meta,
+				width: 1200,
+				format: "webp",
+				quality: 70,
+			});
+			next.bgImageSrc = optimized.src;
+		}
+	}
+	resolved.push(next);
+}
+
+const orphanDesktop = stretchLast && isOrphanLastCard(resolved.length, colsDesktop);
+const orphanTablet = stretchLast && isOrphanLastCard(resolved.length, colsTablet);
+const orphanMobile = stretchLast && isOrphanLastCard(resolved.length, colsMobile);
+
+const style = [
+	`--gc-cols-d: ${colsDesktop}`,
+	`--gc-cols-t: ${colsTablet}`,
+	`--gc-cols-m: ${colsMobile}`,
+	`--gc-gap: ${gap}rem`,
+].join("; ");
+---
+
+{
+	resolved.length > 0 && (
+		<div
+			class="grid-cards"
+			style={style}
+			data-orphan-d={orphanDesktop ? "1" : "0"}
+			data-orphan-t={orphanTablet ? "1" : "0"}
+			data-orphan-m={orphanMobile ? "1" : "0"}
+		>
+			{resolved.map((card) => {
+				const borderCss = gridCardColorCss(card.borderColor);
+				const bgCss = gridCardColorCss(card.bgColor);
+				const cardStyle = [
+					`--gc-border: ${borderCss}`,
+					`--gc-border-w: ${card.borderWidth}px`,
+					`--gc-radius: ${card.borderRadius}px`,
+					`--gc-bg: ${bgCss}`,
+					card.bgImageSrc
+						? `--gc-bg-image: url("${card.bgImageSrc}")`
+						: "",
+					`--gc-bg-fit: ${card.bgFit}`,
+				]
+					.filter(Boolean)
+					.join("; ");
+				const textHtml = card.text ? gridCardTextToHtml(card.text) : "";
+				const showButton =
+					Boolean(card.buttonLabel.trim()) &&
+					Boolean(card.buttonHref.trim());
+				return (
+					<article
+						class:list={[
+							"grid-card",
+							`grid-card--align-x-${card.alignX}`,
+							`grid-card--align-y-${card.alignY}`,
+							card.imageSrc && `grid-card--image-${card.imageStyle}`,
+							card.bgImageSrc && "grid-card--has-bg-image",
+						]}
+						style={cardStyle}
+					>
+						{card.bgImageSrc && (
+							<div class="grid-card__bg" aria-hidden="true" />
+						)}
+						<div class="grid-card__layout">
+							{card.imageSrc && (
+								<div class="grid-card__media">
+									<img
+										class="grid-card__image"
+										src={card.imageSrc}
+										alt=""
+										loading="lazy"
+										decoding="async"
+									/>
+								</div>
+							)}
+							<div class="grid-card__body">
+								{(card.title || card.subtitle || textHtml) && (
+									<div class="grid-card__copy">
+										{card.title && (
+											<h3 class="grid-card__title">{card.title}</h3>
+										)}
+										{card.subtitle && (
+											<p class="grid-card__subtitle">{card.subtitle}</p>
+										)}
+										{textHtml && (
+											<p
+												class="grid-card__text"
+												set:html={textHtml}
+											/>
+										)}
+									</div>
+								)}
+								{showButton && (
+									<div class="grid-card__action">
+										<CmsButton
+											label={card.buttonLabel}
+											href={card.buttonHref}
+											target={card.buttonTarget}
+											style="solid"
+											color="action"
+											align="left"
+										/>
+									</div>
+								)}
+							</div>
+						</div>
+					</article>
+				);
+			})}
+		</div>
+	)
+}
+
+<style>
+	.grid-cards {
+		display: grid;
+		grid-template-columns: repeat(var(--gc-cols-d, 3), minmax(0, 1fr));
+		gap: var(--gc-gap, 1.25rem);
+		margin: 2rem 0;
+	}
+
+	@media (max-width: 1023px) {
+		.grid-cards {
+			grid-template-columns: repeat(var(--gc-cols-t, 2), minmax(0, 1fr));
+		}
+	}
+
+	@media (max-width: 679px) {
+		.grid-cards {
+			grid-template-columns: repeat(var(--gc-cols-m, 1), minmax(0, 1fr));
+		}
+	}
+
+	.grid-cards[data-orphan-d="1"] > :last-child {
+		grid-column: 1 / -1;
+	}
+
+	@media (max-width: 1023px) {
+		.grid-cards[data-orphan-d="1"] > :last-child {
+			grid-column: auto;
+		}
+		.grid-cards[data-orphan-t="1"] > :last-child {
+			grid-column: 1 / -1;
+		}
+	}
+
+	@media (max-width: 679px) {
+		.grid-cards[data-orphan-t="1"] > :last-child {
+			grid-column: auto;
+		}
+		.grid-cards[data-orphan-m="1"] > :last-child {
+			grid-column: 1 / -1;
+		}
+	}
+
+	.grid-card {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		min-width: 0;
+		min-height: 100%;
+		padding: 1.1rem 1.15rem;
+		border: var(--gc-border-w, 1px) solid var(--gc-border, var(--color-border));
+		border-radius: var(--gc-radius, 6px);
+		background: var(--gc-bg, var(--color-surface));
+		overflow: hidden;
+	}
+
+	.grid-card__bg {
+		position: absolute;
+		inset: 0;
+		z-index: 0;
+		pointer-events: none;
+		background-image: var(--gc-bg-image);
+		background-size: var(--gc-bg-fit, cover);
+		background-position: center;
+		background-repeat: no-repeat;
+		opacity: 0.35;
+	}
+
+	.grid-card__layout {
+		position: relative;
+		z-index: 1;
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+		flex: 1 1 auto;
+		min-width: 0;
+		min-height: 100%;
+	}
+
+	.grid-card__body {
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+		flex: 1 1 auto;
+		min-width: 0;
+	}
+
+	.grid-card--align-x-left .grid-card__body,
+	.grid-card--align-x-left .grid-card__copy {
+		align-items: flex-start;
+		text-align: left;
+	}
+
+	.grid-card--align-x-center .grid-card__body,
+	.grid-card--align-x-center .grid-card__copy {
+		align-items: center;
+		text-align: center;
+	}
+
+	.grid-card--align-x-right .grid-card__body,
+	.grid-card--align-x-right .grid-card__copy {
+		align-items: flex-end;
+		text-align: right;
+	}
+
+	.grid-card--align-y-top .grid-card__body {
+		justify-content: flex-start;
+	}
+
+	.grid-card--align-y-center .grid-card__body {
+		justify-content: center;
+	}
+
+	.grid-card--align-y-bottom .grid-card__body {
+		justify-content: flex-end;
+	}
+
+	.grid-card__copy {
+		display: flex;
+		flex-direction: column;
+		gap: 0.4rem;
+		min-width: 0;
+	}
+
+	.grid-card__title {
+		margin: 0;
+		font-family: var(--font-heading);
+		font-weight: var(--font-weight-heading);
+		font-size: 1.15rem;
+		line-height: 1.3;
+	}
+
+	.grid-card__subtitle {
+		margin: 0;
+		color: var(--color-text-muted);
+		font-size: 0.95rem;
+		line-height: 1.4;
+	}
+
+	.grid-card__text {
+		margin: 0;
+		font-size: 0.95rem;
+		line-height: 1.55;
+	}
+
+	.grid-card__action :global(.cms-button) {
+		margin: 0;
+	}
+
+	.grid-card__media {
+		display: block;
+		overflow: hidden;
+		border-radius: var(--radius-image, 0px);
+		aspect-ratio: 16 / 9;
+		background: var(--color-surface);
+		flex-shrink: 0;
+	}
+
+	.grid-card__image {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.grid-card--image-bottom-cover .grid-card__layout,
+	.grid-card--image-bottom-bleed .grid-card__layout {
+		flex-direction: column-reverse;
+	}
+
+	.grid-card--image-top-bleed {
+		padding-top: 0;
+	}
+
+	.grid-card--image-top-bleed .grid-card__media {
+		margin: 0 -1.15rem;
+		width: calc(100% + 2.3rem);
+		max-width: none;
+		border-radius: 0;
+	}
+
+	.grid-card--image-bottom-bleed {
+		padding-bottom: 0;
+	}
+
+	.grid-card--image-bottom-bleed .grid-card__media {
+		margin: 0 -1.15rem;
+		width: calc(100% + 2.3rem);
+		max-width: none;
+		border-radius: 0;
+	}
+
+	.grid-card--image-left-cover .grid-card__layout,
+	.grid-card--image-left-bleed .grid-card__layout,
+	.grid-card--image-right-cover .grid-card__layout,
+	.grid-card--image-right-bleed .grid-card__layout {
+		flex-direction: row;
+		align-items: stretch;
+	}
+
+	.grid-card--image-right-cover .grid-card__layout,
+	.grid-card--image-right-bleed .grid-card__layout {
+		flex-direction: row-reverse;
+	}
+
+	.grid-card--image-left-cover .grid-card__media,
+	.grid-card--image-left-bleed .grid-card__media,
+	.grid-card--image-right-cover .grid-card__media,
+	.grid-card--image-right-bleed .grid-card__media {
+		width: 38%;
+		aspect-ratio: 1 / 1;
+	}
+
+	.grid-card--image-left-bleed {
+		padding-left: 0;
+	}
+
+	.grid-card--image-left-bleed .grid-card__media {
+		margin: -1.1rem 0 -1.1rem 0;
+		border-radius: 0;
+		align-self: stretch;
+		height: auto;
+		min-height: 100%;
+		aspect-ratio: auto;
+	}
+
+	.grid-card--image-right-bleed {
+		padding-right: 0;
+	}
+
+	.grid-card--image-right-bleed .grid-card__media {
+		margin: -1.1rem 0 -1.1rem 0;
+		border-radius: 0;
+		align-self: stretch;
+		height: auto;
+		min-height: 100%;
+		aspect-ratio: auto;
+	}
+
+	@media (max-width: 679px) {
+		.grid-card--image-left-cover .grid-card__layout,
+		.grid-card--image-left-bleed .grid-card__layout,
+		.grid-card--image-right-cover .grid-card__layout,
+		.grid-card--image-right-bleed .grid-card__layout {
+			flex-direction: column;
+		}
+
+		.grid-card--image-left-cover .grid-card__media,
+		.grid-card--image-left-bleed .grid-card__media,
+		.grid-card--image-right-cover .grid-card__media,
+		.grid-card--image-right-bleed .grid-card__media {
+			width: 100%;
+			aspect-ratio: 16 / 9;
+			margin: 0;
+			height: auto;
+			min-height: 0;
+		}
+
+		.grid-card--image-left-bleed,
+		.grid-card--image-right-bleed {
+			padding-left: 1.15rem;
+			padding-right: 1.15rem;
+			padding-top: 0;
+		}
+
+		.grid-card--image-left-bleed .grid-card__media,
+		.grid-card--image-right-bleed .grid-card__media {
+			margin: 0 -1.15rem;
+			width: calc(100% + 2.3rem);
+		}
+	}
+</style>

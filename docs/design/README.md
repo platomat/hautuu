@@ -5,8 +5,8 @@ Wie die Website **aussehen und wirken** soll. Umsetzung in CSS/Astro folgt diese
 ## Logo
 
 - **Default:** `/assets/logo-mark.svg`, wenn CMS-Logos leer
-- **CMS:** Einstellungen → General → **Logos** (`header` / `headerSticky` / `footer`) aus der Mediathek; Darstellung wie in der Datei (`LogoMark.astro`, #79), keine CSS-Umfärbung oder Hover-Skalierung
-- **Wortmarke:** aus CMS **Einstellungen → General → Website title** (`settings/general.json`), neben dem Mark im Header
+- **CMS:** Einstellungen → Allgemein → **Logos** (`header` / `headerSticky` / `footer`) aus der Mediathek; Darstellung wie in der Datei (`LogoMark.astro`, #79), keine CSS-Umfärbung oder Hover-Skalierung
+- **Wortmarke:** aus CMS **Einstellungen → Allgemein → Website title** (`settings/general.json`), neben dem Mark im Header
 - **Footer-Copyright:** CMS General → Footer copyright (`startYear` / `claim` / `separator` / `showCenterLogo`); Mitte bei `showCenterLogo` an und gesetztem `githubRepo` GitHub-Icon, sonst Site-Logo → Startseite; `showCenterLogo` aus = leere Mitte
 - **Footer-Brand / Copyright:** CMS Content → Footer → Brand (ohne oberen Rand, Verlauf) und Copyright-Zeile (`contentWidth`, `borderWidth` full/shell); Header `contentWidth` ([#81](https://github.com/platomat/hautoo/issues/81))
 - **Inhalt:** Content-Komponente `{{logo variant="header" width="120" unit="px" align="center"}}`
@@ -190,7 +190,7 @@ Artikel: Kategorien stehen im Hero unter der Beschreibung; Tags per `tagPlacemen
 
 ### Inhaltsverzeichnis (TOC)
 
-Globale Defaults unter **Einstellungen → Content → TOC** (Seiten / Artikel: an/aus, Ebenen, Titel). Einzelne Einträge überschreiben mit dem Objekt `toc` (`show`, `levels`, `title`; Feld leer = global).
+Globale Defaults unter **Einstellungen → Inhalt → TOC** (Seiten / Artikel: an/aus, Ebenen, Titel). Einzelne Einträge überschreiben mit dem Objekt `toc` (`show`, `levels`, `title`; Feld leer = global).
 
 ### Inhaltsbreite
 
@@ -250,6 +250,7 @@ Beliebig kombinieren, statt Flex-CSS in jeder Komponente neu zu schreiben:
 | `.spacer` | Vertikaler Leerraum (`Spacer.astro` / CMS `{{spacer height}}`; Default 32 px, Max. 600) |
 | `.cms-button` | CMS-Button (`CmsButton.astro` / `{{button label href …}}`; solid/outline, Palette wie Trennlinie, Ausrichtung inkl. volle Breite) |
 | `.cms-button-group` | Button-Gruppe (`CmsButtonGroup.astro` / `{{button-group items …}}`; Layout row / row-nowrap / stack-mobile / stack; Align left/center/right; optional `--full-mobile` unter 680px; nutzt `.cms-button__link`) |
+| `.grid-cards` / `.grid-card` | Karten-Grid (`CmsGridCards.astro` / `{{grid-cards …}}`; Spalten Desktop/Tablet/Mobile; optional Stretch der letzten Karte) |
 | `.article-list` | Artikelliste (Titel, Summary, Datum) |
 
 Beispiel: `class="flex-row flex-between stack-on-mobile center-on-mobile"`

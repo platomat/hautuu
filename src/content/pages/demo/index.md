@@ -105,6 +105,12 @@ Mit voller Breite auf Mobile (`fullWidthMobile="true"`):
 
 {{button-group items="Primär|/features/|solid|action|_self||Sekundär|/faq/|outline|action|_self" fullWidthMobile="true"}}
 
+### Karten-Grid
+
+Drei Spalten Desktop, Stretch der allein stehenden vierten Karte:
+
+{{grid-cards stretchLast="true" cards="%5B%7B%22title%22%3A%22Astro%22%2C%22subtitle%22%3A%22Static%22%2C%22text%22%3A%22Schnelle%20Seiten%20ohne%20Server.%22%2C%22buttonLabel%22%3A%22Features%22%2C%22buttonHref%22%3A%22%2Ffeatures%2F%22%2C%22borderColor%22%3A%22border%22%2C%22borderWidth%22%3A1%2C%22borderRadius%22%3A6%2C%22bgColor%22%3A%22surface%22%2C%22alignX%22%3A%22left%22%2C%22alignY%22%3A%22top%22%2C%22imageStyle%22%3A%22top-cover%22%7D%2C%7B%22title%22%3A%22Sveltia%22%2C%22subtitle%22%3A%22CMS%22%2C%22text%22%3A%22Inhalte%20im%20Browser%20pflegen.%22%2C%22buttonLabel%22%3A%22FAQ%22%2C%22buttonHref%22%3A%22%2Ffaq%2F%22%2C%22borderColor%22%3A%22border%22%2C%22borderWidth%22%3A1%2C%22borderRadius%22%3A6%2C%22bgColor%22%3A%22surface%22%2C%22alignX%22%3A%22left%22%2C%22alignY%22%3A%22top%22%2C%22imageStyle%22%3A%22top-cover%22%7D%2C%7B%22title%22%3A%22Cloudflare%22%2C%22subtitle%22%3A%22Hosting%22%2C%22text%22%3A%22Deploy%20aus%20Git.%22%2C%22buttonLabel%22%3A%22Hosting%22%2C%22buttonHref%22%3A%22%2Ffaq%2F%22%2C%22borderColor%22%3A%22border%22%2C%22borderWidth%22%3A1%2C%22borderRadius%22%3A6%2C%22bgColor%22%3A%22surface%22%2C%22alignX%22%3A%22left%22%2C%22alignY%22%3A%22top%22%2C%22imageStyle%22%3A%22top-cover%22%7D%2C%7B%22title%22%3A%22Cursor%22%2C%22subtitle%22%3A%22KI%22%2C%22text%22%3A%22Mit%20Agenten%20am%20Repo%20arbeiten.%22%2C%22buttonLabel%22%3A%22Artikel%22%2C%22buttonHref%22%3A%22%2Fartikel%2F%22%2C%22borderColor%22%3A%22action%22%2C%22borderWidth%22%3A2%2C%22borderRadius%22%3A8%2C%22bgColor%22%3A%22action-muted%22%2C%22alignX%22%3A%22center%22%2C%22alignY%22%3A%22center%22%2C%22imageStyle%22%3A%22top-cover%22%7D%5D"}}
+
 ## Logo
 
 {{logo variant="header" width="120" unit="px" align="left"}}

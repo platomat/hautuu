@@ -6,7 +6,7 @@ import { MAINTENANCE_PREVIEW_PATH } from "../lib/maintenance";
  */
 ---
 
-<div class="maintenance-dev-banner" role="status">
+<div class="maintenance-dev-banner" role="status" data-maintenance-dev-banner>
 	<strong>Wartungsmodus an</strong>
 	<span>
 		Online sehen Besucher nur die Wartungsseite, nicht den normalen Inhalt.
@@ -21,11 +21,38 @@ import { MAINTENANCE_PREVIEW_PATH } from "../lib/maintenance";
 	</a>
 </div>
 
+{/* Keep sticky header below this bar (`--maintenance-dev-banner-h`). */}
+<script>
+	function syncMaintenanceBannerHeight() {
+		const el = document.querySelector("[data-maintenance-dev-banner]");
+		if (!(el instanceof HTMLElement)) {
+			document.documentElement.style.removeProperty(
+				"--maintenance-dev-banner-h",
+			);
+			return;
+		}
+		document.documentElement.style.setProperty(
+			"--maintenance-dev-banner-h",
+			`${el.offsetHeight}px`,
+		);
+	}
+
+	syncMaintenanceBannerHeight();
+	window.addEventListener("resize", syncMaintenanceBannerHeight);
+	if (typeof ResizeObserver !== "undefined") {
+		const el = document.querySelector("[data-maintenance-dev-banner]");
+		if (el) {
+			new ResizeObserver(syncMaintenanceBannerHeight).observe(el);
+		}
+	}
+</script>
+
 <style>
 	.maintenance-dev-banner {
 		position: sticky;
 		top: 0;
-		z-index: 40;
+		/* Above sticky header (z-index 20) so the bar stays visible. */
+		z-index: 45;
 		display: flex;
 		flex-wrap: wrap;
 		align-items: baseline;

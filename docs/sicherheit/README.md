@@ -29,7 +29,7 @@ Die Domain `hautoo.storyofai.net` ist **kein Secret**. Sie darf in Doku und Code
 
 Die Adresse **nicht** fest in Markdown committen (öffentliches Repo = Scraping auf GitHub). Einbindung immer über `{{contact-email}}` (Spam-Schutz: `[at]` im Text, `mailto:` erst bei Klick/Focus).
 
-**Priorität beim Build:** CMS **Einstellungen → General → Contact email** (`settings/general.json`), falls gesetzt; sonst Build-Variable `CONTACT_EMAIL`.
+**Priorität beim Build:** CMS **Einstellungen → Allgemein → Contact email** (`settings/general.json`), falls gesetzt; sonst Build-Variable `CONTACT_EMAIL`.
 
 | Quelle | Wann nutzen |
 | --- | --- |

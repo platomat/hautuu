@@ -36,21 +36,35 @@ html {
  * Use Ruhehöhe (min) so the taller rest bar never clips; compact sticky gets a bit more gap.
  * Only when sticky is on for that breakpoint (:has).
  */
+/* Approx. until MaintenanceDevBanner measures exact height. */
+html:has([data-maintenance-dev-banner]) {
+	--maintenance-dev-banner-h: 2.75rem;
+}
+
 @media (min-width: 1024px) {
 	html:has(.site-header--sticky-desktop) {
-		scroll-padding-top: calc(var(--header-min-h-desktop, 64px) + 0.75rem);
+		scroll-padding-top: calc(
+			var(--maintenance-dev-banner-h, 0px) + var(--header-min-h-desktop, 64px) +
+				0.75rem
+		);
 	}
 }
 
 @media (max-width: 1023px) and (min-width: 680px) {
 	html:has(.site-header--sticky-tablet) {
-		scroll-padding-top: calc(var(--header-min-h-tablet, 64px) + 0.75rem);
+		scroll-padding-top: calc(
+			var(--maintenance-dev-banner-h, 0px) + var(--header-min-h-tablet, 64px) +
+				0.75rem
+		);
 	}
 }
 
 @media (max-width: 679px) {
 	html:has(.site-header--sticky-mobile) {
-		scroll-padding-top: calc(var(--header-min-h-mobile, 56px) + 0.75rem);
+		scroll-padding-top: calc(
+			var(--maintenance-dev-banner-h, 0px) + var(--header-min-h-mobile, 56px) +
+				0.75rem
+		);
 	}
 }
 

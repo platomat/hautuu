@@ -179,7 +179,7 @@ collections:
         widget: object
         collapsed: true
         required: false
-        hint: "Nur setzen zum Überschreiben von Einstellungen → Content → TOC. Unberührt = nicht in der YAML."
+        hint: "Nur setzen zum Überschreiben von Einstellungen → Inhalt → TOC. Unberührt = nicht in der YAML."
         fields:
           - name: show
             label: Anzeigen
@@ -269,7 +269,7 @@ collections:
       - name: body
         label: Inhalt
         widget: markdown
-        hint: "Kein H1: Titel kommt aus dem Hero. Blöcke „Artikel-Listing“, „Kategorie-Listing“, „Tag-Listing“, „Tagwolke“, „Autoren-Listing“, „Autor Social-Links“, „Glossar-Listing“, „Baustein“, „Button“, „Button-Gruppe“, „Trennlinie“, „Abstandshalter“, „Kontakt-E-Mail“, „Video“, „Video-Freischaltung widerrufen“ und „Repo-Dokument“ über die Toolbar einfügen (wie Bilder)."
+        hint: "Kein H1: Titel kommt aus dem Hero. Blöcke „Artikel-Listing“, „Kategorie-Listing“, „Tag-Listing“, „Tagwolke“, „Autoren-Listing“, „Autor Social-Links“, „Glossar-Listing“, „Baustein“, „Button“, „Button-Gruppe“, „Karten-Grid“, „Trennlinie“, „Abstandshalter“, „Kontakt-E-Mail“, „Video“, „Video-Freischaltung widerrufen“ und „Repo-Dokument“ über die Toolbar einfügen (wie Bilder)."
         pattern:
           - "/^(?![\\s\\S]*(^|\\n)#(?!#)\\s)/"
           - "Keine H1 (# …) im Inhalt. Die Überschrift kommt aus dem Hero (Feld Titel)."
@@ -286,6 +286,7 @@ collections:
           - glossar-listing
           - button
           - button-group
+          - grid-cards
           - separator
           - spacer
           - contact-email
@@ -514,7 +515,7 @@ collections:
       - name: body
         label: Inhalt
         widget: markdown
-        hint: "Kein H1: Titel kommt aus dem Hero. Blöcke „Artikel-Listing“, „Kategorie-Listing“, „Tag-Listing“, „Tagwolke“, „Autoren-Listing“, „Autor Social-Links“, „Glossar-Listing“, „Baustein“, „Button“, „Button-Gruppe“, „Trennlinie“, „Abstandshalter“, „Kontakt-E-Mail“, „Video“, „Video-Freischaltung widerrufen“ und „Repo-Dokument“ über die Toolbar einfügen (wie Bilder)."
+        hint: "Kein H1: Titel kommt aus dem Hero. Blöcke „Artikel-Listing“, „Kategorie-Listing“, „Tag-Listing“, „Tagwolke“, „Autoren-Listing“, „Autor Social-Links“, „Glossar-Listing“, „Baustein“, „Button“, „Button-Gruppe“, „Karten-Grid“, „Trennlinie“, „Abstandshalter“, „Kontakt-E-Mail“, „Video“, „Video-Freischaltung widerrufen“ und „Repo-Dokument“ über die Toolbar einfügen (wie Bilder)."
         pattern:
           - "/^(?![\\s\\S]*(^|\\n)#(?!#)\\s)/"
           - "Keine H1 (# …) im Inhalt. Die Überschrift kommt aus dem Hero (Feld Titel)."
@@ -531,6 +532,7 @@ collections:
           - glossar-listing
           - button
           - button-group
+          - grid-cards
           - separator
           - spacer
           - contact-email
@@ -701,6 +703,7 @@ collections:
           - glossar-listing
           - button
           - button-group
+          - grid-cards
           - separator
           - spacer
           - contact-email
@@ -808,6 +811,7 @@ collections:
           - glossar-listing
           - button
           - button-group
+          - grid-cards
           - separator
           - spacer
           - contact-email
@@ -972,7 +976,7 @@ collections:
     delete: false
     files:
       - name: general
-        label: General
+        label: Allgemein
         file: src/content/settings/general.json
         format: json
         fields:
@@ -1899,7 +1903,7 @@ collections:
                 hint: "Video-Embed und Member-Video (16:9-Box inkl. Facade)."
 
       - name: content
-        label: Content
+        label: Inhalt
         file: src/content/settings/content.json
         format: json
         fields:

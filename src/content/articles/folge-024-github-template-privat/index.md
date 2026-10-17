@@ -62,7 +62,7 @@ hautoo bringt unter der [MIT-Lizenz](/glossar/mit-lizenz/) mitgelieferte Lern-In
 
 Footer-Menüs (`footer`, `footer-legal`) genauso prüfen. Bausteine wie Kontaktanschrift kannst du behalten und anpassen ([Folge 020](/artikel/folge-020-bausteine-fork/)).
 
-Titel, Logos und Texte stehen schon viel im CMS unter **Einstellungen** → **General** ([Folge 023](/artikel/folge-023-neue-features-demo-cms/)). **Kontakt-E-Mail** nicht ins öffentliche Repo committen: [Umgebungsvariable](/glossar/env/) `CONTACT_EMAIL` oder leer lassen ([Folge 019](/artikel/folge-019-impressum-komponenten/)).
+Titel, Logos und Texte stehen schon viel im CMS unter **Einstellungen** → **Allgemein** ([Folge 023](/artikel/folge-023-neue-features-demo-cms/)). **Kontakt-E-Mail** nicht ins öffentliche Repo committen: [Umgebungsvariable](/glossar/env/) `CONTACT_EMAIL` oder leer lassen ([Folge 019](/artikel/folge-019-impressum-komponenten/)).
 
 ## Lokal arbeiten und CMS testen
 
@@ -71,7 +71,7 @@ Titel, Logos und Texte stehen schon viel im CMS unter **Einstellungen** → **Ge
 3. **Sveltia** unter `/admin/`: Browser **Chromium** oder **Chrome** (Firefox nutzt eine andere Engine und passt oft nicht zum lokalen CMS, siehe [Folge 013](/artikel/folge-013-sveltia-pat/)).
 4. Beim Login [**Lokales Repository**](/glossar/lokales-repository/) (local repository) wählen und den Projektordner angeben, wenn danach gefragt wird.
 
-So kannst du z. B. unter **Einstellungen** → **Design** → **Content** die **Avatar**-Form von rund auf eckig stellen, Texte ändern, **Speichern** → [Commit](/glossar/commit/) landet in [Git](/glossar/git/), nach [Push](/glossar/push/) baut [Cloudflare Pages](/glossar/cloudflare-pages/) ([Folge 011](/artikel/folge-011-cloudflare-setup/)). Bis der Worker für dein neues Repo steht, ist lokales Ändern der schnellere Weg.
+So kannst du z. B. unter **Einstellungen** → **Inhalt** → **Autoren** die **Avatar**-Form von rund auf eckig stellen, Texte ändern, **Speichern** → [Commit](/glossar/commit/) landet in [Git](/glossar/git/), nach [Push](/glossar/push/) baut [Cloudflare Pages](/glossar/cloudflare-pages/) ([Folge 011](/artikel/folge-011-cloudflare-setup/)). Bis der Worker für dein neues Repo steht, ist lokales Ändern der schnellere Weg.
 
 ## Kurz merken
 

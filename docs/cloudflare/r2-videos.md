@@ -17,7 +17,7 @@ Astro VideoEmbed → <video src="https://media…/videos/folge-001.mp4">
 | Was | Wo |
 | --- | --- |
 | Bucket / Upload | Cloudflare Dashboard → R2 |
-| Basis-URL im CMS | **Konfiguration → Content → Medien → Video-Basis-URL** (`content.media.videoBaseUrl`) |
+| Basis-URL im CMS | **Konfiguration → Inhalt → Medien → Video-Basis-URL** (`content.media.videoBaseUrl`) |
 | Einbinden | Toolbar **Video**, Anbieter **Datei**, oder Hero-Felder am Artikel |
 | Komponente | `src/components/VideoEmbed.astro` (gemeinsam mit YT/Vimeo) |
 | Resolve | `resolveFileVideoSrc` in `src/lib/video.ts` |
@@ -54,7 +54,7 @@ Empfohlen: eigene Subdomain, z. B. `media.hautoo.storyofai.net` oder `media.st
 
 ## Schritt 3: Basis-URL in der Site-Config
 
-CMS: **Konfiguration → Content → Medien → Video-Basis-URL**
+CMS: **Konfiguration → Inhalt → Medien → Video-Basis-URL**
 
 Wert inkl. Pfad und idealerweise Slash am Ende:
 

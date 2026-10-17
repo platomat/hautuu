@@ -521,7 +521,7 @@ Der sichtbare **Seitenkopf** mit Titel, optional Brotkrumen, Tags oder Autoren. 
 
 ### Was ist ein Favicon?
 
-Das **kleine Tab-Icon** im Browser. Unter **Einstellungen** → **General** → **Favicons**, optional hell und dunkel. [Glossar Favicon](/glossar/favicon/), [Folge 023](/artikel/folge-023-neue-features-demo-cms/).
+Das **kleine Tab-Icon** im Browser. Unter **Einstellungen** → **Allgemein** → **Favicons**, optional hell und dunkel. [Glossar Favicon](/glossar/favicon/), [Folge 023](/artikel/folge-023-neue-features-demo-cms/).
 
 ### Was bedeutet sticky beim Header?
 
@@ -529,7 +529,7 @@ Der **Header bleibt beim Scrollen oben** (sticky), oft mit schmalerer **Sticky H
 
 ### Was ist das Inhaltsverzeichnis (TOC)?
 
-Sprungliste der **Überschriften** im Artikel oder auf der Seite. **Einstellungen** → **Content**; pro Eintrag **TOC überschreiben**. [Glossar Inhaltsverzeichnis](/glossar/inhaltsverzeichnis/), [Folge 023](/artikel/folge-023-neue-features-demo-cms/).
+Sprungliste der **Überschriften** im Artikel oder auf der Seite. **Einstellungen** → **Inhalt**; pro Eintrag **TOC überschreiben**. [Glossar Inhaltsverzeichnis](/glossar/inhaltsverzeichnis/), [Folge 023](/artikel/folge-023-neue-features-demo-cms/).
 
 ### Warum muss ich YouTube-Videos erst freischalten?
 

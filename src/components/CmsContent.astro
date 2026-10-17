@@ -5,6 +5,7 @@ import AuthorSocialLinks from "./AuthorSocialLinks.astro";
 import CategoryListing from "./CategoryListing.astro";
 import CmsButton from "./CmsButton.astro";
 import CmsButtonGroup from "./CmsButtonGroup.astro";
+import CmsGridCards from "./CmsGridCards.astro";
 import CmsLogo from "./CmsLogo.astro";
 import CmsContactEmailFlow from "./CmsContactEmailFlow.astro";
 import ContactEmail from "./ContactEmail.astro";
@@ -149,6 +150,18 @@ const segments = await buildContentSegments(body);
 					layout={segment.props.layout}
 					align={segment.props.align}
 					fullWidthMobile={segment.props.fullWidthMobile}
+				/>
+			);
+		}
+		if (segment.type === "grid-cards") {
+			return (
+				<CmsGridCards
+					colsDesktop={segment.props.colsDesktop}
+					colsTablet={segment.props.colsTablet}
+					colsMobile={segment.props.colsMobile}
+					gap={segment.props.gap}
+					stretchLast={segment.props.stretchLast}
+					cards={segment.props.cards}
 				/>
 			);
 		}

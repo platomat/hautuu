@@ -239,7 +239,8 @@ const headerStyle = [
 	@media (min-width: 1024px) {
 		.site-header.site-header--sticky-desktop {
 			position: sticky;
-			top: 0;
+			/* Offset when Wartungsmodus-Banner sticky is oben (dev). */
+			top: var(--maintenance-dev-banner-h, 0px);
 		}
 
 		/* Explicit px heights so Ruhe → sticky animates (auto → px does not). */
@@ -257,7 +258,7 @@ const headerStyle = [
 	@media (max-width: 1023px) and (min-width: 680px) {
 		.site-header.site-header--sticky-tablet {
 			position: sticky;
-			top: 0;
+			top: var(--maintenance-dev-banner-h, 0px);
 		}
 
 		.site-header.site-header--sticky-tablet .site-header__inner {
@@ -274,7 +275,7 @@ const headerStyle = [
 	@media (max-width: 679px) {
 		.site-header.site-header--sticky-mobile {
 			position: sticky;
-			top: 0;
+			top: var(--maintenance-dev-banner-h, 0px);
 		}
 
 		.site-header.site-header--sticky-mobile .site-header__inner {

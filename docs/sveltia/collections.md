@@ -6,7 +6,7 @@ Zurück zur [Sveltia-Übersicht](./README.md). Shared Field-Partials: [CMS Field
 
 | Collection | Schlüssel | Status |
 | --- | --- | --- |
-| Einstellungen | `settings` | umgesetzt (#45), JSON-Dateien (General / Design / Content) |
+| Einstellungen | `settings` | umgesetzt (#45), JSON-Dateien (Allgemein / Wartungsmodus / Design / Inhalt) |
 | Seiten | `pages` | umgesetzt (#3) |
 | Artikel | `articles` | umgesetzt (#4) |
 | Kategorien | `categories` | umgesetzt (#64) |
@@ -37,10 +37,10 @@ Globale Site-Einstellungen als **JSON-Dateien** (wie cdr-legal), kein Markdown-B
 | --- | --- |
 | Dateien | `src/content/settings/general.json`, `design.json`, `content.json`, `maintenance.json` |
 | Schema | `src/cms/fields/site-config.ts` |
-| Sveltia | File-Collection `settings` → Einträge **General**, **Wartungsmodus**, **Design**, **Content** |
+| Sveltia | File-Collection `settings` → Einträge **Allgemein**, **Wartungsmodus**, **Design**, **Inhalt** |
 | Lesen | Direkter JSON-Import in `src/lib/site-config.ts` (keine Astro-Content-Collection) |
 
-### Einstellungen → General
+### Einstellungen → Allgemein
 
 | Feld | Bedeutung |
 | --- | --- |
@@ -116,9 +116,9 @@ Katalog: Fontsource in `src/cms/fields/site-fonts.json`; Merge mit Custom aus `s
 
 Umsetzung in `SiteHeader.astro` (Klassen `site-header--logo-*` + Custom Properties).
 
-### Einstellungen → Content → Footer → Brand (#81)
+### Einstellungen → Inhalt → Footer → Brand (#81)
 
-Brand-Streifen oberhalb der Copyright-Zeile (Copyright bleibt unter General → Footer copyright).
+Brand-Streifen oberhalb der Copyright-Zeile (Copyright bleibt unter Allgemein → Footer copyright).
 
 | Feld | Bedeutung | Default |
 | --- | --- | --- |
@@ -151,7 +151,7 @@ Pro Collection eigene Defaults (Reihenfolge wie in der CMS-Leiste: Seiten, Artik
 
 Lokale Überschreibung an **Seiten** und **Artikeln**: Objekt `hero` mit `textAlign`, `showBreadcrumbs`, `borderBottom` (`none`/`line`/`logo`/`favicon`), optional `borderMarkAlign` / `borderMarkSize`. Overrides im CMS als Select „Wie global“ (`null`) bzw. Werte; unberührt bleibt das Feld dank `omit_empty_optional_fields` aus der YAML. Umsetzung: `PageHero.astro` (Separator-Komponente), `src/lib/breadcrumbs.ts`.
 
-### Einstellungen → Content → TOC (#51)
+### Einstellungen → Inhalt → TOC (#51)
 
 | Feld | Bedeutung |
 | --- | --- |
