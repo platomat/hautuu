@@ -104,7 +104,7 @@ export function sanitizeAttributionHtml(input: string): string {
 
 /**
  * Soft HTML for short CMS blurbs (site description, footer brand, footer claim).
- * Allows `<a href>`, `<b>`, `<strong>`, `<em>`, `<i>`, `<br>`.
+ * Allows `<a href>` (http(s) or same-site `/…` paths), `<b>`, `<strong>`, `<em>`, `<i>`, `<br>`.
  */
 export function sanitizeSoftHtml(input: string): string {
 	const re = /<a\s+([^>]*)>([\s\S]*?)<\/a>/gi;
@@ -121,6 +121,8 @@ export function sanitizeSoftHtml(input: string): string {
 			parts.push(
 				`<a href="${escapeAttr(href)}" rel="noopener noreferrer" target="_blank">${label}</a>`,
 			);
+		} else if (href && isSitePathHref(href)) {
+			parts.push(`<a href="${escapeAttr(href)}">${label}</a>`);
 		} else {
 			parts.push(label);
 		}
@@ -165,6 +167,19 @@ function isHttpUrl(value: string): boolean {
 	} catch {
 		return false;
 	}
+}
+
+/** Same-site path for soft HTML links, e.g. `/impressum/` (not `//evil`). */
+function isSitePathHref(value: string): boolean {
+	const href = value.trim();
+	if (!href.startsWith("/") || href.startsWith("//")) {
+		return false;
+	}
+	// No scheme-relative tricks or control chars in the path.
+	if (/[\s<>"'`]/.test(href) || /^(javascript|data|vbscript):/i.test(href)) {
+		return false;
+	}
+	return true;
 }
 
 function extractHrefAttr(attrs: string): string | undefined {
