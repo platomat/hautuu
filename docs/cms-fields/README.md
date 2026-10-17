@@ -104,17 +104,17 @@ Anker-IDs: `github-slugger`.
 
 **Hinweis:** YAML-Anchors gelten nur **innerhalb derselben** `config.yml`. Zod und YAML bei Feldänderungen gemeinsam pflegen.
 
-## Header-/Footer-Code (`headCode` / `footerCode`)
+## Site-Code (`siteCode.headCode` / `footerCode`)
 
 | Ebene | Ort |
 | --- | --- |
-| Global | Einstellungen → Allgemein → Site-Code (`general.siteCode.headCode` / `footerCode`) |
-| Seite | Collection `pages`, Felder „Header-Code“ / „Footer-Code“ |
-| Widget | `widget: code`, `output_code_only: true`, `default_language: html`, `allow_language_selection: false` |
-| Astro | Global aus `getSiteCodeConfig()`; Seite als Props an `BaseLayout.astro` |
-| Injection | Vor `</head>` bzw. vor `</body>` (nach Site-Footer), per `set:html`. Reihenfolge: global, dann Seite. Im Wartungsmodus aus. |
+| Global | Einstellungen → Allgemein → Site-Code (`general.siteCode`) |
+| Eintrag | Collections `pages`, `articles`, `glossar`, `authors`: Gruppe Site-Code (`&field_entry_site_code`) |
+| Widget | Objekt mit `headCode` / `footerCode` (`widget: code`, `output_code_only: true`) |
+| Astro | Global: `getSiteCodeConfig()`; Eintrag: `resolveEntrySiteCode()` → Props an `BaseLayout.astro` |
+| Injection | Vor `</head>` bzw. vor `</body>` (nach Site-Footer), per `set:html`. Reihenfolge: global, dann Eintrag. Im Wartungsmodus aus. |
 
-Optional. HTML-Fragmente: `<style>` und `<script>` dürfen im selben Feld stehen. Sprachauswahl ist ausgeblendet (Highlighting fest HTML). Nur für vertrauenswürdige Redaktion (kein Sanitizing).
+Optional. HTML-Fragmente: `<style>` und `<script>` dürfen im selben Feld stehen. Sprachauswahl ist ausgeblendet (Highlighting fest HTML). Nur für vertrauenswürdige Redaktion (kein Sanitizing). Legacy flache `headCode`/`footerCode` am Eintrag werden beim Build in `siteCode` gehoben.
 
 ## Markdown-Inhalt: kein H1
 

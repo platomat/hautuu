@@ -57,6 +57,9 @@ field_defaults:
 # Last change (all collections; SEO meta only for now)
 # - *field_modified_date
 
+# Per-entry HTML snippets (pages, articles, glossar, authors)
+# - *field_entry_site_code
+
 collections:
 
   - name: pages
@@ -398,22 +401,30 @@ collections:
             default: large
             required: false
             hint: "Maximale Bildgröße in der Google-Suchvorschau."
-      - name: headCode
-        label: Header-Code
-        widget: code
+      - &field_entry_site_code
+        name: siteCode
+        label: Site-Code
+        widget: object
+        collapsed: true
         required: false
-        output_code_only: true
-        default_language: html
-        allow_language_selection: false
-        hint: "Optional. HTML-Fragmente vor dem schließenden head-Tag, nur diese Seite (nach globalem Site-Code unter Einstellungen → Allgemein). Style/script gemischt möglich. Nur für vertrauenswürdige Redaktion."
-      - name: footerCode
-        label: Footer-Code
-        widget: code
-        required: false
-        output_code_only: true
-        default_language: html
-        allow_language_selection: false
-        hint: "Optional. HTML-Fragmente vor dem schließenden body-Tag, nur diese Seite (nach globalem Site-Code). Nur für vertrauenswürdige Redaktion."
+        hint: "HTML-Fragmente nur für diesen Eintrag (nach globalem Site-Code unter Einstellungen → Allgemein). Nur für vertrauenswürdige Redaktion."
+        fields:
+          - name: headCode
+            label: Header-Code
+            widget: code
+            required: false
+            output_code_only: true
+            default_language: html
+            allow_language_selection: false
+            hint: "Optional. Vor dem schließenden head-Tag (nach globalem Site-Code). Style/script gemischt möglich."
+          - name: footerCode
+            label: Footer-Code
+            widget: code
+            required: false
+            output_code_only: true
+            default_language: html
+            allow_language_selection: false
+            hint: "Optional. Vor dem schließenden body-Tag (nach globalem Site-Code und Site-Footer)."
 
   - name: articles
     label: Artikel
@@ -542,6 +553,7 @@ collections:
           - video-consent-reset
           - repodoc
       - *field_seo
+      - *field_entry_site_code
 
 
   - name: categories
@@ -713,6 +725,7 @@ collections:
           - video-consent-reset
           - repodoc
       - *field_seo
+      - *field_entry_site_code
 
   - name: glossar
     label: Glossar
@@ -767,6 +780,7 @@ collections:
           - "Keine H1 (# …) im Inhalt. Der Begriffstitel kommt aus dem Hero."
 
       - *field_seo
+      - *field_entry_site_code
 
   - name: blocks
     label: Bausteine
@@ -1093,7 +1107,7 @@ collections:
             label: Site-Code
             widget: object
             collapsed: true
-            hint: "Globale HTML-Fragmente für alle Seiten (wie Header-/Footer-Code an einzelnen Seiten). Global zuerst, Seiten-Code danach. Nur für vertrauenswürdige Redaktion."
+            hint: "Globale HTML-Fragmente für alle Seiten (wie Site-Code an einzelnen Einträgen). Global zuerst, Eintrags-Code danach. Nur für vertrauenswürdige Redaktion."
             fields:
               - name: headCode
                 label: Header-Code
@@ -1102,7 +1116,7 @@ collections:
                 output_code_only: true
                 default_language: html
                 allow_language_selection: false
-                hint: "Optional. Vor dem schließenden head-Tag auf jeder Seite (style/script gemischt möglich). Seiten können zusätzlichen Header-Code setzen."
+                hint: "Optional. Vor dem schließenden head-Tag auf jeder Seite (style/script gemischt möglich). Einträge können zusätzlichen Header-Code setzen."
               - name: footerCode
                 label: Footer-Code
                 widget: code
@@ -1110,7 +1124,7 @@ collections:
                 output_code_only: true
                 default_language: html
                 allow_language_selection: false
-                hint: "Optional. Vor dem schließenden body-Tag auf jeder Seite (nach dem Site-Footer). Seiten können zusätzlichen Footer-Code setzen."
+                hint: "Optional. Vor dem schließenden body-Tag auf jeder Seite (nach dem Site-Footer). Einträge können zusätzlichen Footer-Code setzen."
       - name: maintenance
         label: Wartungsmodus
         file: src/content/settings/maintenance.json

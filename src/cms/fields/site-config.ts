@@ -497,12 +497,12 @@ export type SiteFaviconsConfig = z.infer<typeof siteFaviconsConfigSchema>;
 
 /**
  * Global head/footer HTML (CMS Allgemein → Site-Code).
- * Same semantics as page `headCode` / `footerCode`; injected site-wide in BaseLayout.
+ * Same semantics as entry `siteCode.headCode` / `footerCode`; injected site-wide in BaseLayout.
  */
 export const siteCodeConfigSchema = z.object({
-	/** Raw HTML before `</head>` on every page (after fonts; before page headCode). */
+	/** Raw HTML before `</head>` on every page (after fonts; before entry siteCode). */
 	headCode: z.string().default(""),
-	/** Raw HTML before `</body>` on every page (after SiteFooter; before page footerCode). */
+	/** Raw HTML before `</body>` on every page (after SiteFooter; before entry siteCode). */
 	footerCode: z.string().default(""),
 });
 

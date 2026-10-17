@@ -35,7 +35,7 @@ Design → Schrift bleibt z. B. Ubuntu. Die Custom-Schrift nutzt du nur per CS
 1. Ordner anlegen, z. B. `src/fonts/custom/acme-display/` mit Transfonter-CSS + `.woff2` (optional `meta.json`).
 2. Sync ausführen: `npm run sync:fonts` (oder `dev`/`build`).  
    Ergebnis u. a.: `/fonts/acme-display/stylesheet.css` und die Font-Dateien darunter.
-3. Im CMS Head-Code setzen (Allgemein → Site-Code und/oder Seiten-`headCode`), z. B.:
+3. Im CMS Head-Code setzen (Allgemein → Site-Code und/oder Eintrag → Site-Code → Header-Code), z. B.:
 
 ```html
 <link rel="stylesheet" href="/fonts/acme-display/stylesheet.css" />

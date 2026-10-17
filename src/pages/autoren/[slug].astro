@@ -14,6 +14,7 @@ import {
 } from "../../lib/authors";
 import { buildAuthorBreadcrumbs } from "../../lib/breadcrumbs";
 import { contentWidthClass } from "../../cms/fields/content-width";
+import { resolveEntrySiteCode } from "../../cms/fields/entry-site-code";
 import { resolveCmsImage } from "../../lib/cms-image";
 import {
 	contentSpacingStyle,
@@ -77,6 +78,7 @@ if (author.data.description?.trim()) {
 if (profileUrl) personJsonLd.url = profileUrl;
 if (imageUrl) personJsonLd.image = imageUrl;
 if (sameAs.length > 0) personJsonLd.sameAs = sameAs;
+const { headCode, footerCode } = resolveEntrySiteCode(author.data);
 ---
 
 <BaseLayout
@@ -87,6 +89,8 @@ if (sameAs.length > 0) personJsonLd.sameAs = sameAs;
 	backgroundImage={backgroundImage}
 	backgroundOverlay={author.data.background?.overlay}
 	jsonLd={personJsonLd}
+	headCode={headCode}
+	footerCode={footerCode}
 >
 	<main class:list={["page", widthClass]} style={spacingStyle}>
 		<PageHero

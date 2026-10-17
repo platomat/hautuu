@@ -6,6 +6,7 @@ import PageHero from "../components/PageHero.astro";
 import ArticleSidebar from "../components/ArticleSidebar.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { contentWidthClass } from "../cms/fields/content-width";
+import { resolveEntrySiteCode } from "../cms/fields/entry-site-code";
 import { hasContentEmbeds } from "../lib/content-embeds";
 import {
 	contentSpacingStyle,
@@ -63,6 +64,7 @@ const heroProps = {
 const TableOfContents = toc.show
 	? (await import("../components/TableOfContents.astro")).default
 	: null;
+const { headCode, footerCode } = resolveEntrySiteCode(page.data);
 ---
 
 <BaseLayout
@@ -72,8 +74,8 @@ const TableOfContents = toc.show
 	modifiedDate={page.data.modifiedDate}
 	backgroundImage={backgroundImage}
 	backgroundOverlay={page.data.background?.overlay}
-	headCode={page.data.headCode}
-	footerCode={page.data.footerCode}
+	headCode={headCode}
+	footerCode={footerCode}
 >
 	<main
 		class:list={[

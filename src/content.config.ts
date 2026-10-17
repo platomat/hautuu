@@ -10,6 +10,10 @@ import {
 import { seoSchema } from "./cms/fields/seo";
 import { entryLayoutSchema } from "./cms/fields/content-width";
 import {
+	entrySiteCodeSchema,
+	preprocessEntrySiteCode,
+} from "./cms/fields/entry-site-code";
+import {
 	entryHeroSchema,
 	entryTocSchema,
 } from "./cms/fields/site-config";
@@ -40,10 +44,14 @@ function normalizeEntryLayout(raw: unknown): unknown {
 	};
 }
 
+function preprocessPageEntry(raw: unknown): unknown {
+	return preprocessEntrySiteCode(normalizeEntryLayout(raw));
+}
+
 const pages = defineCollection({
 	loader: glob({ pattern: "**/index.md", base: "./src/content/pages" }),
 	schema: z.preprocess(
-		normalizeEntryLayout,
+		preprocessPageEntry,
 		z.object({
 			title: z.string(),
 			description: z.string().optional(),
@@ -71,10 +79,8 @@ const pages = defineCollection({
 			layout: entryLayoutSchema,
 			/** Shared SEO object (same shape as Sveltia `&field_seo`). */
 			seo: seoSchema.optional(),
-			/** Raw HTML/JS/CSS injected before `</head>` (trusted CMS editors). */
-			headCode: z.string().optional(),
-			/** Raw HTML/JS/CSS injected before `</body>` (trusted CMS editors). */
-			footerCode: z.string().optional(),
+			/** Entry Site-Code (Header/Footer HTML); after global Site-Code. */
+			siteCode: entrySiteCodeSchema,
 		}),
 	),
 });
@@ -96,34 +102,39 @@ const tags = defineCollection({
 /** Article authors; profile at `/autoren/<slug>/`. Bio in frontmatter; body = free content (#85). */
 const authors = defineCollection({
 	loader: glob({ pattern: "*.md", base: "./src/content/authors" }),
-	schema: z.object({
-		title: z.string(),
-		/** Short meta / listing blurb (optional). */
-		description: z.string().optional(),
-		/** Local avatar (`/assets/…`). Preferred over Gravatar when set. */
-		avatar: cmsImagePathSchema,
-		/**
-		 * Gravatar: email or https image URL. Downloaded at build into
-		 * `src/assets/authors/gravatar/<slug>.*` (see sync-author-avatars.mjs).
-		 */
-		gravatarUrl: z.string().trim().optional(),
-		/** Profile bio (Markdown); shown under name/avatar. */
-		bio: z.string().optional(),
-		/** Web / social profile URLs (repeatable; sameAs in Person JSON-LD). */
-		socialLinks: z.array(authorSocialLinkSchema).default([]),
-		/**
-		 * When true, social links render in the hero after the description.
-		 * When false (default), no automatic list (place via `{{author-social}}`).
-		 */
-		showSocialInHero: z.boolean().default(false),
-		/**
-		 * Full-viewport background (same shape as pages/articles, #93).
-		 * Resolved via resolveCmsImage (`/assets/…` or entry-relative).
-		 */
-		background: entryBackgroundSchema,
-		modifiedDate: modifiedDateSchema,
-		seo: seoSchema.optional(),
-	}),
+	schema: z.preprocess(
+		preprocessEntrySiteCode,
+		z.object({
+			title: z.string(),
+			/** Short meta / listing blurb (optional). */
+			description: z.string().optional(),
+			/** Local avatar (`/assets/…`). Preferred over Gravatar when set. */
+			avatar: cmsImagePathSchema,
+			/**
+			 * Gravatar: email or https image URL. Downloaded at build into
+			 * `src/assets/authors/gravatar/<slug>.*` (see sync-author-avatars.mjs).
+			 */
+			gravatarUrl: z.string().trim().optional(),
+			/** Profile bio (Markdown); shown under name/avatar. */
+			bio: z.string().optional(),
+			/** Web / social profile URLs (repeatable; sameAs in Person JSON-LD). */
+			socialLinks: z.array(authorSocialLinkSchema).default([]),
+			/**
+			 * When true, social links render in the hero after the description.
+			 * When false (default), no automatic list (place via `{{author-social}}`).
+			 */
+			showSocialInHero: z.boolean().default(false),
+			/**
+			 * Full-viewport background (same shape as pages/articles, #93).
+			 * Resolved via resolveCmsImage (`/assets/…` or entry-relative).
+			 */
+			background: entryBackgroundSchema,
+			modifiedDate: modifiedDateSchema,
+			seo: seoSchema.optional(),
+			/** Entry Site-Code (Header/Footer HTML); after global Site-Code. */
+			siteCode: entrySiteCodeSchema,
+		}),
+	),
 });
 
 /** Hierarchical article categories (optional parent = another category slug). */
@@ -138,10 +149,14 @@ const categories = defineCollection({
 	}),
 });
 
+function preprocessArticleEntry(raw: unknown): unknown {
+	return preprocessEntrySiteCode(normalizeEntryLayout(raw));
+}
+
 const articles = defineCollection({
 	loader: glob({ pattern: "**/index.md", base: "./src/content/articles" }),
 	schema: z.preprocess(
-		normalizeEntryLayout,
+		preprocessArticleEntry,
 		z.object({
 			title: z.string(),
 			summary: z.string().optional(),
@@ -176,6 +191,8 @@ const articles = defineCollection({
 			 */
 			tagPlacement: z.enum(["hero", "after", "both"]).default("hero"),
 			seo: seoSchema.optional(),
+			/** Entry Site-Code (Header/Footer HTML); after global Site-Code. */
+			siteCode: entrySiteCodeSchema,
 			/**
 			 * Width + optional spacing. Omit fields = Design → Inhaltsbreite / Abstand,
 			 * or auto `wide` when the body has listing embeds.
@@ -187,17 +204,22 @@ const articles = defineCollection({
 
 const glossar = defineCollection({
 	loader: glob({ pattern: "*.md", base: "./src/content/glossar" }),
-	schema: z.object({
-		title: z.string(),
-		definition: z.string(),
-		status: entryStatusSchema,
-		publishDate: publishDateSchema,
-		modifiedDate: modifiedDateSchema,
-		relatedArticles: z.array(z.string()).default([]),
-		/** Tag slugs; same slug as glossar id is added automatically when a tag exists. */
-		relatedTags: z.array(z.string()).default([]),
-		seo: seoSchema.optional(),
-	}),
+	schema: z.preprocess(
+		preprocessEntrySiteCode,
+		z.object({
+			title: z.string(),
+			definition: z.string(),
+			status: entryStatusSchema,
+			publishDate: publishDateSchema,
+			modifiedDate: modifiedDateSchema,
+			relatedArticles: z.array(z.string()).default([]),
+			/** Tag slugs; same slug as glossar id is added automatically when a tag exists. */
+			relatedTags: z.array(z.string()).default([]),
+			seo: seoSchema.optional(),
+			/** Entry Site-Code (Header/Footer HTML); after global Site-Code. */
+			siteCode: entrySiteCodeSchema,
+		}),
+	),
 });
 
 /** Reusable CMS snippets; injected via `{{block id="slug"}}` (no own URL). */

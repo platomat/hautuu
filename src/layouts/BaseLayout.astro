@@ -47,9 +47,9 @@ interface Props {
 	modifiedDate?: Date;
 	backgroundImage?: ImageMetadata;
 	backgroundOverlay?: number;
-	/** Raw HTML before `</head>` (page CMS `headCode`; after global Site-Code). */
+	/** Raw HTML before `</head>` (entry `siteCode.headCode`; after global Site-Code). */
 	headCode?: string;
-	/** Raw HTML before `</body>` (page CMS `footerCode`; after global Site-Code). */
+	/** Raw HTML before `</body>` (entry `siteCode.footerCode`; after global Site-Code). */
 	footerCode?: string;
 	/** Optional Schema.org JSON-LD object or graph. */
 	jsonLd?: Record<string, unknown> | Record<string, unknown>[];

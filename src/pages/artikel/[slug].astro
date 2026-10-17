@@ -16,6 +16,7 @@ import {
 import { getAuthorsByIds } from "../../lib/authors";
 import { resolveCmsImage } from "../../lib/cms-image";
 import { contentWidthClass } from "../../cms/fields/content-width";
+import { resolveEntrySiteCode } from "../../cms/fields/entry-site-code";
 import { hasContentEmbeds } from "../../lib/content-embeds";
 import {
 	contentSpacingStyle,
@@ -103,6 +104,7 @@ const TableOfContents = toc.show
 const readingTimeMinutes = estimateReadingTimeMinutes(article.body);
 const readingTimeLabel = formatReadingTime(readingTimeMinutes);
 const breadcrumbs = buildArticleBreadcrumbs(article);
+const { headCode, footerCode } = resolveEntrySiteCode(article.data);
 ---
 
 <BaseLayout
@@ -114,6 +116,8 @@ const breadcrumbs = buildArticleBreadcrumbs(article);
 	modifiedDate={article.data.modifiedDate}
 	backgroundImage={backgroundImage}
 	backgroundOverlay={article.data.background?.overlay}
+	headCode={headCode}
+	footerCode={footerCode}
 >
 	<main class:list={["page", widthClass]} style={spacingStyle}>
 		<article>

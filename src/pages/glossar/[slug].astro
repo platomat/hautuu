@@ -13,6 +13,7 @@ import {
 	getGlossarRelatedTags,
 } from "../../lib/glossar";
 import { contentWidthClass } from "../../cms/fields/content-width";
+import { resolveEntrySiteCode } from "../../cms/fields/entry-site-code";
 import {
 	contentSpacingStyle,
 	resolveContentSpacing,
@@ -38,6 +39,7 @@ const spacingStyle = contentSpacingStyle(resolveContentSpacing("glossar"));
 const widthClass = contentWidthClass(
 	await resolveContentWidth("glossar", undefined, entry.body),
 );
+const { headCode, footerCode } = resolveEntrySiteCode(entry.data);
 ---
 
 <BaseLayout
@@ -45,6 +47,8 @@ const widthClass = contentWidthClass(
 	description={entry.data.definition}
 	seo={entry.data.seo}
 	modifiedDate={entry.data.modifiedDate}
+	headCode={headCode}
+	footerCode={footerCode}
 >
 	<main class:list={["page", widthClass]} style={spacingStyle}>
 		<article>
