@@ -376,9 +376,12 @@ function authorsFor(article: (typeof articles)[number]): AuthorEntry[] {
 	}
 
 	.article-listing--grid .article-listing__item {
+		/* Same tokens as .grid-card; override via Site-Code / page head. */
+		--card-pad-block: 1.1rem;
+		--card-pad-inline: 1.15rem;
 		display: flex;
 		flex-direction: column;
-		padding: 1.1rem 1.15rem;
+		padding: var(--card-pad-block) var(--card-pad-inline);
 		background: var(--color-surface-glass);
 		border: 1px solid var(--color-border);
 		border-radius: 6px;
@@ -466,8 +469,8 @@ function authorsFor(article: (typeof articles)[number]): AuthorEntry[] {
 	}
 
 	.article-listing--image-top-bleed.article-listing--grid .article-listing__media {
-		margin: 0 -1.15rem;
-		width: calc(100% + 2.3rem);
+		margin: 0 calc(-1 * var(--card-pad-inline));
+		width: calc(100% + 2 * var(--card-pad-inline));
 		max-width: none;
 		border-radius: 5px 5px 0 0;
 	}
@@ -477,8 +480,8 @@ function authorsFor(article: (typeof articles)[number]): AuthorEntry[] {
 	}
 
 	.article-listing--image-bottom-bleed.article-listing--grid .article-listing__media {
-		margin: 0 -1.15rem;
-		width: calc(100% + 2.3rem);
+		margin: 0 calc(-1 * var(--card-pad-inline));
+		width: calc(100% + 2 * var(--card-pad-inline));
 		max-width: none;
 		border-radius: 0 0 5px 5px;
 	}
@@ -548,11 +551,11 @@ function authorsFor(article: (typeof articles)[number]): AuthorEntry[] {
 	}
 
 	.article-listing--image-left-bleed.article-listing--grid .article-listing__body {
-		padding: 1.1rem 1.15rem 1.1rem 0.85rem;
+		padding: var(--card-pad-block) var(--card-pad-inline) var(--card-pad-block) 0.85rem;
 	}
 
 	.article-listing--image-right-bleed.article-listing--grid .article-listing__body {
-		padding: 1.1rem 0.85rem 1.1rem 1.15rem;
+		padding: var(--card-pad-block) 0.85rem var(--card-pad-block) var(--card-pad-inline);
 	}
 
 	@media (max-width: 679px) {
@@ -592,7 +595,7 @@ function authorsFor(article: (typeof articles)[number]): AuthorEntry[] {
 
 		.article-listing--image-left-bleed.article-listing--grid .article-listing__body,
 		.article-listing--image-right-bleed.article-listing--grid .article-listing__body {
-			padding: 0.85rem 1.15rem 1.1rem;
+			padding: 0.85rem var(--card-pad-inline) var(--card-pad-block);
 		}
 	}
 

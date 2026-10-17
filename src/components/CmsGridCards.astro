@@ -203,12 +203,15 @@ const style = [
 	}
 
 	.grid-card {
+		/* Override in Site-Code / page head, e.g. .grid-card { --card-pad-inline: 0.5rem; } */
+		--card-pad-block: 1.1rem;
+		--card-pad-inline: 1.15rem;
 		position: relative;
 		display: flex;
 		flex-direction: column;
 		min-width: 0;
 		min-height: 100%;
-		padding: 1.1rem 1.15rem;
+		padding: var(--card-pad-block) var(--card-pad-inline);
 		border: var(--gc-border-w, 1px) solid var(--gc-border, var(--color-border));
 		border-radius: var(--gc-radius, 6px);
 		background: var(--gc-bg, var(--color-surface));
@@ -334,8 +337,8 @@ const style = [
 	}
 
 	.grid-card--image-top-bleed .grid-card__media {
-		margin: 0 -1.15rem;
-		width: calc(100% + 2.3rem);
+		margin: 0 calc(-1 * var(--card-pad-inline));
+		width: calc(100% + 2 * var(--card-pad-inline));
 		max-width: none;
 		border-radius: 0;
 	}
@@ -345,8 +348,8 @@ const style = [
 	}
 
 	.grid-card--image-bottom-bleed .grid-card__media {
-		margin: 0 -1.15rem;
-		width: calc(100% + 2.3rem);
+		margin: 0 calc(-1 * var(--card-pad-inline));
+		width: calc(100% + 2 * var(--card-pad-inline));
 		max-width: none;
 		border-radius: 0;
 	}
@@ -377,7 +380,7 @@ const style = [
 	}
 
 	.grid-card--image-left-bleed .grid-card__media {
-		margin: -1.1rem 0 -1.1rem 0;
+		margin: calc(-1 * var(--card-pad-block)) 0;
 		border-radius: 0;
 		align-self: stretch;
 		height: auto;
@@ -390,7 +393,7 @@ const style = [
 	}
 
 	.grid-card--image-right-bleed .grid-card__media {
-		margin: -1.1rem 0 -1.1rem 0;
+		margin: calc(-1 * var(--card-pad-block)) 0;
 		border-radius: 0;
 		align-self: stretch;
 		height: auto;
@@ -419,15 +422,15 @@ const style = [
 
 		.grid-card--image-left-bleed,
 		.grid-card--image-right-bleed {
-			padding-left: 1.15rem;
-			padding-right: 1.15rem;
+			padding-left: var(--card-pad-inline);
+			padding-right: var(--card-pad-inline);
 			padding-top: 0;
 		}
 
 		.grid-card--image-left-bleed .grid-card__media,
 		.grid-card--image-right-bleed .grid-card__media {
-			margin: 0 -1.15rem;
-			width: calc(100% + 2.3rem);
+			margin: 0 calc(-1 * var(--card-pad-inline));
+			width: calc(100% + 2 * var(--card-pad-inline));
 		}
 	}
 </style>
