@@ -88,12 +88,12 @@ let maintenanceDescriptionHtml = "";
 if (serveMaintenance && maintenance) {
 	title = maintenance.title;
 	description = maintenanceMetaDescription(maintenance.description);
-	seoProp = {
+	seoProp = resolveSeo({
 		seo_title: maintenance.title,
 		seo_description: description,
 		// Preview URL must not be indexed; live maintenance page may be.
 		index_visibility: maintenancePreview ? "noindex" : "index",
-	};
+	});
 	ogType = "website";
 	readingTimeMinutes = undefined;
 	modifiedDate = undefined;

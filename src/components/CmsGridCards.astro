@@ -104,6 +104,8 @@ const style = [
 							`grid-card--align-y-${card.alignY}`,
 							card.imageSrc && `grid-card--image-${card.imageStyle}`,
 							card.bgImageSrc && "grid-card--has-bg-image",
+							card.background.color === "surface-glass" &&
+								"grid-card--bg-glass",
 						]}
 						style={cardStyle}
 					>
@@ -216,6 +218,18 @@ const style = [
 		border-radius: var(--gc-radius, 6px);
 		background: var(--gc-bg, var(--color-surface));
 		overflow: hidden;
+	}
+
+	.grid-card--bg-glass {
+		backdrop-filter: blur(10px);
+		-webkit-backdrop-filter: blur(10px);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.grid-card--bg-glass {
+			backdrop-filter: none;
+			-webkit-backdrop-filter: none;
+		}
 	}
 
 	.grid-card__bg {

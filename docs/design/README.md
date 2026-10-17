@@ -73,7 +73,7 @@ Redaktionell unter **Einstellungen → Design → Farbpalette** (`src/content/se
 | --- | --- | --- | --- |
 | `--color-bg` | `bg` | `#0f1412` | Seitenhintergrund |
 | `--color-surface` | `surface` | `#1a211e` | Solide UI-Flächen (Karten, Panels, Avatare, Mobile-Menü); nicht Header/Footer bei Glas |
-| `--color-surface-glass` | `surfaceGlass` (mit Alpha) | `#1a211ee6` | Header/Footer bei Alpha unter 1 (Chrome); Overlays |
+| `--color-surface-glass` | `surfaceGlass` (mit Alpha) | `#1a211ee6` | Header/Footer bei Alpha unter 1 (Chrome); wählbar bei Button/Trenner/Karten-Hintergrund |
 | `--color-chrome` | (abgeleitet) | `var(--color-surface)` | Header/Footer/Nav; bei Glas-Alpha → `surface-glass` |
 | `--color-surface-raised` | `surfaceRaised` | `#232b27` | leicht angehoben (Inline-Code, Codeblöcke, manche Boxen) |
 | `--color-border` | `border` | `#2e3833` | Linien, Trenner, Avatar-Rand |
