@@ -1,6 +1,16 @@
 import {
+	DEFAULT_BUTTON_ALIGN,
+	DEFAULT_BUTTON_COLOR,
+	DEFAULT_BUTTON_STYLE,
+	DEFAULT_BUTTON_TARGET,
 	parseEmbedFlag,
+	resolveButtonAlign,
+	resolveButtonColor,
+	resolveButtonStyle,
 	resolveButtonTarget,
+	type ButtonAlign,
+	type ButtonColor,
+	type ButtonStyle,
 	type ButtonTarget,
 } from "./button";
 import {
@@ -40,6 +50,16 @@ function resolveImageStyle(raw: unknown): GridCardImageStyle {
 	return IMAGE_STYLES.has(key) ? (key as GridCardImageStyle) : "top-cover";
 }
 
+/** Same fields as `{{button …}}` / CmsButton (nested under each grid card). */
+export type GridCardButton = {
+	label: string;
+	href: string;
+	target: ButtonTarget;
+	style: ButtonStyle;
+	color: ButtonColor;
+	align: ButtonAlign;
+};
+
 export type GridCard = {
 	borderColor: SeparatorColor;
 	/** Border width in px (0 = none). */
@@ -60,9 +80,16 @@ export type GridCard = {
 	subtitle: string;
 	/** Plain text; newlines become line breaks. */
 	text: string;
-	buttonLabel: string;
-	buttonHref: string;
-	buttonTarget: ButtonTarget;
+	button: GridCardButton;
+};
+
+export const DEFAULT_GRID_CARD_BUTTON: GridCardButton = {
+	label: "",
+	href: "",
+	target: DEFAULT_BUTTON_TARGET,
+	style: DEFAULT_BUTTON_STYLE,
+	color: DEFAULT_BUTTON_COLOR,
+	align: DEFAULT_BUTTON_ALIGN,
 };
 
 export type GridCardsEmbedProps = {
@@ -93,10 +120,45 @@ export const DEFAULT_GRID_CARD: GridCard = {
 	title: "",
 	subtitle: "",
 	text: "",
-	buttonLabel: "",
-	buttonHref: "",
-	buttonTarget: "_self",
+	button: { ...DEFAULT_GRID_CARD_BUTTON },
 };
+
+/**
+ * Nested `button` object, or legacy flat `buttonLabel` / `buttonHref` / `buttonTarget`.
+ * Pass the whole card object (not only the button field).
+ */
+export function normalizeGridCardButton(
+	cardObj: Record<string, unknown>,
+): GridCardButton {
+	const nested = cardObj.button;
+	if (nested && typeof nested === "object" && !Array.isArray(nested)) {
+		const b = nested as Record<string, unknown>;
+		return {
+			label: String(b.label ?? "").trim(),
+			href: String(b.href ?? "").trim(),
+			target: resolveButtonTarget(String(b.target ?? DEFAULT_BUTTON_TARGET)),
+			style: resolveButtonStyle(String(b.style ?? DEFAULT_BUTTON_STYLE)),
+			color: resolveButtonColor(String(b.color ?? DEFAULT_BUTTON_COLOR)),
+			align: resolveButtonAlign(String(b.align ?? DEFAULT_BUTTON_ALIGN)),
+		};
+	}
+	return {
+		label: String(cardObj.buttonLabel ?? "").trim(),
+		href: String(cardObj.buttonHref ?? "").trim(),
+		target: resolveButtonTarget(
+			String(cardObj.buttonTarget ?? DEFAULT_BUTTON_TARGET),
+		),
+		style: resolveButtonStyle(
+			String(cardObj.buttonStyle ?? DEFAULT_BUTTON_STYLE),
+		),
+		color: resolveButtonColor(
+			String(cardObj.buttonColor ?? DEFAULT_BUTTON_COLOR),
+		),
+		align: resolveButtonAlign(
+			String(cardObj.buttonAlign ?? DEFAULT_BUTTON_ALIGN),
+		),
+	};
+}
 
 const ALIGN_X = new Set<string>(["left", "center", "right"]);
 const ALIGN_Y = new Set<string>(["top", "center", "bottom"]);
@@ -163,11 +225,17 @@ export function normalizeGridCard(raw: unknown): GridCard | null {
 	const subtitle = String(obj.subtitle ?? "").trim();
 	const text = String(obj.text ?? "").trim();
 	const image = String(obj.image ?? "").trim();
-	const buttonLabel = String(obj.buttonLabel ?? obj.button ?? "").trim();
-	const buttonHref = String(obj.buttonHref ?? obj.href ?? "").trim();
+	const button = normalizeGridCardButton(obj);
 	const bgImage = String(obj.bgImage ?? "").trim();
 	// Drop empty cards (no visible content).
-	if (!title && !subtitle && !text && !image && !buttonLabel && !bgImage) {
+	if (
+		!title &&
+		!subtitle &&
+		!text &&
+		!image &&
+		!button.label &&
+		!bgImage
+	) {
 		return null;
 	}
 	return {
@@ -184,9 +252,7 @@ export function normalizeGridCard(raw: unknown): GridCard | null {
 		title,
 		subtitle,
 		text,
-		buttonLabel,
-		buttonHref,
-		buttonTarget: resolveButtonTarget(String(obj.buttonTarget ?? "_self")),
+		button,
 	};
 }
 

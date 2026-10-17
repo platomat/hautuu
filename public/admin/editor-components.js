@@ -1628,15 +1628,22 @@ CMS.registerEditorComponent({
 		{ label: "Rechts · randlos", value: "right-bleed" },
 	];
 
+	const GRID_CARD_BUTTON_DEFAULT = {
+		label: "Mehr erfahren",
+		href: "/features/",
+		target: "_self",
+		style: "solid",
+		color: "action",
+		align: "left",
+	};
+
 	const GRID_CARD_DEFAULT = {
 		title: "Karte",
 		subtitle: "",
 		text: "Kurztext zur Karte.",
 		image: "",
 		imageStyle: "top-cover",
-		buttonLabel: "Mehr erfahren",
-		buttonHref: "/features/",
-		buttonTarget: "_self",
+		button: { ...GRID_CARD_BUTTON_DEFAULT },
 		borderColor: "border",
 		borderWidth: 1,
 		borderRadius: 6,
@@ -1647,39 +1654,64 @@ CMS.registerEditorComponent({
 		alignY: "top",
 	};
 
+	/** Nested button object; migrate legacy flat buttonLabel/Href/Target. */
+	function normalizeEditorGridCardButton(card) {
+		const nested = card?.button;
+		if (nested && typeof nested === "object" && !Array.isArray(nested)) {
+			return {
+				label: String(nested.label || "").trim(),
+				href: String(nested.href || "").trim(),
+				target: nested.target || "_self",
+				style: nested.style || "solid",
+				color: nested.color || "action",
+				align: nested.align || "left",
+			};
+		}
+		return {
+			label: String(card?.buttonLabel || "").trim(),
+			href: String(card?.buttonHref || "").trim(),
+			target: card?.buttonTarget || "_self",
+			style: card?.buttonStyle || "solid",
+			color: card?.buttonColor || "action",
+			align: card?.buttonAlign || "left",
+		};
+	}
+
 	function encodeGridCardsAttr(cards) {
 		const list = (Array.isArray(cards) ? cards : [])
-			.map((card) => ({
-				title: String(card?.title || "").trim(),
-				subtitle: String(card?.subtitle || "").trim(),
-				text: String(card?.text || "").trim(),
-				image: String(card?.image || "").trim(),
-				imageStyle: card?.imageStyle || "top-cover",
-				buttonLabel: String(card?.buttonLabel || "").trim(),
-				buttonHref: String(card?.buttonHref || "").trim(),
-				buttonTarget: card?.buttonTarget || "_self",
-				borderColor: card?.borderColor || "border",
-				borderWidth:
-					card?.borderWidth === "" || card?.borderWidth == null
-						? 1
-						: Number(card.borderWidth),
-				borderRadius:
-					card?.borderRadius === "" || card?.borderRadius == null
-						? 6
-						: Number(card.borderRadius),
-				bgColor: card?.bgColor === "none" ? "" : card?.bgColor || "surface",
-				bgImage: String(card?.bgImage || "").trim(),
-				bgFit: card?.bgFit || "cover",
-				alignX: card?.alignX || "left",
-				alignY: card?.alignY || "top",
-			}))
+			.map((card) => {
+				const button = normalizeEditorGridCardButton(card);
+				return {
+					title: String(card?.title || "").trim(),
+					subtitle: String(card?.subtitle || "").trim(),
+					text: String(card?.text || "").trim(),
+					image: String(card?.image || "").trim(),
+					imageStyle: card?.imageStyle || "top-cover",
+					button,
+					borderColor: card?.borderColor || "border",
+					borderWidth:
+						card?.borderWidth === "" || card?.borderWidth == null
+							? 1
+							: Number(card.borderWidth),
+					borderRadius:
+						card?.borderRadius === "" || card?.borderRadius == null
+							? 6
+							: Number(card.borderRadius),
+					bgColor:
+						card?.bgColor === "none" ? "" : card?.bgColor || "surface",
+					bgImage: String(card?.bgImage || "").trim(),
+					bgFit: card?.bgFit || "cover",
+					alignX: card?.alignX || "left",
+					alignY: card?.alignY || "top",
+				};
+			})
 			.filter(
 				(card) =>
 					card.title ||
 					card.subtitle ||
 					card.text ||
 					card.image ||
-					card.buttonLabel ||
+					card.button.label ||
 					card.bgImage,
 			)
 			.slice(0, 12);
@@ -1800,25 +1832,62 @@ CMS.registerEditorComponent({
 						hint: "Wie beim Artikel-Listing: Position und Rand/randlos.",
 					},
 					{
-						name: "buttonLabel",
-						label: "Button-Beschriftung",
-						widget: "string",
+						name: "button",
+						label: "Button",
+						widget: "object",
+						collapsed: true,
 						required: false,
-						default: "",
-					},
-					{
-						name: "buttonHref",
-						label: "Button-Link",
-						widget: "string",
-						required: false,
-						hint: "Intern z. B. /kontakt/ oder absolute URL. Leer = kein Button.",
-					},
-					{
-						name: "buttonTarget",
-						label: "Button-Ziel",
-						widget: "select",
-						default: "_self",
-						options: BUTTON_TARGET_OPTIONS,
+						hint: "Wie der Toolbar-Block Button (Beschriftung, Link, Stil, Farbe, Ausrichtung). Link leer = kein Button.",
+						fields: [
+							{
+								name: "label",
+								label: "Beschriftung",
+								widget: "string",
+								required: false,
+								default: "",
+							},
+							{
+								name: "href",
+								label: "Link (URL)",
+								widget: "string",
+								required: false,
+								hint: "Intern z. B. /kontakt/ oder absolute URL. Leer = kein Button.",
+							},
+							{
+								name: "target",
+								label: "Ziel",
+								widget: "select",
+								default: "_self",
+								options: BUTTON_TARGET_OPTIONS,
+							},
+							{
+								name: "style",
+								label: "Stil",
+								widget: "select",
+								default: "solid",
+								options: BUTTON_STYLE_OPTIONS,
+							},
+							{
+								name: "color",
+								label: "Farbe",
+								widget: "select",
+								default: "action",
+								options: BUTTON_COLOR_OPTIONS,
+								hint: "Bei Ausgefüllt: Hintergrund; bei Kontur: Rand und Text.",
+							},
+							{
+								name: "align",
+								label: "Ausrichtung",
+								widget: "select",
+								default: "left",
+								options: [
+									{ label: "Links", value: "left" },
+									{ label: "Zentriert", value: "center" },
+									{ label: "Rechts", value: "right" },
+									{ label: "Volle Breite", value: "full" },
+								],
+							},
+						],
 					},
 					{
 						name: "borderColor",
@@ -1916,6 +1985,10 @@ CMS.registerEditorComponent({
 						? cards.map((card) => ({
 								...GRID_CARD_DEFAULT,
 								...card,
+								button: {
+									...GRID_CARD_BUTTON_DEFAULT,
+									...normalizeEditorGridCardButton(card),
+								},
 								bgColor: card.bgColor || "none",
 							}))
 						: [

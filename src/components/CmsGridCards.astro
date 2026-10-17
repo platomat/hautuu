@@ -94,8 +94,8 @@ const style = [
 					.join("; ");
 				const textHtml = card.text ? gridCardTextToHtml(card.text) : "";
 				const showButton =
-					Boolean(card.buttonLabel.trim()) &&
-					Boolean(card.buttonHref.trim());
+					Boolean(card.button.label.trim()) &&
+					Boolean(card.button.href.trim());
 				return (
 					<article
 						class:list={[
@@ -142,12 +142,12 @@ const style = [
 								{showButton && (
 									<div class="grid-card__action">
 										<CmsButton
-											label={card.buttonLabel}
-											href={card.buttonHref}
-											target={card.buttonTarget}
-											style="solid"
-											color="action"
-											align="left"
+											label={card.button.label}
+											href={card.button.href}
+											target={card.button.target}
+											style={card.button.style}
+											color={card.button.color}
+											align={card.button.align}
 										/>
 									</div>
 								)}
