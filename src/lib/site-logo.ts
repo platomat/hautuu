@@ -65,35 +65,43 @@ function readDefaultSvg(): ResolvedLogo {
 }
 
 /**
- * Resolve logo for header / sticky header / footer.
- * SVGs are inlined as authored; other formats use ImageMetadata.
+ * Resolve a logo from an explicit CMS media path.
+ * Missing/invalid path → default mark (same as empty General → Logos).
  */
-export function resolveLogo(slot: LogoSlot): ResolvedLogo {
-	const cmsPath = resolveLogoCmsPath(slot);
-	if (!cmsPath) {
+export function resolveLogoFromCmsPath(cmsPath: string | undefined): ResolvedLogo {
+	const trimmed = cmsPath?.trim();
+	if (!trimmed) {
 		return readDefaultSvg();
 	}
 
-	const lower = cmsPath.toLowerCase();
+	const lower = trimmed.toLowerCase();
 	if (lower.endsWith(".svg")) {
-		const fsPath = cmsPathToFs(cmsPath);
+		const fsPath = cmsPathToFs(trimmed);
 		if (fsPath && existsSync(fsPath)) {
 			return {
 				kind: "svg",
 				html: prepareSvgHtml(readFileSync(fsPath, "utf8")),
 			};
 		}
-		console.warn(`[site-logo] SVG not found: ${cmsPath}`);
+		console.warn(`[site-logo] SVG not found: ${trimmed}`);
 		return readDefaultSvg();
 	}
 
-	const meta = resolveCmsImage(cmsPath);
+	const meta = resolveCmsImage(trimmed);
 	if (meta) {
 		return { kind: "image", meta };
 	}
 
-	console.warn(`[site-logo] image not found: ${cmsPath}`);
+	console.warn(`[site-logo] image not found: ${trimmed}`);
 	return readDefaultSvg();
+}
+
+/**
+ * Resolve logo for header / sticky header / footer.
+ * SVGs are inlined as authored; other formats use ImageMetadata.
+ */
+export function resolveLogo(slot: LogoSlot): ResolvedLogo {
+	return resolveLogoFromCmsPath(resolveLogoCmsPath(slot));
 }
 
 /** True when sticky logo differs from the rest-state header logo. */

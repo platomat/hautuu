@@ -67,6 +67,8 @@ Globale Site-Einstellungen als **JSON-Dateien** (wie cdr-legal), kein Markdown-B
 | `enabled` | An = online nur Wartungsseite; lokal Site mit Hinweisbanner und Vorschau unter `/wartung-vorschau/` |
 | `title` | H1 und SEO-/Browser-Titel |
 | `description` | Kurzer Markdown-Text unter dem Titel |
+| `logo.show` | Logo über dem Titel (Default aus, Marke nicht ungewollt exponieren) |
+| `logo.image` | Optional eigenes Bild; leer = Allgemein → Logos → Header; max. 300px breit |
 | `background.image` / `overlay` | Optional vollflächiger Hintergrund mit Abdunkelung (wie bei Seiten) |
 
 Umsetzung: `src/lib/maintenance.ts`, Gate in `BaseLayout.astro`, Copyright-Footer ohne Brand-Leiste. Sitemap ohne Einträge; `llms.txt` / `agents.txt` nur Stub; Suchindex leer solange aktiv.

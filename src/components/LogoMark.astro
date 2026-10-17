@@ -2,21 +2,27 @@
 /**
  * Site logo from General → Logos (or `/assets/logo-mark.svg`).
  * SVGs are inlined as authored; raster formats use Astro Image.
+ * Optional `cmsPath` overrides the configured slot (e.g. maintenance logo).
  */
 import { Image } from "astro:assets";
 import {
 	resolveLogo,
+	resolveLogoFromCmsPath,
 	type LogoSlot,
 } from "../lib/site-logo";
 
 interface Props {
-	/** Which configured logo (sticky/footer fall back to header). */
+	/** Which configured logo (sticky/footer fall back to header). Ignored when `cmsPath` is set. */
 	variant?: LogoSlot;
+	/** Explicit CMS media path; when set, used instead of `variant`. */
+	cmsPath?: string;
 	class?: string;
 }
 
-const { variant = "header", class: className } = Astro.props;
-const logo = resolveLogo(variant);
+const { variant = "header", cmsPath, class: className } = Astro.props;
+const logo = cmsPath?.trim()
+	? resolveLogoFromCmsPath(cmsPath)
+	: resolveLogo(variant);
 ---
 
 {

@@ -1134,6 +1134,24 @@ collections:
             required: false
             default: "Die Website wird gerade überarbeitet. Bitte schau später wieder vorbei."
             hint: "Kurzer Markdown-Text unter dem Titel."
+          - name: logo
+            label: Logo
+            widget: object
+            collapsed: false
+            required: false
+            hint: "Optional über dem Titel (max. 300px breit). Standard aus, falls die Marke auf der Wartungsseite nicht sichtbar sein soll."
+            fields:
+              - name: show
+                label: Logo anzeigen
+                widget: boolean
+                required: false
+                default: false
+                hint: "An = Logo über dem Titel. Aus = kein Logo (auch wenn unter Allgemein eines gesetzt ist)."
+              - name: image
+                label: Eigenes Bild
+                widget: image
+                required: false
+                hint: "Optional. Leer = Logo aus Allgemein → Logos → Header. Eigenes Bild aus der Mediathek überschreibt das."
           - name: background
             label: Hintergrund
             widget: object

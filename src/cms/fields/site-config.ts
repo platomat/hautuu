@@ -659,6 +659,21 @@ export const siteContentConfigSchema = z.object({
 export type SiteContentFileConfig = z.infer<typeof siteContentConfigSchema>;
 
 /**
+ * Logo above the maintenance title (#101).
+ * `show` off by default so the site mark is not exposed unintentionally.
+ * Empty `image` → General → Logos → Header (incl. default mark).
+ */
+export const siteMaintenanceLogoConfigSchema = z.object({
+	show: z.boolean().default(false),
+	/** Optional override image from the media library. */
+	image: cmsImagePathSchema,
+});
+
+export type SiteMaintenanceLogoConfig = z.infer<
+	typeof siteMaintenanceLogoConfigSchema
+>;
+
+/**
  * `src/content/settings/maintenance.json` (#101).
  * When enabled: production builds show only the maintenance screen;
  * `astro dev` keeps the full site and shows a reminder banner.
@@ -669,6 +684,7 @@ export const siteMaintenanceConfigSchema = z.object({
 	title: z.string().trim().min(1).default("Wartungsarbeiten"),
 	/** Short body as Markdown. */
 	description: z.string().default(""),
+	logo: siteMaintenanceLogoConfigSchema.default({}),
 	background: z
 		.object({
 			image: backgroundImageSchema,

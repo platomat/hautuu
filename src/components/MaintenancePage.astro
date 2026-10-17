@@ -1,14 +1,31 @@
 ---
+import LogoMark from "./LogoMark.astro";
+
 interface Props {
 	title: string;
 	descriptionHtml?: string;
+	/** Show logo above the title (CMS Wartungsmodus → Logo). */
+	showLogo?: boolean;
+	/** Optional media path; empty = General → Logos → Header. */
+	logoCmsPath?: string;
 }
 
-const { title, descriptionHtml } = Astro.props;
+const { title, descriptionHtml, showLogo = false, logoCmsPath } = Astro.props;
 ---
 
 <main class="maintenance">
 	<div class="maintenance__inner">
+		{
+			showLogo && (
+				<div class="maintenance__logo">
+					<LogoMark
+						variant="header"
+						cmsPath={logoCmsPath}
+						class="maintenance__logo-mark"
+					/>
+				</div>
+			)
+		}
 		<h1 class="maintenance__title">{title}</h1>
 		{
 			descriptionHtml ? (
@@ -31,6 +48,20 @@ const { title, descriptionHtml } = Astro.props;
 
 	.maintenance__inner {
 		width: min(36rem, 100%);
+	}
+
+	.maintenance__logo {
+		display: flex;
+		justify-content: center;
+		margin: 0 auto 1.25rem;
+		width: min(100%, 300px);
+	}
+
+	.maintenance__logo :global(.maintenance__logo-mark) {
+		display: block;
+		width: 100%;
+		max-width: 300px;
+		height: auto;
 	}
 
 	.maintenance__title {

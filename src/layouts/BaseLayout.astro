@@ -275,6 +275,8 @@ const faviconLinks = getFaviconLinks();
 						<MaintenancePage
 							title={maintenance?.title ?? "Wartungsarbeiten"}
 							descriptionHtml={maintenanceDescriptionHtml}
+							showLogo={maintenance?.logo?.show === true}
+							logoCmsPath={maintenance?.logo?.image}
 						/>
 					</div>
 					<SiteFooter copyrightOnly />
