@@ -5,6 +5,8 @@ alwaysApply: true
 
 # Template propagieren (hautoo → Sites)
 
+**Nur in diesem Repo (hautoo = Template).** Nicht in abgeleitete Sites kopieren. Entwicklung passiert hier; Nachziehen auf maminds/hdb nur auf ausdrücklichen Wunsch.
+
 Sites wie **maminds-website** und **hdb-website-platomat** entstehen per GitHub-Template, nicht als Fork. Es gibt kein `git pull upstream`.
 
 ## Wann anwenden

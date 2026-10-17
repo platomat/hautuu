@@ -36,12 +36,10 @@ const ENGINE_PATHS = [
 	"scripts/pack-dist-bridge.sh",
 	"scripts/sync-site-fonts.mjs",
 	"scripts/sync-author-avatars.mjs",
-	"scripts/propagate-from-template.mjs",
 	"docs/sveltia/collections.md",
 	"docs/design/README.md",
-	"docs/hosting/template-propagate.md",
-	"docs/hosting/README.md",
 ];
+// Note: propagate script + template-propagate.md stay template-only (hautoo).
 
 /** Never overwrite (generated or site-specific even under engine dirs). */
 const SKIP_BASENAMES = new Set([
