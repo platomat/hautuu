@@ -60,7 +60,7 @@ Hier siehst du, **was im Projekt schon gebaut ist** (Stand: öffentliches [Repo]
 - **menus:** Navigation (`main`, `footer`, `footer-legal`, …) mit Label und Ziel ([#13](https://github.com/platomat/hautoo/issues/13), [#81](https://github.com/platomat/hautoo/issues/81)).
 - **blocks:** Wiederverwendbare Bausteine ohne eigene URL; Einbinden per Content-Komponente `{{block}}`.
 - **redirects:** Weiterleitungen ([#76](https://github.com/platomat/hautoo/issues/76)). Mehrere Quellen → ein Ziel (301/302); Build erzeugt `_redirects`.
-- **settings:** Globale JSON-Einstellungen (**General**, **Design**, **Content**); keine Relationen ([#45](https://github.com/platomat/hautoo/issues/45)).
+- **settings:** Globale JSON-Einstellungen (**General**, **Wartungsmodus**, **Design**, **Content**); keine Relationen ([#45](https://github.com/platomat/hautoo/issues/45), [#101](https://github.com/platomat/hautoo/issues/101)).
 
 ## Content-Komponenten (Embeds)
 
@@ -88,17 +88,22 @@ Zusätzlich in der Toolbar: **Bild** und **Codeblock** (Sveltia-Standard, kein e
 
 ## Settings (Konfiguration)
 
-Globale Defaults unter **Einstellungen** im CMS (`settings`: General, Design, Content) ([#45](https://github.com/platomat/hautoo/issues/45)).
+Globale Defaults unter **Einstellungen** im CMS (`settings`: General, Wartungsmodus, Design, Content) ([#45](https://github.com/platomat/hautoo/issues/45)).
 
 ### Settings → General
 
 - **Website title** und optionale **Description** / Slogan ([#75](https://github.com/platomat/hautoo/issues/75)); Description auch im Footer-Brand.
-- **Footer copyright:** Claim und Trenner links; **Show center mark** für das kleine Icon in der Mitte (GitHub-Icon bei gesetztem Repo, sonst Site-Logo).
+- **Footer copyright:** Claim und Trenner links; **Show center logo** für das kleine Icon in der Mitte (GitHub-Icon bei gesetztem Repo, sonst Site-Logo).
 - **Contact email** für `{{contact-email}}` (sonst Build-Variable `CONTACT_EMAIL`).
 - **Privacy page:** Relation zur Datenschutz-Seite (u. a. Link in der Video-Einwilligung).
-- **GitHub repository** (`owner/name`) für das Footer-Mitte-Icon, wenn Center mark an ist.
+- **GitHub repository** (`owner/name`) für das Footer-Mitte-Icon, wenn Center logo an ist.
 - **Logos** aus der Mediathek: Header, optional Sticky, Footer ([#79](https://github.com/platomat/hautoo/issues/79)).
 - **Favicons** aus der Mediathek: Standard und optional dunkel ([#80](https://github.com/platomat/hautoo/issues/80)).
+
+### Settings → Wartungsmodus (#101)
+
+- **Aktiv:** Production-Build blendet Inhalte aus und zeigt nur Titel, Markdown-Text, optionalen Hintergrund und Copyright-Footer. Lokal (`astro dev`) bleibt die Site sichtbar; Banner erinnert an den Modus. Sitemap ohne Einträge; `llms.txt` / `agents.txt` nur Stub; Suchindex leer.
+- **Titel** (H1 + SEO), **Beschreibung** (Markdown), **Hintergrund** mit Abdunkelung wie bei Seiten.
 
 ### Settings → Design
 

@@ -7,8 +7,25 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const contentRoot = fileURLToPath(new URL("../content", import.meta.url));
+const settingsRoot = path.join(contentRoot, "settings");
 
 let excludedCache: Set<string> | undefined;
+let maintenanceEnabledCache: boolean | undefined;
+
+/** Read `maintenance.enabled` without Astro collections (astro.config context). */
+function isMaintenanceEnabledFromFs(): boolean {
+	if (maintenanceEnabledCache !== undefined) return maintenanceEnabledCache;
+	const filePath = path.join(settingsRoot, "maintenance.json");
+	try {
+		const raw = JSON.parse(fs.readFileSync(filePath, "utf8")) as {
+			enabled?: unknown;
+		};
+		maintenanceEnabledCache = raw.enabled === true;
+	} catch {
+		maintenanceEnabledCache = false;
+	}
+	return maintenanceEnabledCache;
+}
 
 function readFrontmatter(filePath: string): string {
 	const raw = fs.readFileSync(filePath, "utf8");
@@ -133,8 +150,12 @@ export function getSitemapExcludedPathnames(): Set<string> {
 export function sitemapPageFilter(pageUrl: string): boolean {
 	const pathname = new URL(pageUrl).pathname;
 	const normalized = pathname.endsWith("/") ? pathname : `${pathname}/`;
+	if (normalized.startsWith("/admin/")) return false;
+	// Wartungsmodus: Sitemap leer (keine Inhalts-URLs).
+	if (isMaintenanceEnabledFromFs()) {
+		return false;
+	}
 	const excluded = getSitemapExcludedPathnames();
 	if (excluded.has(pathname) || excluded.has(normalized)) return false;
-	if (normalized.startsWith("/admin/")) return false;
 	return true;
 }

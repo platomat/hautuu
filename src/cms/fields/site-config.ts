@@ -1,6 +1,10 @@
 import { z } from "astro/zod";
 import { contentWidthSchema } from "./content-width";
-import { cmsImagePathSchema } from "./page-background";
+import {
+	backgroundImageSchema,
+	backgroundOverlaySchema,
+	cmsImagePathSchema,
+} from "./page-background";
 import { siteTypographyConfigSchema } from "./site-typography";
 import {
 	DEFAULT_SEPARATOR_MARK_ALIGN,
@@ -619,11 +623,33 @@ export const siteContentConfigSchema = z.object({
 
 export type SiteContentFileConfig = z.infer<typeof siteContentConfigSchema>;
 
-/** Merged site settings (general + design + content JSON files). */
+/**
+ * `src/content/settings/maintenance.json` (#101).
+ * When enabled: production builds show only the maintenance screen;
+ * `astro dev` keeps the full site and shows a reminder banner.
+ */
+export const siteMaintenanceConfigSchema = z.object({
+	enabled: z.boolean().default(false),
+	/** H1 and SEO / document title. */
+	title: z.string().trim().min(1).default("Wartungsarbeiten"),
+	/** Short body as Markdown. */
+	description: z.string().default(""),
+	background: z
+		.object({
+			image: backgroundImageSchema,
+			overlay: backgroundOverlaySchema.optional(),
+		})
+		.optional(),
+});
+
+export type SiteMaintenanceConfig = z.infer<typeof siteMaintenanceConfigSchema>;
+
+/** Merged site settings (general + design + content + maintenance JSON files). */
 export const siteConfigSchema = z.object({
 	general: siteGeneralConfigSchema.default({}),
 	design: siteDesignConfigSchema.default({}),
 	content: siteContentConfigSchema.default({}),
+	maintenance: siteMaintenanceConfigSchema.default({}),
 });
 
 export type SiteConfig = z.infer<typeof siteConfigSchema>;

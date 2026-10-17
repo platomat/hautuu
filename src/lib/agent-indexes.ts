@@ -22,6 +22,7 @@ import {
 	indexPagesById,
 	type PageEntry,
 } from "./pages";
+import { isMaintenanceEnabled } from "./maintenance";
 import {
 	getSiteWebsiteDescription,
 	getSiteWebsiteTitle,
@@ -285,14 +286,29 @@ export function originFromSite(site: URL | undefined): string {
 	return site.origin;
 }
 
+/** Stub when Wartungsmodus is on (no public URL inventory). */
+export function buildMaintenanceAgentIndexStubs(siteName?: string): {
+	llmsTxt: string;
+	agentsTxt: string;
+} {
+	const name = siteName?.trim() || "Website";
+	return {
+		llmsTxt: `# ${name}\n\n> Wartungsmodus: Inhalte sind vorübergehend nicht öffentlich.\n`,
+		agentsTxt: `# agents.txt\n# Site: ${name}\n# Wartungsmodus: keine URL-Liste.\n`,
+	};
+}
+
 /** Shared payload for both endpoints. */
 export async function buildAgentIndexFiles(site: URL | undefined): Promise<{
 	llmsTxt: string;
 	agentsTxt: string;
 }> {
+	const siteName = getSiteWebsiteTitle();
+	if (isMaintenanceEnabled()) {
+		return buildMaintenanceAgentIndexStubs(siteName);
+	}
 	const origin = originFromSite(site);
 	const links = await collectAgentIndexLinks();
-	const siteName = getSiteWebsiteTitle();
 	const siteDescription = plainTextFromCms(getSiteWebsiteDescription());
 	const opts = { origin, siteName, siteDescription, links };
 	return {

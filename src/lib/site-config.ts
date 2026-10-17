@@ -1,6 +1,9 @@
 import contentRaw from "../content/settings/content.json" with { type: "json" };
 import designRaw from "../content/settings/design.json" with { type: "json" };
 import generalRaw from "../content/settings/general.json" with { type: "json" };
+import maintenanceRaw from "../content/settings/maintenance.json" with {
+	type: "json",
+};
 import {
 	DEFAULT_SITE_FOOTER_BAR_CONFIG,
 	DEFAULT_SITE_FOOTER_BRAND_CONFIG,
@@ -15,6 +18,7 @@ import {
 	siteFooterBarConfigSchema,
 	siteFooterBrandConfigSchema,
 	siteGeneralConfigSchema,
+	siteMaintenanceConfigSchema,
 	type BreadcrumbSeparator,
 	type EntryHero,
 	type EntryToc,
@@ -28,13 +32,14 @@ import {
 	type SiteHeaderConfig,
 	type SiteHeroConfig,
 	type SiteAuthorsConfig,
+	type SiteMaintenanceConfig,
 	type SiteTocCollectionConfig,
 	type SiteTocConfig,
 	siteAuthorsConfigSchema,
 } from "../cms/fields/site-config";
 import type { SeparatorMarkAlign } from "./separator";
 
-export type { HeroCollectionKey };
+export type { HeroCollectionKey, SiteMaintenanceConfig };
 
 /**
  * Merge CMS settings JSON files (like cdr-legal `src/content/settings/`).
@@ -44,6 +49,7 @@ export function getSiteConfig(): SiteConfig {
 	const contentObj = contentRaw as Record<string, unknown>;
 	const designObj = designRaw as Record<string, unknown>;
 	const generalObj = generalRaw as Record<string, unknown>;
+	const maintenanceObj = maintenanceRaw as Record<string, unknown>;
 	const footerCopyrightRaw =
 		(generalObj.footerCopyright as Record<string, unknown> | undefined) ?? {};
 	// Legacy: showFooterCenter / showCenter → showCenterLogo.
@@ -74,6 +80,7 @@ export function getSiteConfig(): SiteConfig {
 			...contentObj,
 			footer: contentObj.footer ?? legacyDesignFooter,
 		}),
+		maintenance: siteMaintenanceConfigSchema.parse(maintenanceObj),
 	});
 }
 

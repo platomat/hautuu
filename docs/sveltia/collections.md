@@ -35,9 +35,9 @@ Globale Site-Einstellungen als **JSON-Dateien** (wie cdr-legal), kein Markdown-B
 
 | | |
 | --- | --- |
-| Dateien | `src/content/settings/general.json`, `design.json`, `content.json` |
+| Dateien | `src/content/settings/general.json`, `design.json`, `content.json`, `maintenance.json` |
 | Schema | `src/cms/fields/site-config.ts` |
-| Sveltia | File-Collection `settings` → Einträge **General**, **Design**, **Content** |
+| Sveltia | File-Collection `settings` → Einträge **General**, **Wartungsmodus**, **Design**, **Content** |
 | Lesen | Direkter JSON-Import in `src/lib/site-config.ts` (keine Astro-Content-Collection) |
 
 ### Einstellungen → General
@@ -57,6 +57,17 @@ Globale Site-Einstellungen als **JSON-Dateien** (wie cdr-legal), kein Markdown-B
 | `favicons.dark` | Optional Favicon für `prefers-color-scheme: dark`; leer = gleiches wie default |
 | `contactEmail` | Optional für `{{contact-email}}`. Überschreibt `CONTACT_EMAIL` beim Build; leer = ENV. Wert ist öffentlich in Git. |
 | `privacyPage` | Optional Seiten-Slug (Relation `pages`) für die Datenschutz-Seite (wie WordPress Privacy Policy). Leer = kein Link; genutzt u. a. vom Video-Consent. |
+
+### Einstellungen → Wartungsmodus (#101)
+
+| Feld | Bedeutung |
+| --- | --- |
+| `enabled` | An = Production-Build zeigt nur die Wartungsseite; `astro dev` zeigt die Site mit Erinnerungsbanner |
+| `title` | H1 und SEO-/Browser-Titel |
+| `description` | Kurzer Markdown-Text unter dem Titel |
+| `background.image` / `overlay` | Optional vollflächiger Hintergrund mit Abdunkelung (wie bei Seiten) |
+
+Umsetzung: `src/lib/maintenance.ts`, Gate in `BaseLayout.astro`, Copyright-Footer ohne Brand-Leiste. Sitemap ohne Einträge; `llms.txt` / `agents.txt` nur Stub; Suchindex leer solange aktiv.
 
 ### Einstellungen → Design → Farbpalette (#70)
 

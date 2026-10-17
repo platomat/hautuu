@@ -1085,6 +1085,49 @@ collections:
             required: false
             hint: "Optional owner/name für das Footer-Icon (z. B. platomat/hautoo). Leer = Site-Logo verlinkt auf die Startseite (typisch für Forks). Wirkt nur, wenn Footer copyright → Show center logo an ist."
             default: ""
+      - name: maintenance
+        label: Wartungsmodus
+        file: src/content/settings/maintenance.json
+        format: json
+        fields:
+          - name: enabled
+            label: Aktiv
+            widget: boolean
+            required: false
+            default: false
+            hint: "An = Production-Build zeigt Besuchern nur die Wartungsseite (Titel, Text, Hintergrund, Copyright-Footer). Lokal (astro dev) bleibt die Site sichtbar; oben erscheint ein Erinnerungsbanner."
+          - name: title
+            label: Titel
+            widget: string
+            required: true
+            default: Wartungsarbeiten
+            hint: "H1 auf der Wartungsseite und SEO-/Browser-Titel."
+          - name: description
+            label: Beschreibung
+            widget: markdown
+            required: false
+            default: "Die Website wird gerade überarbeitet. Bitte schau später wieder vorbei."
+            hint: "Kurzer Markdown-Text unter dem Titel."
+          - name: background
+            label: Hintergrund
+            widget: object
+            collapsed: false
+            required: false
+            hint: "Optional. Vollflächig hinter dem zentrierten Text (wie bei Seiten)."
+            fields:
+              - name: image
+                label: Bild
+                widget: image
+                required: false
+              - name: overlay
+                label: Abdunkelung (%)
+                widget: number
+                value_type: int
+                min: 0
+                max: 100
+                required: false
+                default: 70
+                hint: "Nur bei Hintergrundbild. Leer = 40. 0 = keine Abdunkelung, 100 = fast schwarz."
       - name: design
         label: Design
         file: src/content/settings/design.json

@@ -1,0 +1,30 @@
+---
+description: Engine-Updates von hautoo (Template) auf abgeleitete Sites propagieren
+alwaysApply: true
+---
+
+# Template propagieren (hautoo → Sites)
+
+Sites wie **maminds-website** und **hdb-website-platomat** entstehen per GitHub-Template, nicht als Fork. Es gibt kein `git pull upstream`.
+
+## Wann anwenden
+
+Nur wenn der Mensch **ausdrücklich** nachzieht / sync / propagate / „go“ für die anderen Repos sagt (z. B. „bei den anderen nachziehen“, „propagieren“). Nicht von allein nach jedem hautoo-Edit.
+
+## Wie
+
+Im hautoo-Root:
+
+```bash
+node scripts/propagate-from-template.mjs --to ../maminds-website --dry-run
+node scripts/propagate-from-template.mjs --to ../maminds-website --to ../hdb-website-platomat --include-config-yml
+```
+
+Doku: `docs/hosting/template-propagate.md`.
+
+## Vorsicht
+
+- Für **ein einzelnes Feature** oft gezielter Datei-Copy besser als voller Engine-Sync (sonst große, unerwünschte Diffs).
+- `--include-config-yml`: `backend.repo` / `base_url` bleiben erhalten; trotzdem Diff prüfen.
+- Nie Site-Content oder Settings-JSON (Marke, Claims) überschreiben, außer fehlendes `maintenance.json` seeden.
+- Nach Propagate: Diff reviewen, lokal bauen, nur auf Wunsch committen (nicht pushen).

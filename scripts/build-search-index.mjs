@@ -233,8 +233,38 @@ function collectCategories() {
 	return { documents, categoryTitles };
 }
 
+function isMaintenanceEnabled() {
+	try {
+		const raw = JSON.parse(
+			fs.readFileSync(path.join(CONTENT, "settings", "maintenance.json"), "utf8"),
+		);
+		return raw.enabled === true;
+	} catch {
+		return false;
+	}
+}
+
 function main() {
 	fs.mkdirSync(OUT_DIR, { recursive: true });
+	const outPath = path.join(OUT_DIR, "de.json");
+
+	// Wartungsmodus: leerer Index, damit Inhalte nicht über /search/de.json leaken.
+	if (isMaintenanceEnabled()) {
+		fs.writeFileSync(
+			outPath,
+			JSON.stringify({
+				locale: "de",
+				generatedAt: new Date().toISOString(),
+				maintenance: true,
+				documents: [],
+			}),
+		);
+		console.log(
+			"[build-search-index] maintenance on → empty public/search/de.json",
+		);
+		return;
+	}
+
 	const { documents: tagDocs, tagTitles } = collectTags();
 	const { documents: categoryDocs, categoryTitles } = collectCategories();
 	const documents = [
@@ -245,7 +275,6 @@ function main() {
 		...tagDocs,
 	].filter((doc) => !isExcludedUrl(doc.url));
 
-	const outPath = path.join(OUT_DIR, "de.json");
 	fs.writeFileSync(
 		outPath,
 		JSON.stringify({

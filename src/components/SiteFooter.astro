@@ -21,6 +21,13 @@ import {
 	getSiteWebsiteTitle,
 } from "../lib/site-config";
 
+interface Props {
+	/** Copyright bar only (no brand strip). Used by maintenance screen. */
+	copyrightOnly?: boolean;
+}
+
+const { copyrightOnly = false } = Astro.props;
+
 const websiteTitle = await getSiteWebsiteTitle();
 const footerCopyright = getFooterCopyrightConfig();
 const startYear = footerCopyright.startYear;
@@ -65,14 +72,15 @@ const brandMenuItems = brand.enabled
 	? await getResolvedMenu(brandMenuId, pages)
 	: [];
 
-const brandBlocks = brand.enabled
-	? brand.blocks.filter((block) => {
-			if (!block.enabled) return false;
-			if (block.id === "description") return Boolean(brandDescriptionHtml);
-			if (block.id === "menu") return brandMenuItems.length > 0;
-			return true;
-		})
-	: [];
+const brandBlocks =
+	!copyrightOnly && brand.enabled
+		? brand.blocks.filter((block) => {
+				if (!block.enabled) return false;
+				if (block.id === "description") return Boolean(brandDescriptionHtml);
+				if (block.id === "menu") return brandMenuItems.length > 0;
+				return true;
+			})
+		: [];
 const showBrand = brandBlocks.length > 0;
 const brandLogoSize = Math.min(160, Math.max(24, brand.logoSize || 44));
 const brandStyle = showBrand

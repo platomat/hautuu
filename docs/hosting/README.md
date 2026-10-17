@@ -4,6 +4,8 @@ hautuu baut mit Astro eine **statische** Website (`dist/`). Der empfohlene Weg i
 
 Kurzfassung auch in der [FAQ](../../src/content/pages/faq/index.md) („Funktioniert der Build auch auf normalem Hosting …?“).
 
+Template-Sites (aus hautoo erzeugt): Engine-Updates mit [Template propagieren](./template-propagate.md).
+
 ## Machbarkeit
 
 | Teil | Ohne Cloudflare Pages |

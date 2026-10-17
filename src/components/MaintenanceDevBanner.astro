@@ -1,0 +1,37 @@
+---
+/**
+ * Visible only in `astro dev` when Wartungsmodus is on.
+ * Reminds editors that production builds will hide the site.
+ */
+---
+
+<div class="maintenance-dev-banner" role="status">
+	<strong>Wartungsmodus aktiv</strong>
+	<span>
+		Lokal siehst du die Site normal. Ein Production-Build zeigt Besuchern nur die
+		Wartungsseite.
+	</span>
+</div>
+
+<style>
+	.maintenance-dev-banner {
+		position: sticky;
+		top: 0;
+		z-index: 40;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 0.35rem 0.75rem;
+		padding: 0.55rem var(--shell-padding-inline);
+		background: var(--color-action-muted);
+		color: var(--color-text);
+		border-bottom: 1px solid var(--color-border);
+		font-size: 0.875rem;
+		line-height: 1.4;
+	}
+
+	.maintenance-dev-banner strong {
+		font-weight: var(--font-weight-heading);
+		color: var(--color-action);
+	}
+</style>
