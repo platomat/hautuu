@@ -15,7 +15,7 @@
     "showCenterLogo": true
   },
   "githubRepo": "platomat/hautoo",
-  "siteCode": {
-    "footerCode": "<!-- Matomo -->\n<script>\n  var _paq = window._paq = window._paq || [];\n  /* tracker methods like \"setCustomDimension\" should be called before \"trackPageView\" */\n  _paq.push([\"setDoNotTrack\", true]);\n  _paq.push([\"disableCookies\"]);\n  _paq.push(['trackPageView']);\n  _paq.push(['enableLinkTracking']);\n  (function() {\n    var u=\"https://matomo.platomat.com/\";\n    _paq.push(['setTrackerUrl', u+'matomo.php']);\n    _paq.push(['setSiteId', '11']);\n    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];\n    g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);\n  })();\n</script>\n<noscript><p><img referrerpolicy=\"no-referrer-when-downgrade\" src=\"https://matomo.platomat.com/matomo.php?idsite=11&amp;rec=1\" style=\"border:0;\" alt=\"\" /></p></noscript>\n<!-- End Matomo Code -->"
+  "matomo": {
+    "code": "<!-- Matomo -->\n<script>\n  var _paq = window._paq = window._paq || [];\n  /* tracker methods like \"setCustomDimension\" should be called before \"trackPageView\" */\n  _paq.push([\"setDoNotTrack\", true]);\n  _paq.push([\"disableCookies\"]);\n  _paq.push(['trackPageView']);\n  _paq.push(['enableLinkTracking']);\n  (function() {\n    var u=\"https://matomo.platomat.com/\";\n    _paq.push(['setTrackerUrl', u+'matomo.php']);\n    _paq.push(['setSiteId', '11']);\n    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];\n    g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);\n  })();\n</script>\n<noscript><p><img referrerpolicy=\"no-referrer-when-downgrade\" src=\"https://matomo.platomat.com/matomo.php?idsite=11&amp;rec=1\" style=\"border:0;\" alt=\"\" /></p></noscript>\n<!-- End Matomo Code -->"
   }
 }

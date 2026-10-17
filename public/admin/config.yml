@@ -297,6 +297,7 @@ collections:
           - video
           - member-video
           - video-consent-reset
+          - matomo-privacy
           - repodoc
       - &field_seo
         label: SEO
@@ -551,6 +552,7 @@ collections:
           - video
           - member-video
           - video-consent-reset
+          - matomo-privacy
           - repodoc
       - *field_seo
       - *field_entry_site_code
@@ -723,6 +725,7 @@ collections:
           - video
           - member-video
           - video-consent-reset
+          - matomo-privacy
           - repodoc
       - *field_seo
       - *field_entry_site_code
@@ -833,6 +836,7 @@ collections:
           - video
           - member-video
           - video-consent-reset
+          - matomo-privacy
           - repodoc
 
   # Menus: filename = slot id (main, footer-legal, …). Navigation is not driven by page flags.
@@ -1103,11 +1107,25 @@ collections:
             required: false
             hint: "Optional owner/name für das Footer-Icon (z. B. platomat/hautoo). Leer = Site-Logo verlinkt auf die Startseite (typisch für Forks). Wirkt nur, wenn Footer-Copyright → Center-Logo anzeigen an ist."
             default: ""
+          - name: matomo
+            label: Matomo
+            widget: object
+            collapsed: true
+            hint: "Optional. Tracking-Snippet von Matomo (Einstellungen → Websites → Tracking-Code). Wird vor dem schließenden body-Tag eingefügt. Für den Datenschutz-Abschnitt den Embed „Matomo Datenschutz“ nutzen."
+            fields:
+              - name: code
+                label: Tracking-Code
+                widget: code
+                required: false
+                output_code_only: true
+                default_language: html
+                allow_language_selection: false
+                hint: "Vollständiges Matomo-Snippet (script + optional noscript). Leer = kein Tracking und kein Datenschutz-Abschnitt über {{matomo-privacy}}."
           - name: siteCode
             label: Site-Code
             widget: object
             collapsed: true
-            hint: "Globale HTML-Fragmente für alle Seiten (wie Site-Code an einzelnen Einträgen). Global zuerst, Eintrags-Code danach. Nur für vertrauenswürdige Redaktion."
+            hint: "Globale HTML-Fragmente für alle Seiten (wie Site-Code an einzelnen Einträgen). Global zuerst, Eintrags-Code danach. Matomo gehört unter Allgemein → Matomo, nicht hier. Nur für vertrauenswürdige Redaktion."
             fields:
               - name: headCode
                 label: Header-Code
@@ -1124,7 +1142,7 @@ collections:
                 output_code_only: true
                 default_language: html
                 allow_language_selection: false
-                hint: "Optional. Vor dem schließenden body-Tag auf jeder Seite (nach dem Site-Footer). Einträge können zusätzlichen Footer-Code setzen."
+                hint: "Optional. Vor dem schließenden body-Tag auf jeder Seite (nach dem Site-Footer, vor Matomo). Einträge können zusätzlichen Footer-Code setzen."
       - name: maintenance
         label: Wartungsmodus
         file: src/content/settings/maintenance.json

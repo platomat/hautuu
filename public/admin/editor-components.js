@@ -934,6 +934,18 @@ CMS.registerEditorComponent({
 	});
 
 	CMS.registerEditorComponent({
+		id: "matomo-privacy",
+		label: "Matomo Datenschutz",
+		icon: "analytics",
+		fields: [],
+		pattern: /^\{\{matomo-privacy\}\}\s*$/m,
+		fromBlock: () => ({}),
+		toBlock: () => "{{matomo-privacy}}",
+		toPreview: () =>
+			'<div style="padding:0.75rem 1rem;border:1px dashed #2e3833;border-radius:6px;color:#9aa89f;font-size:0.9rem">Abschnitt Matomo (nur wenn unter Allgemein → Matomo Tracking-Code gesetzt ist; Opt-out-URL aus dem Code)</div>',
+	});
+
+	CMS.registerEditorComponent({
 		id: "video",
 		label: "Video",
 		icon: "videocam",

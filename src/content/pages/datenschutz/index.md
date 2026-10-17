@@ -56,37 +56,7 @@ Eine Zusammenführung dieser Daten mit anderen Datenquellen nehmen wir nicht vor
 
 Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO. Wir haben ein berechtigtes Interesse an der technisch fehlerfreien Darstellung und der Optimierung der Website; dafür müssen Server-Log-Dateien erfasst werden.
 
-## Analyse-Tools und Werbung
-
-### Matomo
-
-Diese Website benutzt den Open-Source-Webanalysedienst Matomo.
-
-Mit Hilfe von Matomo können wir Daten über die Nutzung unserer Website erfassen und auswerten. So sehen wir unter anderem, wann welche Seitenaufrufe stattfanden und aus welcher Region sie kommen. Außerdem erfassen wir verschiedene Logdaten (z. B. IP-Adresse, Referrer, verwendete Browser und Betriebssysteme) und können messen, ob Besucher bestimmte Aktionen ausführen (z. B. Klicks).
-
-Die Nutzung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO. Wir haben ein berechtigtes Interesse an der Analyse des Nutzerverhaltens, um das Webangebot zu verbessern. Sofern eine Einwilligung abgefragt wurde, erfolgt die Verarbeitung ausschließlich auf Grundlage von Art. 6 Abs. 1 lit. a DSGVO und § 25 Abs. 1 TDDDG, soweit die Einwilligung die Speicherung von Cookies oder den Zugriff auf Informationen im Endgerät (z. B. Device-Fingerprinting) im Sinne des TDDDG umfasst. Die Einwilligung ist jederzeit widerrufbar.
-
-#### IP-Anonymisierung
-
-Bei der Analyse mit Matomo setzen wir IP-Anonymisierung ein. Die IP-Adresse wird vor der Analyse gekürzt, sodass sie dir nicht mehr eindeutig zuordenbar ist.
-
-#### Cookielose Analyse
-
-Wir haben Matomo so konfiguriert, dass Matomo keine Cookies in deinem Browser speichert (`disableCookies`).
-
-#### Hosting
-
-Wir hosten Matomo auf eigenen Servern unter `matomo.platomat.com`, sodass die Analysedaten bei uns verbleiben und nicht an Drittanbieter-Analyseplattformen weitergegeben werden.
-
-#### Opt-Out
-
-Du kannst verhindern, dass diese Website deine Aktionen hier zusammenfasst und auswertet. Das schützt deine Privatsphäre; wir lernen dann aber auch weniger darüber, wie die Website genutzt wird.
-
-<iframe
-  title="Matomo Opt-out"
-  style="border:0;width:100%;height:12rem"
-  src="https://matomo.platomat.com/index.php?module=CoreAdminHome&action=optOut&language=de"
-></iframe>
+{{matomo-privacy}}
 
 ## Schriften und Assets
 
@@ -131,7 +101,7 @@ Die Daten werden gelöscht, wenn die Konversation erledigt ist und keine gesetzl
 
 ## Cookies und lokale Speicherung
 
-Für den öffentlichen Teil der Website setzen wir **keine** eigenen Cookies zu Analyse- oder Werbezwecken. Matomo läuft bei uns **ohne Cookies** (siehe Abschnitt Matomo).
+Für den öffentlichen Teil der Website setzen wir **keine** eigenen Cookies zu Analyse- oder Werbezwecken. Soweit Matomo aktiv ist, läuft die Analyse **ohne Cookies** (siehe Abschnitt Matomo).
 
 Für die YouTube/Vimeo-Freischaltung nutzen wir **localStorage** (`hautuu-video-consent`), damit du nicht auf jeder Seite erneut zustimmen musst. Für Member-Videos speichern wir das Session-Token unter `hautuu-member-video-token`. Beides sind keine Cookies; du kannst die Einträge über die jeweiligen Buttons auf der Seite oder über die Browser-Einstellungen für diese Website löschen.
 

@@ -28,6 +28,7 @@ import {
 	buildSiteColorRootCss,
 	isSurfaceGlassTranslucent,
 } from "../lib/site-colors";
+import { getMatomoCode } from "../lib/matomo";
 import { getSiteCodeConfig, getSiteWebsiteTitle } from "../lib/site-config";
 import { getFaviconLinks } from "../lib/site-favicon";
 import {
@@ -57,6 +58,7 @@ interface Props {
 
 const siteName = await getSiteWebsiteTitle();
 const siteCode = getSiteCodeConfig();
+const matomoCode = getMatomoCode();
 const siteColorRootCss = buildSiteColorRootCss();
 const siteTypographyRootCss = buildSiteTypographyRootCss();
 const siteBorderRadiusRootCss = buildSiteBorderRadiusRootCss();
@@ -112,6 +114,9 @@ const globalHeadCodeHtml = !serveMaintenance
 	: undefined;
 const globalFooterCodeHtml = !serveMaintenance
 	? siteCode.footerCode.trim() || undefined
+	: undefined;
+const matomoCodeHtml = !serveMaintenance
+	? matomoCode || undefined
 	: undefined;
 const headCodeHtml = !serveMaintenance
 	? headCode?.trim() || undefined
@@ -292,6 +297,7 @@ const faviconLinks = getFaviconLinks();
 					{globalFooterCodeHtml && (
 						<Fragment set:html={globalFooterCodeHtml} />
 					)}
+					{matomoCodeHtml && <Fragment set:html={matomoCodeHtml} />}
 					{footerCodeHtml && <Fragment set:html={footerCodeHtml} />}
 				</>
 			)

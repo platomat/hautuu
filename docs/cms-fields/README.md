@@ -104,6 +104,17 @@ Anker-IDs: `github-slugger`.
 
 **Hinweis:** YAML-Anchors gelten nur **innerhalb derselben** `config.yml`. Zod und YAML bei Feldänderungen gemeinsam pflegen.
 
+## Matomo (`matomo.code`)
+
+| Ebene | Ort |
+| --- | --- |
+| CMS | Einstellungen → Allgemein → Matomo → Tracking-Code |
+| JSON | `general.matomo.code` |
+| Astro | `getMatomoCode()` / `resolveMatomoPrivacyProps()` in `src/lib/matomo.ts` |
+| Injection | Vor `</body>` nach globalem Site-Code-Footer, vor Eintrags-Footer. Im Wartungsmodus aus. |
+
+Optional. Vollständiges Matomo-Snippet. Opt-out-URL und Host für `{{matomo-privacy}}` werden aus dem Snippet abgeleitet. Embed rendert nur, wenn Code gesetzt und Base-URL erkennbar ist.
+
 ## Site-Code (`siteCode.headCode` / `footerCode`)
 
 | Ebene | Ort |
@@ -112,9 +123,9 @@ Anker-IDs: `github-slugger`.
 | Eintrag | Collections `pages`, `articles`, `glossar`, `authors`: Gruppe Site-Code (`&field_entry_site_code`) |
 | Widget | Objekt mit `headCode` / `footerCode` (`widget: code`, `output_code_only: true`) |
 | Astro | Global: `getSiteCodeConfig()`; Eintrag: `resolveEntrySiteCode()` → Props an `BaseLayout.astro` |
-| Injection | Vor `</head>` bzw. vor `</body>` (nach Site-Footer), per `set:html`. Reihenfolge: global, dann Eintrag. Im Wartungsmodus aus. |
+| Injection | Vor `</head>` bzw. vor `</body>` (nach Site-Footer), per `set:html`. Reihenfolge: global Site-Code, dann Matomo, dann Eintrag. Im Wartungsmodus aus. |
 
-Optional. HTML-Fragmente: `<style>` und `<script>` dürfen im selben Feld stehen. Sprachauswahl ist ausgeblendet (Highlighting fest HTML). Nur für vertrauenswürdige Redaktion (kein Sanitizing). Legacy flache `headCode`/`footerCode` am Eintrag werden beim Build in `siteCode` gehoben.
+Optional. HTML-Fragmente: `<style>` und `<script>` dürfen im selben Feld stehen. Sprachauswahl ist ausgeblendet (Highlighting fest HTML). Nur für vertrauenswürdige Redaktion (kein Sanitizing). Legacy flache `headCode`/`footerCode` am Eintrag werden beim Build in `siteCode` gehoben. Matomo gehört unter Allgemein → Matomo, nicht in den Footer-Code.
 
 ## Markdown-Inhalt: kein H1
 
@@ -144,7 +155,8 @@ Im CMS über die Markdown-Toolbar einfügen (wie Bilder):
 | **Repo-Dokument** | `{{repodoc path="docs/github/README.md" title="GitHub" description="Kurzer Satz"}}` | `path` = existierende Datei unter `docs/`; Link zu GitHub `main`; optional `title` / `description` |
 | **Video** | `{{video provider="youtube" id="…" }}` oder `provider="file" src="datei.mp4"` | YT/Vimeo: Facade + Consent; Datenschutz-Link aus General → **Privacy page** (`privacyPage`, Anker `#eingebettete-videos`). **file**/R2: HTML5-`<video>`, Basis-URL unter Content → Medien (`videoBaseUrl`); optionales Poster per Medienauswahl; siehe [R2-Videos](../cloudflare/r2-videos.md) |
 | **Video-Freischaltung widerrufen** | `{{video-consent-reset}}` | Button zum Widerruf (Datenschutz) |
+| **Matomo Datenschutz** | `{{matomo-privacy}}` | Abschnitt Analyse/Matomo inkl. Opt-out-iframe; nur wenn `general.matomo.code` gesetzt und Base-URL aus dem Snippet lesbar |
 
-Registrierung: `public/admin/editor-components.js`. Rendering: `ArticleListing.astro` / `GlossarListing.astro` / `TagListing.astro` / `CategoryListing.astro` / `AuthorListing.astro` / `AuthorSocialLinks.astro` / `Separator.astro` / `Spacer.astro` / `CmsButton.astro` / `CmsButtonGroup.astro` / `CmsGridCards.astro` / `ContactEmail.astro` / `RepoDocLink.astro` / `VideoEmbed.astro` / `MemberVideo.astro` / `VideoConsentReset.astro`; Bausteine werden in `content-embeds.ts` expandiert.
+Registrierung: `public/admin/editor-components.js`. Rendering: `ArticleListing.astro` / `GlossarListing.astro` / `TagListing.astro` / `CategoryListing.astro` / `AuthorListing.astro` / `AuthorSocialLinks.astro` / `Separator.astro` / `Spacer.astro` / `CmsButton.astro` / `CmsButtonGroup.astro` / `CmsGridCards.astro` / `ContactEmail.astro` / `RepoDocLink.astro` / `VideoEmbed.astro` / `MemberVideo.astro` / `VideoConsentReset.astro` / `MatomoPrivacy.astro`; Bausteine werden in `content-embeds.ts` expandiert.
 
 **Externe Links** im Markdown-Inhalt (Seiten, Artikel, Glossar, Embed-Markdown) öffnen in einem neuen Tab (`target="_blank"` + `rel="noopener noreferrer"`). Intern (`/…`, Anker, gleiche Domain) bleiben im selben Tab. Plugin: `src/lib/hast-external-links.ts`.

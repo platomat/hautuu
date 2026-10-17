@@ -508,6 +508,17 @@ export const siteCodeConfigSchema = z.object({
 
 export type SiteCodeConfig = z.infer<typeof siteCodeConfigSchema>;
 
+/** CMS Allgemein → Matomo (tracking snippet). */
+export const matomoConfigSchema = z.object({
+	/**
+	 * Full Matomo embed (script + optional noscript).
+	 * Injected before `</body>` when non-empty (after Site-Code footer).
+	 */
+	code: z.string().default(""),
+});
+
+export type MatomoConfig = z.infer<typeof matomoConfigSchema>;
+
 /** CMS group General (site name for chrome + document titles). */
 export const siteGeneralConfigSchema = z.object({
 	/** Brand / site name in header, title suffix, og:site_name. */
@@ -538,8 +549,10 @@ export const siteGeneralConfigSchema = z.object({
 	logos: siteLogosConfigSchema.default({}),
 	/** Browser tab icons (default + optional dark color-scheme). */
 	favicons: siteFaviconsConfigSchema.default({}),
-	/** Site-wide HTML snippets (analytics, custom CSS, …). */
+	/** Site-wide HTML snippets (custom CSS/JS; not Matomo). */
 	siteCode: siteCodeConfigSchema.default({}),
+	/** Optional Matomo tracking snippet (injected site-wide when set). */
+	matomo: matomoConfigSchema.default({}),
 });
 
 export type SiteGeneralConfig = z.infer<typeof siteGeneralConfigSchema>;

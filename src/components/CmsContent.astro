@@ -16,6 +16,7 @@ import TagCloud from "./TagCloud.astro";
 import TagListing from "./TagListing.astro";
 import RepoDocLink from "./RepoDocLink.astro";
 import MemberVideo from "./MemberVideo.astro";
+import MatomoPrivacy from "./MatomoPrivacy.astro";
 import VideoConsentReset from "./VideoConsentReset.astro";
 import VideoEmbed from "./VideoEmbed.astro";
 import { buildContentSegments } from "../lib/content-embeds";
@@ -191,6 +192,9 @@ const segments = await buildContentSegments(body);
 		}
 		if (segment.type === "video-consent-reset") {
 			return <VideoConsentReset />;
+		}
+		if (segment.type === "matomo-privacy") {
+			return <MatomoPrivacy />;
 		}
 		if (segment.type === "author-listing") {
 			return <AuthorListing />;

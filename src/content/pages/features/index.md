@@ -83,6 +83,7 @@ Im Markdown über die Sveltia-Toolbar einfügbar; Speichern als `{{…}}`-Zeile;
 - **Logo** (`{{logo …}}`): Site-Logo aus General → Logos (Header/Sticky/Footer) mit Breite und Ausrichtung ([#79](https://github.com/platomat/hautoo/issues/79)).
 - **Video** (`{{video …}}`): YouTube/Vimeo mit Consent-Facade (Datenschutz-Link aus Privacy page); nach Freigabe füllt der Player die 16:9-Box. Alternativ selbst gehostete MP4 über R2. Ecken-Radius aus Design → Ecken abrunden → Videos (gilt auch für `{{member-video …}}`).
 - **Video-Freischaltung widerrufen** (`{{video-consent-reset}}`): Button, der die gespeicherte Video-Einwilligung im Browser löscht.
+- **Matomo Datenschutz** (`{{matomo-privacy}}`): Abschnitt Analyse/Matomo inkl. Opt-out; nur wenn unter Allgemein → Matomo Tracking-Code gesetzt ist.
 - **Repo-Dokument** (`{{repodoc …}}`): Hinweisbox mit Link zu einer Datei unter `docs/` auf GitHub (`main`).
 
 Zusätzlich in der Toolbar: **Bild** und **Codeblock** (Sveltia-Standard, kein eigenes `{{…}}`-Embed).
@@ -100,6 +101,8 @@ Globale Defaults unter **Einstellungen** im CMS (`settings`: Allgemein, Wartungs
 - **GitHub repository** (`owner/name`) für das Footer-Mitte-Icon, wenn Center logo an ist.
 - **Logos** aus der Mediathek: Header, optional Sticky, Footer ([#79](https://github.com/platomat/hautoo/issues/79)).
 - **Favicons** aus der Mediathek: Standard und optional dunkel ([#80](https://github.com/platomat/hautoo/issues/80)).
+- **Matomo:** Tracking-Code (Snippet); wird siteweit vor `</body>` eingefügt. Datenschutz-Abschnitt über `{{matomo-privacy}}`, Opt-out-URL aus dem Snippet.
+- **Site-Code:** globale Header-/Footer-HTML-Fragmente (nicht für Matomo).
 
 ### Settings → Wartungsmodus (#101)
 

@@ -257,6 +257,7 @@ export type ContentSegment =
 	| { type: "video"; props: VideoEmbedProps }
 	| { type: "member-video"; props: MemberVideoEmbedProps }
 	| { type: "video-consent-reset" }
+	| { type: "matomo-privacy" }
 	| { type: "author-listing" }
 	| { type: "author-social"; props: AuthorSocialEmbedProps };
 
@@ -379,7 +380,7 @@ const DEFAULT_SPACER: SpacerEmbedProps = {
 
 /** Line must be only the embed (optional attrs). */
 const EMBED_LINE =
-	/^\{\{(?<name>article-listing|glossar-listing|tag-listing|category-listing|author-listing|author-social|tag-cloud|separator|spacer|button-group|button|grid-cards|contact-email|logo|repodoc|block|video-consent-reset|member-video|video)(?<attrs>[^}]*)\}\}\s*$/gm;
+	/^\{\{(?<name>article-listing|glossar-listing|tag-listing|category-listing|author-listing|author-social|tag-cloud|separator|spacer|button-group|button|grid-cards|contact-email|logo|repodoc|block|video-consent-reset|matomo-privacy|member-video|video)(?<attrs>[^}]*)\}\}\s*$/gm;
 
 const LOGO_VARIANTS = new Set<LogoEmbedVariant>(["header", "sticky", "footer"]);
 const LOGO_ALIGNS = new Set<LogoEmbedAlign>(["left", "center", "right"]);
@@ -871,6 +872,8 @@ export async function buildContentSegments(
 			}
 		} else if (name === "video-consent-reset") {
 			segments.push({ type: "video-consent-reset" });
+		} else if (name === "matomo-privacy") {
+			segments.push({ type: "matomo-privacy" });
 		} else if (name === "author-listing") {
 			segments.push({ type: "author-listing" });
 		} else if (name === "author-social") {
