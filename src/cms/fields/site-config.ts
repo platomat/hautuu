@@ -658,6 +658,8 @@ export const siteContentConfigSchema = z.object({
 
 export type SiteContentFileConfig = z.infer<typeof siteContentConfigSchema>;
 
+const maintenanceLogoSize = z.coerce.number().int().min(24).max(600);
+
 /**
  * Logo above the maintenance title (#101).
  * `show` off by default so the site mark is not exposed unintentionally.
@@ -667,6 +669,8 @@ export const siteMaintenanceLogoConfigSchema = z.object({
 	show: z.boolean().default(false),
 	/** Optional override image from the media library. */
 	image: cmsImagePathSchema,
+	/** Display width in px (CSS max-width); height scales. */
+	size: maintenanceLogoSize.default(300),
 });
 
 export type SiteMaintenanceLogoConfig = z.infer<

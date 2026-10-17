@@ -8,16 +8,27 @@ interface Props {
 	showLogo?: boolean;
 	/** Optional media path; empty = General → Logos → Header. */
 	logoCmsPath?: string;
+	/** Logo width in px (default 300). */
+	logoSize?: number;
 }
 
-const { title, descriptionHtml, showLogo = false, logoCmsPath } = Astro.props;
+const {
+	title,
+	descriptionHtml,
+	showLogo = false,
+	logoCmsPath,
+	logoSize = 300,
+} = Astro.props;
+
+const logoWidth = Math.min(600, Math.max(24, Math.round(logoSize)));
+const logoStyle = `--maintenance-logo-size: ${logoWidth}px`;
 ---
 
 <main class="maintenance">
 	<div class="maintenance__inner">
 		{
 			showLogo && (
-				<div class="maintenance__logo">
+				<div class="maintenance__logo" style={logoStyle}>
 					<LogoMark
 						variant="header"
 						cmsPath={logoCmsPath}
@@ -54,13 +65,13 @@ const { title, descriptionHtml, showLogo = false, logoCmsPath } = Astro.props;
 		display: flex;
 		justify-content: center;
 		margin: 0 auto 1.25rem;
-		width: min(100%, 300px);
+		width: min(100%, var(--maintenance-logo-size, 300px));
 	}
 
 	.maintenance__logo :global(.maintenance__logo-mark) {
 		display: block;
 		width: 100%;
-		max-width: 300px;
+		max-width: var(--maintenance-logo-size, 300px);
 		height: auto;
 	}
 
