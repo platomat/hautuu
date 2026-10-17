@@ -1637,6 +1637,18 @@ CMS.registerEditorComponent({
 		align: "left",
 	};
 
+	const GRID_CARD_BORDER_DEFAULT = {
+		color: "border",
+		width: 1,
+		radius: 6,
+	};
+
+	const GRID_CARD_BACKGROUND_DEFAULT = {
+		color: "surface",
+		image: "",
+		fit: "cover",
+	};
+
 	const GRID_CARD_DEFAULT = {
 		title: "Karte",
 		subtitle: "",
@@ -1644,12 +1656,8 @@ CMS.registerEditorComponent({
 		image: "",
 		imageStyle: "top-cover",
 		button: { ...GRID_CARD_BUTTON_DEFAULT },
-		borderColor: "border",
-		borderWidth: 1,
-		borderRadius: 6,
-		bgColor: "surface",
-		bgImage: "",
-		bgFit: "cover",
+		border: { ...GRID_CARD_BORDER_DEFAULT },
+		background: { ...GRID_CARD_BACKGROUND_DEFAULT },
 		alignX: "left",
 		alignY: "top",
 	};
@@ -1677,10 +1685,60 @@ CMS.registerEditorComponent({
 		};
 	}
 
+	function normalizeEditorGridCardBorder(card) {
+		const nested = card?.border;
+		if (nested && typeof nested === "object" && !Array.isArray(nested)) {
+			return {
+				color: nested.color || "border",
+				width:
+					nested.width === "" || nested.width == null
+						? 1
+						: Number(nested.width),
+				radius:
+					nested.radius === "" || nested.radius == null
+						? 6
+						: Number(nested.radius),
+			};
+		}
+		return {
+			color: card?.borderColor || "border",
+			width:
+				card?.borderWidth === "" || card?.borderWidth == null
+					? 1
+					: Number(card.borderWidth),
+			radius:
+				card?.borderRadius === "" || card?.borderRadius == null
+					? 6
+					: Number(card.borderRadius),
+		};
+	}
+
+	function normalizeEditorGridCardBackground(card) {
+		const nested = card?.background;
+		if (nested && typeof nested === "object" && !Array.isArray(nested)) {
+			const color =
+				nested.color === "none" ? "" : nested.color || "surface";
+			return {
+				color,
+				image: String(nested.image || "").trim(),
+				fit: nested.fit || "cover",
+			};
+		}
+		const color =
+			card?.bgColor === "none" ? "" : card?.bgColor || "surface";
+		return {
+			color,
+			image: String(card?.bgImage || "").trim(),
+			fit: card?.bgFit || "cover",
+		};
+	}
+
 	function encodeGridCardsAttr(cards) {
 		const list = (Array.isArray(cards) ? cards : [])
 			.map((card) => {
 				const button = normalizeEditorGridCardButton(card);
+				const border = normalizeEditorGridCardBorder(card);
+				const background = normalizeEditorGridCardBackground(card);
 				return {
 					title: String(card?.title || "").trim(),
 					subtitle: String(card?.subtitle || "").trim(),
@@ -1688,19 +1746,8 @@ CMS.registerEditorComponent({
 					image: String(card?.image || "").trim(),
 					imageStyle: card?.imageStyle || "top-cover",
 					button,
-					borderColor: card?.borderColor || "border",
-					borderWidth:
-						card?.borderWidth === "" || card?.borderWidth == null
-							? 1
-							: Number(card.borderWidth),
-					borderRadius:
-						card?.borderRadius === "" || card?.borderRadius == null
-							? 6
-							: Number(card.borderRadius),
-					bgColor:
-						card?.bgColor === "none" ? "" : card?.bgColor || "surface",
-					bgImage: String(card?.bgImage || "").trim(),
-					bgFit: card?.bgFit || "cover",
+					border,
+					background,
 					alignX: card?.alignX || "left",
 					alignY: card?.alignY || "top",
 				};
@@ -1712,7 +1759,7 @@ CMS.registerEditorComponent({
 					card.text ||
 					card.image ||
 					card.button.label ||
-					card.bgImage,
+					card.background.image,
 			)
 			.slice(0, 12);
 		return encodeURIComponent(JSON.stringify(list));
@@ -1890,55 +1937,75 @@ CMS.registerEditorComponent({
 						],
 					},
 					{
-						name: "borderColor",
-						label: "Randfarbe",
-						widget: "select",
-						default: "border",
-						options: BUTTON_COLOR_OPTIONS,
-					},
-					{
-						name: "borderWidth",
-						label: "Randdicke (px)",
-						widget: "number",
-						value_type: "int",
-						default: 1,
-						min: 0,
-						max: 16,
-					},
-					{
-						name: "borderRadius",
-						label: "Eckenradius (px)",
-						widget: "number",
-						value_type: "int",
-						default: 6,
-						min: 0,
-						max: 64,
-					},
-					{
-						name: "bgColor",
-						label: "Hintergrundfarbe",
-						widget: "select",
-						default: "surface",
-						options: [
-							{ label: "Keine (transparent)", value: "none" },
-							...BUTTON_COLOR_OPTIONS,
+						name: "border",
+						label: "Rand",
+						widget: "object",
+						collapsed: true,
+						required: false,
+						hint: "Kartenrahmen: Farbe, Dicke und Eckenradius.",
+						fields: [
+							{
+								name: "color",
+								label: "Farbe",
+								widget: "select",
+								default: "border",
+								options: BUTTON_COLOR_OPTIONS,
+							},
+							{
+								name: "width",
+								label: "Dicke (px)",
+								widget: "number",
+								value_type: "int",
+								default: 1,
+								min: 0,
+								max: 16,
+							},
+							{
+								name: "radius",
+								label: "Eckenradius (px)",
+								widget: "number",
+								value_type: "int",
+								default: 6,
+								min: 0,
+								max: 64,
+							},
 						],
 					},
 					{
-						name: "bgImage",
-						label: "Hintergrundbild",
-						widget: "image",
+						name: "background",
+						label: "Hintergrund",
+						widget: "object",
+						collapsed: true,
 						required: false,
-						hint: "Optional. Liegt unter der Kartenfarbe (abgedunkelt).",
-					},
-					{
-						name: "bgFit",
-						label: "Hintergrundbild-Anpassung",
-						widget: "select",
-						default: "cover",
-						options: [
-							{ label: "Cover (füllen)", value: "cover" },
-							{ label: "Contain (einfügen)", value: "contain" },
+						hint: "Kartenfarbe und optionales Hintergrundbild.",
+						fields: [
+							{
+								name: "color",
+								label: "Farbe",
+								widget: "select",
+								default: "surface",
+								options: [
+									{ label: "Keine (transparent)", value: "none" },
+									...BUTTON_COLOR_OPTIONS,
+								],
+							},
+							{
+								name: "image",
+								label: "Bild",
+								widget: "image",
+								required: false,
+								hint: "Optional. Liegt unter der Kartenfarbe (abgedunkelt).",
+							},
+							{
+								name: "fit",
+								label: "Bild-Anpassung",
+								widget: "select",
+								default: "cover",
+								options: [
+									{ label: "Cover (füllen)", value: "cover" },
+									{ label: "Contain (einfügen)", value: "contain" },
+								],
+							},
 						],
 					},
 					{
@@ -1982,15 +2049,28 @@ CMS.registerEditorComponent({
 					stretchRaw === "yes",
 				cards:
 					cards.length > 0
-						? cards.map((card) => ({
-								...GRID_CARD_DEFAULT,
-								...card,
-								button: {
-									...GRID_CARD_BUTTON_DEFAULT,
-									...normalizeEditorGridCardButton(card),
-								},
-								bgColor: card.bgColor || "none",
-							}))
+						? cards.map((card) => {
+								const background = {
+									...GRID_CARD_BACKGROUND_DEFAULT,
+									...normalizeEditorGridCardBackground(card),
+								};
+								return {
+									...GRID_CARD_DEFAULT,
+									...card,
+									button: {
+										...GRID_CARD_BUTTON_DEFAULT,
+										...normalizeEditorGridCardButton(card),
+									},
+									border: {
+										...GRID_CARD_BORDER_DEFAULT,
+										...normalizeEditorGridCardBorder(card),
+									},
+									background: {
+										...background,
+										color: background.color || "none",
+									},
+								};
+							})
 						: [
 								{ ...GRID_CARD_DEFAULT, title: "Erste Karte" },
 								{ ...GRID_CARD_DEFAULT, title: "Zweite Karte" },

@@ -41,8 +41,8 @@ for (const card of cards) {
 			next.imageSrc = optimized.src;
 		}
 	}
-	if (card.bgImage) {
-		const meta = resolveCmsImage(card.bgImage);
+	if (card.background.image) {
+		const meta = resolveCmsImage(card.background.image);
 		if (meta) {
 			const optimized = await getImage({
 				src: meta,
@@ -78,17 +78,17 @@ const style = [
 			data-orphan-m={orphanMobile ? "1" : "0"}
 		>
 			{resolved.map((card) => {
-				const borderCss = gridCardColorCss(card.borderColor);
-				const bgCss = gridCardColorCss(card.bgColor);
+				const borderCss = gridCardColorCss(card.border.color);
+				const bgCss = gridCardColorCss(card.background.color);
 				const cardStyle = [
 					`--gc-border: ${borderCss}`,
-					`--gc-border-w: ${card.borderWidth}px`,
-					`--gc-radius: ${card.borderRadius}px`,
+					`--gc-border-w: ${card.border.width}px`,
+					`--gc-radius: ${card.border.radius}px`,
 					`--gc-bg: ${bgCss}`,
 					card.bgImageSrc
 						? `--gc-bg-image: url("${card.bgImageSrc}")`
 						: "",
-					`--gc-bg-fit: ${card.bgFit}`,
+					`--gc-bg-fit: ${card.background.fit}`,
 				]
 					.filter(Boolean)
 					.join("; ");

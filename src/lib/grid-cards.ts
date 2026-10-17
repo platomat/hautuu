@@ -60,17 +60,25 @@ export type GridCardButton = {
 	align: ButtonAlign;
 };
 
-export type GridCard = {
-	borderColor: SeparatorColor;
+export type GridCardBorder = {
+	color: SeparatorColor;
 	/** Border width in px (0 = none). */
-	borderWidth: number;
+	width: number;
 	/** Corner radius in px. */
-	borderRadius: number;
+	radius: number;
+};
+
+export type GridCardBackground = {
 	/** Optional fill from the design palette; empty = transparent. */
-	bgColor: SeparatorColor | "";
+	color: SeparatorColor | "";
 	/** Optional background image path (`/assets/…`). */
-	bgImage: string;
-	bgFit: GridCardBgFit;
+	image: string;
+	fit: GridCardBgFit;
+};
+
+export type GridCard = {
+	border: GridCardBorder;
+	background: GridCardBackground;
 	alignX: GridCardAlignX;
 	alignY: GridCardAlignY;
 	/** Content image path. */
@@ -92,6 +100,18 @@ export const DEFAULT_GRID_CARD_BUTTON: GridCardButton = {
 	align: DEFAULT_BUTTON_ALIGN,
 };
 
+export const DEFAULT_GRID_CARD_BORDER: GridCardBorder = {
+	color: "border",
+	width: 1,
+	radius: 6,
+};
+
+export const DEFAULT_GRID_CARD_BACKGROUND: GridCardBackground = {
+	color: "surface",
+	image: "",
+	fit: "cover",
+};
+
 export type GridCardsEmbedProps = {
 	/** Columns ≥1024px. */
 	colsDesktop: number;
@@ -107,12 +127,8 @@ export type GridCardsEmbedProps = {
 };
 
 export const DEFAULT_GRID_CARD: GridCard = {
-	borderColor: "border",
-	borderWidth: 1,
-	borderRadius: 6,
-	bgColor: "surface",
-	bgImage: "",
-	bgFit: "cover",
+	border: { ...DEFAULT_GRID_CARD_BORDER },
+	background: { ...DEFAULT_GRID_CARD_BACKGROUND },
 	alignX: "left",
 	alignY: "top",
 	image: "",
@@ -157,6 +173,60 @@ export function normalizeGridCardButton(
 		align: resolveButtonAlign(
 			String(cardObj.buttonAlign ?? DEFAULT_BUTTON_ALIGN),
 		),
+	};
+}
+
+/** Nested `border`, or legacy flat `borderColor` / `borderWidth` / `borderRadius`. */
+export function normalizeGridCardBorder(
+	cardObj: Record<string, unknown>,
+): GridCardBorder {
+	const nested = cardObj.border;
+	if (nested && typeof nested === "object" && !Array.isArray(nested)) {
+		const b = nested as Record<string, unknown>;
+		return {
+			color: resolveSeparatorColor(
+				String(b.color ?? DEFAULT_GRID_CARD_BORDER.color),
+			),
+			width: clampInt(b.width, DEFAULT_GRID_CARD_BORDER.width, 0, 16),
+			radius: clampInt(b.radius, DEFAULT_GRID_CARD_BORDER.radius, 0, 64),
+		};
+	}
+	return {
+		color: resolveSeparatorColor(
+			String(cardObj.borderColor ?? DEFAULT_GRID_CARD_BORDER.color),
+		),
+		width: clampInt(
+			cardObj.borderWidth,
+			DEFAULT_GRID_CARD_BORDER.width,
+			0,
+			16,
+		),
+		radius: clampInt(
+			cardObj.borderRadius,
+			DEFAULT_GRID_CARD_BORDER.radius,
+			0,
+			64,
+		),
+	};
+}
+
+/** Nested `background`, or legacy flat `bgColor` / `bgImage` / `bgFit`. */
+export function normalizeGridCardBackground(
+	cardObj: Record<string, unknown>,
+): GridCardBackground {
+	const nested = cardObj.background;
+	if (nested && typeof nested === "object" && !Array.isArray(nested)) {
+		const b = nested as Record<string, unknown>;
+		return {
+			color: resolveBgColor(b.color),
+			image: String(b.image ?? "").trim(),
+			fit: resolveBgFit(b.fit),
+		};
+	}
+	return {
+		color: resolveBgColor(cardObj.bgColor),
+		image: String(cardObj.bgImage ?? "").trim(),
+		fit: resolveBgFit(cardObj.bgFit),
 	};
 }
 
@@ -226,7 +296,8 @@ export function normalizeGridCard(raw: unknown): GridCard | null {
 	const text = String(obj.text ?? "").trim();
 	const image = String(obj.image ?? "").trim();
 	const button = normalizeGridCardButton(obj);
-	const bgImage = String(obj.bgImage ?? "").trim();
+	const border = normalizeGridCardBorder(obj);
+	const background = normalizeGridCardBackground(obj);
 	// Drop empty cards (no visible content).
 	if (
 		!title &&
@@ -234,17 +305,13 @@ export function normalizeGridCard(raw: unknown): GridCard | null {
 		!text &&
 		!image &&
 		!button.label &&
-		!bgImage
+		!background.image
 	) {
 		return null;
 	}
 	return {
-		borderColor: resolveSeparatorColor(String(obj.borderColor ?? "")),
-		borderWidth: clampInt(obj.borderWidth, 1, 0, 16),
-		borderRadius: clampInt(obj.borderRadius, 6, 0, 64),
-		bgColor: resolveBgColor(obj.bgColor),
-		bgImage,
-		bgFit: resolveBgFit(obj.bgFit),
+		border,
+		background,
 		alignX: resolveAlignX(obj.alignX),
 		alignY: resolveAlignY(obj.alignY),
 		image,
