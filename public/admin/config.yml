@@ -1095,7 +1095,7 @@ collections:
             widget: boolean
             required: false
             default: false
-            hint: "An = Production-Build zeigt Besuchern nur die Wartungsseite (Titel, Text, Hintergrund, Copyright-Footer). Lokal (astro dev) bleibt die Site sichtbar; oben erscheint ein Erinnerungsbanner."
+            hint: "An = online sehen Besucher nur die Wartungsseite (Titel, Text, Hintergrund, Copyright-Footer), nicht den normalen Inhalt. Lokal beim Bearbeiten bleibt die Site sichtbar; oben erscheint ein Hinweis mit Link zur Vorschau."
           - name: title
             label: Titel
             widget: string

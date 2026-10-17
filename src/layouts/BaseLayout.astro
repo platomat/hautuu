@@ -21,6 +21,7 @@ import {
 	shouldServeMaintenancePage,
 	shouldShowMaintenanceDevBanner,
 	getMaintenanceConfig,
+	isMaintenancePreviewPath,
 } from "../lib/maintenance";
 import { buildSiteBorderRadiusRootCss } from "../lib/site-border-radius";
 import {
@@ -60,8 +61,10 @@ const siteTypographyRootCss = buildSiteTypographyRootCss();
 const siteBorderRadiusRootCss = buildSiteBorderRadiusRootCss();
 const fontPreloadHrefs = getFontPreloadHrefs();
 
-const serveMaintenance = shouldServeMaintenancePage();
-const showMaintenanceDevBanner = shouldShowMaintenanceDevBanner();
+const pathname = Astro.url.pathname;
+const serveMaintenance = shouldServeMaintenancePage(pathname);
+const showMaintenanceDevBanner = shouldShowMaintenanceDevBanner(pathname);
+const maintenancePreview = isMaintenancePreviewPath(pathname);
 const maintenance = serveMaintenance || showMaintenanceDevBanner
 	? getMaintenanceConfig()
 	: null;
@@ -87,7 +90,8 @@ if (serveMaintenance && maintenance) {
 	seoProp = {
 		seo_title: maintenance.title,
 		seo_description: description,
-		index_visibility: "index",
+		// Preview URL must not be indexed; live maintenance page may be.
+		index_visibility: maintenancePreview ? "noindex" : "index",
 	};
 	ogType = "website";
 	readingTimeMinutes = undefined;

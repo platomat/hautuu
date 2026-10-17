@@ -1,0 +1,16 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { isMaintenanceEnabled } from "../lib/maintenance";
+
+/**
+ * Preview of the public maintenance screen while editing locally.
+ * Only when Wartungsmodus is on; otherwise back to the home page.
+ */
+if (!isMaintenanceEnabled()) {
+	return Astro.redirect("/");
+}
+---
+
+<BaseLayout title="Wartungsseite">
+	{/* Body replaced by BaseLayout when maintenance preview is active. */}
+</BaseLayout>

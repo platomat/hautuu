@@ -62,7 +62,7 @@ Globale Site-Einstellungen als **JSON-Dateien** (wie cdr-legal), kein Markdown-B
 
 | Feld | Bedeutung |
 | --- | --- |
-| `enabled` | An = Production-Build zeigt nur die Wartungsseite; `astro dev` zeigt die Site mit Erinnerungsbanner |
+| `enabled` | An = online nur Wartungsseite; lokal Site mit Hinweisbanner und Vorschau unter `/wartung-vorschau/` |
 | `title` | H1 und SEO-/Browser-Titel |
 | `description` | Kurzer Markdown-Text unter dem Titel |
 | `background.image` / `overlay` | Optional vollflächiger Hintergrund mit Abdunkelung (wie bei Seiten) |

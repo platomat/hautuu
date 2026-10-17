@@ -1,16 +1,24 @@
 ---
+import { MAINTENANCE_PREVIEW_PATH } from "../lib/maintenance";
+
 /**
- * Visible only in `astro dev` when Wartungsmodus is on.
- * Reminds editors that production builds will hide the site.
+ * Visible in `astro dev` when Wartungsmodus is on (not on the preview URL).
  */
 ---
 
 <div class="maintenance-dev-banner" role="status">
-	<strong>Wartungsmodus aktiv</strong>
+	<strong>Wartungsmodus an</strong>
 	<span>
-		Lokal siehst du die Site normal. Ein Production-Build zeigt Besuchern nur die
-		Wartungsseite.
+		Online sehen Besucher nur die Wartungsseite, nicht den normalen Inhalt.
 	</span>
+	<a
+		class="maintenance-dev-banner__preview"
+		href={MAINTENANCE_PREVIEW_PATH}
+		target="_blank"
+		rel="noopener noreferrer"
+	>
+		Wartungsseite ansehen
+	</a>
 </div>
 
 <style>
@@ -33,5 +41,17 @@
 	.maintenance-dev-banner strong {
 		font-weight: var(--font-weight-heading);
 		color: var(--color-action);
+	}
+
+	.maintenance-dev-banner__preview {
+		margin-inline-start: auto;
+		font-weight: var(--font-weight-heading);
+		color: var(--color-action);
+		text-decoration: underline;
+		text-underline-offset: 0.12em;
+	}
+
+	.maintenance-dev-banner__preview:hover {
+		color: var(--color-action-hover);
 	}
 </style>

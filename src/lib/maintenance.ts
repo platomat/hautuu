@@ -9,6 +9,9 @@ import { getSiteConfig } from "./site-config";
 
 export type { SiteMaintenanceConfig };
 
+/** Local preview of the public maintenance screen (dev + when mode is on). */
+export const MAINTENANCE_PREVIEW_PATH = "/wartung-vorschau/";
+
 /** CMS Maintenance settings (defaults applied). */
 export function getMaintenanceConfig(): SiteMaintenanceConfig {
 	return siteMaintenanceConfigSchema.parse(
@@ -21,17 +24,30 @@ export function isMaintenanceEnabled(): boolean {
 	return getMaintenanceConfig().enabled === true;
 }
 
-/**
- * Production build with maintenance on: visitors only see the maintenance screen.
- * Local `astro dev` stays fully browsable.
- */
-export function shouldServeMaintenancePage(): boolean {
-	return isMaintenanceEnabled() && import.meta.env.PROD;
+export function isMaintenancePreviewPath(pathname: string): boolean {
+	const normalized = pathname.endsWith("/") ? pathname : `${pathname}/`;
+	return normalized === MAINTENANCE_PREVIEW_PATH;
 }
 
-/** Dev reminder when maintenance is on but content is still shown. */
-export function shouldShowMaintenanceDevBanner(): boolean {
-	return isMaintenanceEnabled() && import.meta.env.DEV;
+/**
+ * Show the maintenance screen when:
+ * - mode is on and this is a production build (every URL), or
+ * - mode is on and the path is the local preview URL.
+ */
+export function shouldServeMaintenancePage(pathname?: string): boolean {
+	if (!isMaintenanceEnabled()) return false;
+	if (import.meta.env.PROD) return true;
+	return Boolean(pathname && isMaintenancePreviewPath(pathname));
+}
+
+/**
+ * Dev reminder when maintenance is on but the normal site is still shown.
+ * Hidden on the preview URL itself.
+ */
+export function shouldShowMaintenanceDevBanner(pathname?: string): boolean {
+	if (!isMaintenanceEnabled() || !import.meta.env.DEV) return false;
+	if (pathname && isMaintenancePreviewPath(pathname)) return false;
+	return true;
 }
 
 /** Plain text for meta description (strip light Markdown). */

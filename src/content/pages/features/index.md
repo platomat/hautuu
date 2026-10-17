@@ -102,7 +102,7 @@ Globale Defaults unter **Einstellungen** im CMS (`settings`: General, Wartungsmo
 
 ### Settings → Wartungsmodus (#101)
 
-- **Aktiv:** Production-Build blendet Inhalte aus und zeigt nur Titel, Markdown-Text, optionalen Hintergrund und Copyright-Footer. Lokal (`astro dev`) bleibt die Site sichtbar; Banner erinnert an den Modus. Sitemap ohne Einträge; `llms.txt` / `agents.txt` nur Stub; Suchindex leer.
+- **Aktiv:** Online sehen Besucher nur Titel, Markdown-Text, optionalen Hintergrund und Copyright-Footer. Lokal bleibt die Site sichtbar; Banner mit Link zur Vorschau (`/wartung-vorschau/`). Sitemap ohne Einträge; `llms.txt` / `agents.txt` nur Stub; Suchindex leer.
 - **Titel** (H1 + SEO), **Beschreibung** (Markdown), **Hintergrund** mit Abdunkelung wie bei Seiten.
 
 ### Settings → Design

@@ -151,6 +151,9 @@ export function sitemapPageFilter(pageUrl: string): boolean {
 	const pathname = new URL(pageUrl).pathname;
 	const normalized = pathname.endsWith("/") ? pathname : `${pathname}/`;
 	if (normalized.startsWith("/admin/")) return false;
+	if (normalized === "/wartung-vorschau/" || pathname === "/wartung-vorschau") {
+		return false;
+	}
 	// Wartungsmodus: Sitemap leer (keine Inhalts-URLs).
 	if (isMaintenanceEnabledFromFs()) {
 		return false;
