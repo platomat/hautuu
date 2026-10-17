@@ -3,7 +3,7 @@ title: Datenschutz
 description: Informationen zur Verarbeitung personenbezogener Daten auf hautuu.
 status: published
 publishDate: 2026-10-01
-modifiedDate: 2026-10-05
+modifiedDate: 2026-10-18
 seo:
   seo_title: Datenschutz
   seo_description: Informationen zur Verarbeitung personenbezogener Daten auf hautuu. Hosting, Videos erst nach Consent, Kontakt und deine Rechte. Seite mit Noindex.
@@ -36,16 +36,25 @@ Personenbezogene Daten fallen vor allem dort an, wo Technik Dritter unvermeidbar
 
 ## Hosting (Cloudflare)
 
-Die Website wird über [**Cloudflare Pages**](/glossar/cloudflare-pages/) ausgeliefert. Dabei können technisch erforderliche Verbindungsdaten verarbeitet werden, insbesondere:
+Die Website wird über [**Cloudflare Pages**](/glossar/cloudflare-pages/) ausgeliefert. Cloudflare verarbeitet dabei technisch erforderliche Verbindungsdaten (siehe Server-Log-Dateien).
 
+Anbieter: Cloudflare, Inc., 101 Townsend St, San Francisco, CA 94107, USA, mit Niederlassungen in der EU. Cloudflare kann Daten in Drittländern verarbeiten; Cloudflare stellt dafür geeignete Garantien bereit (u. a. Standardvertragsklauseln). Details: [Cloudflare Privacy Policy](https://www.cloudflare.com/privacypolicy/).
+
+## Server-Log-Dateien
+
+Der Anbieter der Seiten (Cloudflare) erhebt und speichert automatisch Informationen in so genannten Server-Log-Dateien, die dein Browser automatisch übermittelt. Das sind unter anderem:
+
+- Browsertyp und Browserversion
+- verwendetes Betriebssystem
+- Referrer-URL
+- Hostname des zugreifenden Rechners
+- Uhrzeit der Serveranfrage
 - IP-Adresse
-- Datum und Uhrzeit der Anfrage
-- angeforderte URL / Referrer
-- Browser- und Geräteinformationen (User-Agent)
+- angeforderte URL / Status der Antwort
 
-Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an sicherer, stabiler Bereitstellung der Website).
+Eine Zusammenführung dieser Daten mit anderen Datenquellen nehmen wir nicht vor.
 
-Anbieter: Cloudflare, Inc., 101 Townsend St, San Francisco, CA 94107, USA — mit Niederlassungen in der EU. Cloudflare kann Daten in Drittländern verarbeiten; Cloudflare stellt dafür geeignete Garantien bereit (u. a. Standardvertragsklauseln). Details: [Cloudflare Privacy Policy](https://www.cloudflare.com/privacypolicy/).
+Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO. Wir haben ein berechtigtes Interesse an der technisch fehlerfreien Darstellung und der Optimierung der Website; dafür müssen Server-Log-Dateien erfasst werden.
 
 ## Schriften und Assets
 
