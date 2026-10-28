@@ -1008,7 +1008,7 @@ collections:
             label: Website-URL
             widget: string
             required: false
-            hint: "Öffentliche Origin inkl. https:// (z. B. https://platomat.com), ohne Slash am Ende. Für Canonical, Sitemap, OG und llms.txt. Überschreibbar per Build-ENV SITE (Cloudflare/CI)."
+            hint: "Öffentliche Origin inkl. https:// (z. B. https://platomat.com), ohne Slash am Ende. Für Canonical, Sitemap, OG und llms.txt. Gewinnt gegen Build-ENV SITE; SITE nur Fallback wenn dieses Feld leer ist."
             default: ""
           - name: websiteDescription
             label: Website description

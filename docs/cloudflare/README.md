@@ -76,7 +76,7 @@ Ohne passende Node-Version kann der Cloudflare-Build fehlschlagen, obwohl lokal 
 | Variable | Pflicht? | Zweck |
 | --- | --- | --- |
 | `NODE_VERSION` | ja | siehe oben |
-| `SITE` | optional | Override für die öffentliche Origin (Canonical, Sitemap, `llms.txt`). Primär: CMS Allgemein → Website-URL (`general.siteUrl`). Bei Fremdhost-Pull: Live-Domain in CMS setzen. `SITE` nur wenn du die CMS-URL überschreiben willst. Build-Befehl bleibt `npm run build`. |
+| `SITE` | optional | Fallback für die öffentliche Origin, nur wenn CMS Allgemein → Website-URL (`general.siteUrl`) leer ist. Live-Domain primär im CMS setzen. Build-Befehl bleibt `npm run build`. |
 | `HAUTOO_DIST_BRIDGE` | optional | `1`: nach dem Build ZIP als `dist/dist-bridge.zip` mitdeployen (für [Dist-Bridge](../hosting/README.md#dist-bridge-pull-deploy)). Ohne Variable: kein ZIP. |
 | `CONTACT_EMAIL` | optional | Kontaktadresse wenn nicht im CMS; siehe `.env.example` |
 

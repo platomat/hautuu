@@ -47,19 +47,19 @@ Absolute URLs (Canonical, Sitemap, OG, `llms.txt` / `agents.txt`) werden **beim 
 
 Reihenfolge (`scripts/resolve-site-url.mjs`):
 
-1. ENV `SITE` (optional Override in CI / Cloudflare)
-2. CMS **Einstellungen → Allgemein → Website-URL** (`general.siteUrl`)
+1. CMS **Einstellungen → Allgemein → Website-URL** (`general.siteUrl`)
+2. ENV `SITE` (nur Fallback, wenn CMS leer)
 3. Template-Default `https://hautoo.storyofai.net`
 
-Im CMS die Live-Origin eintragen (z. B. `https://platomat.com`, ohne Slash am Ende). Dann reicht `npm run build` ohne extra ENV.
+Im CMS die Live-Origin eintragen (z. B. `https://platomat.com`, ohne Slash am Ende). Dann reicht `npm run build` ohne extra ENV. CMS gewinnt immer gegen `SITE`.
 
-Lokal oder einmalig überschreiben:
+Fallback ohne CMS-Wert:
 
 ```bash
 SITE=https://www.beispiel.de npm run build
 ```
 
-**Cloudflare Pages (optional):** `SITE` nur noch nötig, wenn du die CMS-URL gezielt überschreiben willst (Preview-Domain o. Ä.). Für den Normalfall reicht `general.siteUrl`. Build-Befehl bleibt `npm run build`.
+**Cloudflare Pages:** Für den Normalfall reicht `general.siteUrl`. `SITE` nur setzen, wenn die CMS-URL noch leer ist. Build-Befehl bleibt `npm run build`.
 
 Medien-Basis-URLs stehen separat in `settings/content.json`.
 

@@ -16,7 +16,7 @@ const buildId =
 	process.env.BUILD_ID ||
 	'dev';
 
-/** Public origin: ENV SITE → CMS general.siteUrl → template default. */
+/** Public origin: CMS general.siteUrl → ENV SITE → template default. */
 const site = resolveSiteUrl();
 
 // https://astro.build/config

@@ -112,7 +112,7 @@ Anker-IDs: `github-slugger`.
 | JSON | `general.siteUrl` |
 | Build | `scripts/resolve-site-url.mjs` → Astro `site` |
 
-Öffentliche Origin (`https://…`, ohne Slash am Ende) für Canonical, Sitemap, OG und `llms.txt`. Override: ENV `SITE`. Leer = ENV oder Template-Default.
+Öffentliche Origin (`https://…`, ohne Slash am Ende) für Canonical, Sitemap, OG und `llms.txt`. CMS gewinnt gegen ENV `SITE`. Leer = ENV-Fallback oder Template-Default.
 
 ## Matomo (`matomo.code`)
 

@@ -536,7 +536,7 @@ export const siteGeneralConfigSchema = z.object({
 	websiteTitle: z.string().trim().min(1).default("hautuu"),
 	/**
 	 * Public site origin (`https://…`) for canonical, sitemap, OG, llms.txt.
-	 * Build override: ENV `SITE`. See `scripts/resolve-site-url.mjs`.
+	 * Wins over ENV `SITE` (ENV is fallback when empty). See `scripts/resolve-site-url.mjs`.
 	 */
 	siteUrl: siteUrlSchema,
 	/**

@@ -57,7 +57,7 @@ Globale Site-Einstellungen als **JSON-Dateien** (wie cdr-legal), kein Markdown-B
 | `favicons.dark` | Optional Favicon für `prefers-color-scheme: dark`; leer = gleiches wie default |
 | `contactEmail` | Optional für `{{contact-email}}`. Überschreibt `CONTACT_EMAIL` beim Build; leer = ENV. Wert ist öffentlich in Git. |
 | `privacyPage` | Optional Seiten-Slug (Relation `pages`) für die Datenschutz-Seite (wie WordPress Privacy Policy). Leer = kein Link; genutzt u. a. vom Video-Consent. |
-| `siteUrl` | Öffentliche Origin (`https://…`) für Canonical/Sitemap/OG; Override per ENV `SITE` |
+| `siteUrl` | Öffentliche Origin (`https://…`) für Canonical/Sitemap/OG; gewinnt gegen ENV `SITE` |
 | `matomo.code` | Optional Matomo-Tracking-Snippet (vor `</body>`; nach Site-Code-Footer) |
 | `siteCode.headCode` | Optional globales HTML vor `</head>` (alle Seiten; vor Eintrags-`siteCode`) |
 | `siteCode.footerCode` | Optional globales HTML vor `</body>` (nach Site-Footer; vor Matomo und Eintrags-`siteCode`) |
