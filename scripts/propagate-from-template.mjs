@@ -28,6 +28,7 @@ const ENGINE_PATHS = [
 	"src/components",
 	"src/layouts",
 	"src/lib",
+	"src/scripts",
 	"src/styles/global.css",
 	"src/content.config.ts",
 	"scripts/build-search-index.mjs",
