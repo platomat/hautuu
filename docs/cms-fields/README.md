@@ -104,6 +104,16 @@ Anker-IDs: `github-slugger`.
 
 **Hinweis:** YAML-Anchors gelten nur **innerhalb derselben** `config.yml`. Zod und YAML bei Feldänderungen gemeinsam pflegen.
 
+## Website-URL (`siteUrl`)
+
+| Ebene | Ort |
+| --- | --- |
+| CMS | Einstellungen → Allgemein → Website-URL |
+| JSON | `general.siteUrl` |
+| Build | `scripts/resolve-site-url.mjs` → Astro `site` |
+
+Öffentliche Origin (`https://…`, ohne Slash am Ende) für Canonical, Sitemap, OG und `llms.txt`. Override: ENV `SITE`. Leer = ENV oder Template-Default.
+
 ## Matomo (`matomo.code`)
 
 | Ebene | Ort |

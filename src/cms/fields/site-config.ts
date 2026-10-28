@@ -519,10 +519,26 @@ export const matomoConfigSchema = z.object({
 
 export type MatomoConfig = z.infer<typeof matomoConfigSchema>;
 
+/** Public https origin for Astro `site` (empty = use ENV SITE / template default). */
+const siteUrlSchema = z
+	.string()
+	.trim()
+	.default("")
+	.refine(
+		(value) =>
+			value === "" || /^https?:\/\/[^\s/]+/i.test(value),
+		"siteUrl must be empty or an http(s) origin (e.g. https://example.com)",
+	);
+
 /** CMS group General (site name for chrome + document titles). */
 export const siteGeneralConfigSchema = z.object({
 	/** Brand / site name in header, title suffix, og:site_name. */
 	websiteTitle: z.string().trim().min(1).default("hautuu"),
+	/**
+	 * Public site origin (`https://…`) for canonical, sitemap, OG, llms.txt.
+	 * Build override: ENV `SITE`. See `scripts/resolve-site-url.mjs`.
+	 */
+	siteUrl: siteUrlSchema,
 	/**
 	 * Optional short description / slogan (#75).
 	 * Stored for later UI use; not required on every page yet.

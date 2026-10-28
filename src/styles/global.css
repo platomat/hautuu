@@ -110,16 +110,17 @@ body.has-chrome-glass {
 body.has-chrome-glass .site-header,
 body.has-chrome-glass .site-footer,
 body.has-chrome-glass .site-nav__sub {
-	backdrop-filter: blur(10px);
+	/* Unprefixed last: LightningCSS minify can drop it when -webkit- follows. */
 	-webkit-backdrop-filter: blur(10px);
+	backdrop-filter: blur(10px);
 }
 
 @media (max-width: 679px) {
 	/* Mobile panel must stay readable over page BG (glass alone is too thin). */
 	body.has-chrome-glass .site-nav {
 		background: var(--color-surface);
-		backdrop-filter: none;
 		-webkit-backdrop-filter: none;
+		backdrop-filter: none;
 	}
 }
 
@@ -128,8 +129,8 @@ body.has-chrome-glass .site-nav__sub {
 	body.has-chrome-glass .site-footer,
 	body.has-chrome-glass .site-nav,
 	body.has-chrome-glass .site-nav__sub {
-		backdrop-filter: none;
 		-webkit-backdrop-filter: none;
+		backdrop-filter: none;
 	}
 }
 

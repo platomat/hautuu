@@ -95,6 +95,7 @@ Globale Defaults unter **Einstellungen** im CMS (`settings`: Allgemein, Wartungs
 ### Settings → Allgemein
 
 - **Website title** und optionale **Description** / Slogan ([#75](https://github.com/platomat/hautoo/issues/75)); Description auch im Footer-Brand.
+- **Website-URL** (`siteUrl`): öffentliche Origin für Canonical, Sitemap und OG; überschreibbar per Build-ENV `SITE`.
 - **Footer copyright:** Claim und Trenner links; **Show center logo** für das kleine Icon in der Mitte (GitHub-Icon bei gesetztem Repo, sonst Site-Logo).
 - **Contact email** für `{{contact-email}}` (sonst Build-Variable `CONTACT_EMAIL`).
 - **Privacy page:** Relation zur Datenschutz-Seite (u. a. Link in der Video-Einwilligung).

@@ -43,17 +43,23 @@ Node.js beim Hoster brauchst du nur, wenn der Hoster selbst baut. Beim reinen Up
 
 ## Domain und absolute URLs
 
-Absolute URLs (Canonical, Sitemap, OG, `llms.txt` / `agents.txt`) werden **beim Build** gesetzt. Am Server lässt sich das nicht umbiegen. Default ohne `SITE`: `https://hautoo.storyofai.net`.
+Absolute URLs (Canonical, Sitemap, OG, `llms.txt` / `agents.txt`) werden **beim Build** gesetzt. Am Server lässt sich das nicht umbiegen.
 
-Lokal ohne Code-Änderung:
+Reihenfolge (`scripts/resolve-site-url.mjs`):
+
+1. ENV `SITE` (optional Override in CI / Cloudflare)
+2. CMS **Einstellungen → Allgemein → Website-URL** (`general.siteUrl`)
+3. Template-Default `https://hautoo.storyofai.net`
+
+Im CMS die Live-Origin eintragen (z. B. `https://platomat.com`, ohne Slash am Ende). Dann reicht `npm run build` ohne extra ENV.
+
+Lokal oder einmalig überschreiben:
 
 ```bash
 SITE=https://www.beispiel.de npm run build
 ```
 
-**Cloudflare Pages (optional):** Im Projekt unter Settings → Environment variables z. B. `SITE` = `https://www.beispiel.de` (Production, ggf. Preview). Build-Befehl bleibt `npm run build`. Astro liest `SITE` beim Build; ohne Variable gilt der Default.
-
-Anderswo dasselbe: `SITE` in CI/.env setzen, normal bauen.
+**Cloudflare Pages (optional):** `SITE` nur noch nötig, wenn du die CMS-URL gezielt überschreiben willst (Preview-Domain o. Ä.). Für den Normalfall reicht `general.siteUrl`. Build-Befehl bleibt `npm run build`.
 
 Medien-Basis-URLs stehen separat in `settings/content.json`.
 
@@ -95,7 +101,7 @@ Astro trägt Redirects zusätzlich in `astro.config` ein (lokal/`preview`). Für
 
 ## Dist-Bridge (Pull-Deploy)
 
-Wenn Cloudflare (oder CI) baut und der **Fremdhost** das Artefakt selbst holen soll: öffentliches Hilfsrepo [hautoo-dist-brigde](https://github.com/platomat/hautoo-dist-brigde). In Pages nur ENV setzen: `SITE` (Live-Domain) und `HAUTOO_DIST_BRIDGE=1`. Build-Befehl bleibt `npm run build` (`postbuild` packt dann `dist/dist-bridge.zip`). Server: ein Clone, `./hdb.sh init` / `./hdb.sh pull beispiel.de`.
+Wenn Cloudflare (oder CI) baut und der **Fremdhost** das Artefakt selbst holen soll: öffentliches Hilfsrepo [hautoo-dist-brigde](https://github.com/platomat/hautoo-dist-brigde). Live-Domain in CMS (`general.siteUrl`) bzw. optional ENV `SITE`; dazu `HAUTOO_DIST_BRIDGE=1`. Build-Befehl bleibt `npm run build` (`postbuild` packt dann `dist/dist-bridge.zip`). Server: ein Clone, `./hdb.sh init` / `./hdb.sh pull beispiel.de`.
 
 ## Checkliste Fremdhosting
 

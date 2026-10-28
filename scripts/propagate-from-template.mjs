@@ -34,6 +34,7 @@ const ENGINE_PATHS = [
 	"scripts/build-redirects.mjs",
 	"scripts/check-content-links.py",
 	"scripts/pack-dist-bridge.sh",
+	"scripts/resolve-site-url.mjs",
 	"scripts/sync-site-fonts.mjs",
 	"scripts/sync-author-avatars.mjs",
 	"docs/sveltia/collections.md",

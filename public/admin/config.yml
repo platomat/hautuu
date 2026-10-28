@@ -1004,6 +1004,12 @@ collections:
             required: true
             hint: "Markenname in Header, Browser-Titel-Suffix und og:site_name."
             default: hautuu
+          - name: siteUrl
+            label: Website-URL
+            widget: string
+            required: false
+            hint: "Öffentliche Origin inkl. https:// (z. B. https://platomat.com), ohne Slash am Ende. Für Canonical, Sitemap, OG und llms.txt. Überschreibbar per Build-ENV SITE (Cloudflare/CI)."
+            default: ""
           - name: websiteDescription
             label: Website description
             widget: text

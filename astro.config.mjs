@@ -8,6 +8,7 @@ import { hastExternalLinks } from './src/lib/hast-external-links.ts';
 import { hastHeadingIds } from './src/lib/hast-heading-ids.ts';
 import { sitemapPageFilter } from './src/lib/sitemap.ts';
 import { loadAstroRedirects } from './scripts/build-redirects.mjs';
+import { resolveSiteUrl } from './scripts/resolve-site-url.mjs';
 
 const buildId =
 	process.env.CF_PAGES_COMMIT_SHA?.slice(0, 8) ||
@@ -15,8 +16,8 @@ const buildId =
 	process.env.BUILD_ID ||
 	'dev';
 
-/** Public origin for canonical/sitemap/llms. Override: `SITE=https://example.com npm run build`. */
-const site = process.env.SITE?.trim() || 'https://hautoo.storyofai.net';
+/** Public origin: ENV SITE → CMS general.siteUrl → template default. */
+const site = resolveSiteUrl();
 
 // https://astro.build/config
 export default defineConfig({
@@ -48,4 +49,3 @@ export default defineConfig({
     },
   },
 });
-
